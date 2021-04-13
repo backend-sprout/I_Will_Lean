@@ -6,5 +6,6 @@
 [[#3] Immutable Object vs stateless Object](#)         
 [[#4] Singleton Registry](#)          
 [[#5] CGLIB](#)           
+[[#6] 각각의 의존관계 호출 시점](#)           
   
 
