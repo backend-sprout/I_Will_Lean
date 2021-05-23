@@ -118,20 +118,28 @@
 여러 빌더를 통합 처리하는 공장인 `JobBuilderFactory`로 원하는 `Job`을 손쉽게 만들 수 있다.        
 `JobBuilderFactory`의 `get()` 메서드로 `JobBuilder`를 생성하고 이를 이용하면 된다.        
      
-___  
-   
-JobBuilderFactory 부터 봅시다. (스프링 배치 라이브러리에 포함되어 있다.  )
-
 **JobBuilderFactory**
 ```java
-```
-JobBuilderFactory는 JobBuilder를 생성할 수 있는 get() 메서드를 포함하고 있습니다.     
-get() 메서드 내부를 들여다보면 JobBuilderFactory가 새로운 JobBuilder를 생성해서 반환하는 것을 확인할 수 있습니다.     
-JobBuilderFactory 에 get() 메서드를 호출할 때마다 새로운 빌더가 생성되는 것입니다.   
-   
-게다가 새로운 JobBuilder를 생성할 때마다      
-당초 JobBuilderFactory가 생성될 때 주입 받은 JobRepository를 JobBuilder에서 사용할 리포지토리로 설정합니다.           
-해당 JobBuilderFactory에서 생성되는 모든 JobBuilder가 동일한 리포지토리를 사용하는 것입니다.        
+public class JobBuilderFactory {
+    private JobRepository jobrepository;
+    
+    public JobBuilderFactory(JobRepository jobRepository) {
+        this.jobRepository = jobRepository;
+    }
+    
+    public JobBuilder get(String name) {
+        JobBuilder builder = new JobBuilder(name).repository(jobrepository);
+	return builder;
+    }
+}
+```   
+`JobBuilderFactory`는 `JobBuilder`를 생성할 수 있는 `get()` 메서드를 포함하고 있다.         
+`get()` 메서드 내부를 들여다보면 `JobBuilderFactory`가 새로운 `JobBuilder`를 생성해서 반환하는 것을 확인할 수 있다.     
+`JobBuilderFactory` 에 **`get()` 메서드를 호출할 때마다 새로운 빌더가 생성되는 것이다.**      
+      
+게다가 새로운 `JobBuilder`를 생성할 때마다      
+당초 `JobBuilderFactory`가 생성될 때 주입 받은 `JobRepository`를 `JobBuilder`에서 사용할 리포지토리로 설정한다.           
+`JobBuilderFactory`에서 생성되는 모든 `JobBuilder`가 **동일한 리포지토리를 사용하는 것이다.**           
        
 ___    
     
