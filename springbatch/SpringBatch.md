@@ -145,56 +145,28 @@ public class JobBuilderFactory {
 ### 📄 JobBuilder
 `JobBuilderFactory`는 앞서 설명한 바와 같이 `JobBuilder`를 생성하는 역할만 수행한다.   
 그리고 이렇게 생성된 `JobBuilder`를 이용해서 `Job`을 생성해야 한다.   
-
-하지만 사용하기 이전에 `JobBuilder의 역할은 무엇인지 JobBuilder의 메서드를 통해 기능을 알아보겠습니다.   
-
-**JobBuilder의 일부**
+    
+**JobBuilder의 일부 코드**
 ```java
+// Step을 추가해서 가장 기본이 되는 SimpleJobBuilder를 생성한다.   
 public SimpleJobBuilder start(Step step){
   return new SimpleJobBuilder(this).start(step);
 }
 
+// Flow를 실행할 JobFlowBuilder를 생성한다.   
 public JobFlowBuilder start(Flow flow){
   return new JobFlowBuilder(this).start(flow);
 }
-
+   
+// Step을 실행할 JobFlowBuilder를 생성한다.     
 public JobFlowBuilder start(Step step){
   return new JobFlowBuilder(this).start(step);
 }
 ```
-
-___
-
-```java
-public SimpleJobBuilder start(Step step){
-  return new SimpleJobBuilder(this).start(step);
-}
-```
-Step을 추가해서 가장 기본이 되는 SimpleJobBuilder를 생성합니다.   
-   
-___
-
-```java
-public JobFlowBuilder start(Flow flow){
-  return new JobFlowBuilder(this).start(flow);
-}
-```
-Flow를 실행할 JobFlowBuilder를 생성합니다.   
-
-___
-
-```java
-public JobFlowBuilder start(Step step){
-  return new JobFlowBuilder(this).start(step);
-}
-```
-Step을 실행할 JobFlowBuilder를 생성합니다.     
-  
-___
- 
-JobBuilder의 메서드를 살펴보니 모두 반환 타입이 빌더입니다.     
-JobBuilder는 직접적으로 Job을 생성하는 것이 아니라 별도의 구체적인 빌더를 생성하여 반환합니다.          
-   
+     
+`JobBuilder`의 메서드를 살펴보면, 모두 반환 타입이 `빌더`다.         
+`JobBuilder`는 직접적으로 Job을 생성하는 것이 아니라 **별도의 구체적인 빌더를 생성**하여 반환한다.              
+      
 왜 이렇게 별도의 빌더를 생성하게 끔 구현되어 있을까요?     
 경우에 따라 Job 생성 방법이 모두 다르기 때문에 별도의 구체적인 빌더를 구현하고 이를 통해 Job 생성이 이루어지게 하려는 의도록 파악됩니다.     
 중간에 빌더를 한번 더 반환받아 사용해야 하므로 불편할 수 있다는 생각이 들지도 모르겠지만      
