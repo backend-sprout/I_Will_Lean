@@ -100,7 +100,7 @@
      
 다음 그림은 배치 처리와 관련된 객체의 관계를 보여준다.        
    
-![](../images/springbatch/objectMap.JPG)      
+![](../images/springbatch/objectMap.jpg)      
    
 * Job과 Step은 1:M 관계를 가진다.   
 * Step과 ItemReader, ItemPeocessor, ItemWriter는 1:1 관계를 가진다.     
