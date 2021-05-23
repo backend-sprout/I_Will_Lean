@@ -103,7 +103,7 @@
 ![](../images/springbatch/objectMap.jpg)      
    
 * Job과 Step은 `1:M 관계`를 가진다.   
-* Step과 ItemReader, ItemPeocessor, ItemWriter는 `1:1 관계`를 가진다.     
+* Step과 `ItemReader`, `ItemPeocessor`, `ItemWriter`는 `1:1 관계`를 가진다.     
            
 즉, `하나의 큰 Job`에 `여러 Step`을 두고, 각 단계를 배치의 기본 흐름대로 구현한다.    
          
