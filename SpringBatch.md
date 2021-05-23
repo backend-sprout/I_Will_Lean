@@ -13,7 +13,7 @@
 `Quartz`, `Tivoli`, `Control-M`와 같은 스케줄러와 함께 동작하도록 설계되어 있다.        
      
 **📚 목록**   
-[1. 배경지식]()        
+[1. 배경지식](https://github.com/springframework-sprout/Spring_Expert/blob/main/SpringBatch.md#-%EB%B0%B0%EA%B2%BD%EC%A7%80%EC%8B%9D)        
 [2. 스프링 부트 배치 이해하기]             
 [3. 스프링 부트 휴먼회원 배치 설계하기]       
 [4. 스프링 부트 배치 설정하기]     
