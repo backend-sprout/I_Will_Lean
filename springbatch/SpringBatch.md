@@ -121,16 +121,17 @@
 **JobBuilderFactory**
 ```java
 public class JobBuilderFactory {
-    private JobRepository jobrepository;
-    
-    public JobBuilderFactory(JobRepository jobRepository) {
-        this.jobRepository = jobRepository;
-    }
-    
-    public JobBuilder get(String name) {
-        JobBuilder builder = new JobBuilder(name).repository(jobrepository);
-	return builder;
-    }
+
+	private JobRepository jobRepository;
+
+	public JobBuilderFactory(JobRepository jobRepository) {
+		this.jobRepository = jobRepository;
+	}
+
+	public JobBuilder get(String name) {
+		JobBuilder builder = new JobBuilder(name).repository(jobRepository);
+		return builder;
+	}
 }
 ```   
 `JobBuilderFactory`는 `JobBuilder`를 생성할 수 있는 `get()` 메서드를 포함하고 있다.         
@@ -140,10 +141,13 @@ public class JobBuilderFactory {
 게다가 새로운 `JobBuilder`를 생성할 때마다      
 당초 `JobBuilderFactory`가 생성될 때 주입 받은 `JobRepository`를 `JobBuilder`에서 사용할 리포지토리로 설정한다.           
 `JobBuilderFactory`에서 생성되는 모든 `JobBuilder`가 **동일한 리포지토리를 사용하는 것이다.**           
-       
-___    
-    
-JobBuilderFactory는 앞서 설명한 바와 같이 JobBuilder를 생성하는 역할만 수행합니다.   
+ 
+
+```java
+
+```
+ 
+JobBuilderFactory는 앞서 설명한 바와 같이 JobBuilder를 생성하는 역할만 수행한다.   
 이렇게 생성된 JobBuilder를 이용해서 Job을 생성해야 하는데,  
 그렇다면 JobBuilder의 역할은 무엇인지 JobBuilder의 메서드를 통해 기능을 알아보겠습니다.   
 
