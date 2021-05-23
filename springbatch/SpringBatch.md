@@ -111,14 +111,14 @@
 `Job`은 **배치 처리 과정을 하나의 단위로 만들어 표현한 객체다.**        
 또한, 전체 배치 처리에 있어 **항상 최상단 계층에 있다.**      
           
-위에서 `하나의 Job(일감)` 안에는 `여러 Step(단계)`이 있다고 설명했던 바와 같이      
+위에서 `하나의 Job` 안에는 `여러 Step`이 있다고 설명했던 바와 같이      
 스프링 배치에서 `Job 인스턴스`는 `여러 Step 인스턴스`를 포함하는 컨테이너다.       
             
 `Job 인스터스`를 만드는 빌더는 여러 개 있다.     
 여러 빌더를 통합 처리하는 공장인 `JobBuilderFactory`로 원하는 `Job`을 손쉽게 만들 수 있다.        
 `JobBuilderFactory`의 `get()` 메서드로 `JobBuilder`를 생성하고 이를 이용하면 된다.        
      
-**JobBuilderFactory**
+### 📄 JobBuilderFactory
 ```java
 public class JobBuilderFactory {
 
@@ -137,19 +137,16 @@ public class JobBuilderFactory {
 `JobBuilderFactory`는 `JobBuilder`를 생성할 수 있는 `get()` 메서드를 포함하고 있다.         
 `get()` 메서드 내부를 들여다보면 `JobBuilderFactory`가 새로운 `JobBuilder`를 생성해서 반환하는 것을 확인할 수 있다.     
 `JobBuilderFactory` 에 **`get()` 메서드를 호출할 때마다 새로운 빌더가 생성되는 것이다.**      
-      
-게다가 새로운 `JobBuilder`를 생성할 때마다      
-당초 `JobBuilderFactory`가 생성될 때 주입 받은 `JobRepository`를 `JobBuilder`에서 사용할 리포지토리로 설정한다.           
-`JobBuilderFactory`에서 생성되는 모든 `JobBuilder`가 **동일한 리포지토리를 사용하는 것이다.**           
- 
+               
+게다가 새로운 `JobBuilder`를 생성할 때마다 생성자로 주입 받은 `JobRepository`를 사용할 리포지토리로 설정한다.               
+즉 동일한 `JobBuilderFactory 인스턴스`에서 생성되는 모든 `JobBuilder`들은 **동일한 리포지토리를 사용한다.**              
+  
 
-```java
+### 📄 JobBuilder
+`JobBuilderFactory`는 앞서 설명한 바와 같이 `JobBuilder`를 생성하는 역할만 수행한다.   
+그리고 이렇게 생성된 `JobBuilder`를 이용해서 `Job`을 생성해야 한다.   
 
-```
- 
-JobBuilderFactory는 앞서 설명한 바와 같이 JobBuilder를 생성하는 역할만 수행한다.   
-이렇게 생성된 JobBuilder를 이용해서 Job을 생성해야 하는데,  
-그렇다면 JobBuilder의 역할은 무엇인지 JobBuilder의 메서드를 통해 기능을 알아보겠습니다.   
+하지만 사용하기 이전에 `JobBuilder의 역할은 무엇인지 JobBuilder의 메서드를 통해 기능을 알아보겠습니다.   
 
 **JobBuilder의 일부**
 ```java
