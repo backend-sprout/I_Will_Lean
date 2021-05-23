@@ -54,10 +54,10 @@
 이 계층 구조는 3가지 주요 컴포넌트가 있는데  
 각각 `Application`, `Batch Core`, `Batch Infrastructure` 가 있다.   
 
-* Application : 스프링 배치를 사용하는 개발자가 만드는 모든 JOB과 커스텀 코드를 포함한다.  
-* Batch Core : Job을 실행하고 제어하는데 필요한 핵심 런타임 클래스를 포함한다.   
+* **Application :** 스프링 배치를 사용하는 개발자가 만드는 모든 Job과 커스텀 코드를 포함한다.  
+* **Batch Core :** Job을 실행하고 제어하는데 필요한 핵심 런타임 클래스를 포함한다.   
     * JobLauncher, Job, Step 구현체도 포함된다.   
-* Batch Infrastructure : 공통 Reader 와 Writer, 서비스(RetryTemplate 같은)를 포함한다.
+* **Batch Infrastructure :** 공통 Reader 와 Writer, 서비스(RetryTemplate 같은)를 포함한다.
     * 애플리케이션 개발자도 사용 가능하고,  
     * (ItemReader, ItemWrtier 등의 reader와 writer) 코어 프레임워크 자체에서도 활용된다.   
    
