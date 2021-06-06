@@ -449,3 +449,7 @@ public interface ItemWriter<T> {
 * `write()`는 `List` 자료구조를 사용해 지정한 타입의 리스트를 매개변수로 받는다.         
 * 리스트의 데이터 수는 설정한 청크 단위(아이템이 트랜잭션에서 커밋되는 수)로 불러온다.         
 * `write()` 메서드의 반환값은 따로 없고 **매개변수로 받은 데이터를 저장하는 로직을 구현하면 된다.**         
+
+# 참고 🔍
+[처음 배우는 스프링 부트 2.0](http://www.yes24.com/Product/Goods/64584833)   
+[Spring.io.batch_reference](https://docs.spring.io/spring-batch/docs/4.3.x/reference/html/domain.html#item-writer)
