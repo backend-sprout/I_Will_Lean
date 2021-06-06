@@ -99,6 +99,9 @@
 즉, `하나의 큰 Job`에 `여러 Step`을 두고, 각 단계를 배치의 기본 흐름대로 구현한다.    
          
 ## 📖 Job    
+
+![image](./images/job-heirarchy.png)
+
 `Job`은 **배치 처리 과정을 하나의 단위로 만들어 표현한 객체다.**        
 또한, 전체 배치 처리에 있어 **항상 최상단 계층에 있다.**      
           
@@ -286,12 +289,46 @@ public class JobExecution extends Entity {
 각각의 `JobInstance`들은 서로 다른 `시작 시간`을 가지게 되므로 구분이 될 수 있다.      
 이와 같은 방법을 사용하면, `JobInstance`와 `JobParameters`는 1:1 관계가 될 수 있다.            
 참고로, 파라미터의 타입으로는 `String`, `Long`, `Date`, `Double`을 사용할 수 있다.         
-    
+
+          
+## 📖 JobRepository           
+`JobRepository` 는 배치 처리 정보를 담고 있는 매커니즘이다.               
+어떤 Job이 실행되었으며 몇 번 실행되었고 언제 끝났는지 등 **배치 처리에 대한 메타데이터를 저장한다.**        
+예를 들어 Job 하나가 실행되면, `JobRepository`에서는 **배치 실행에 관련된 정보를 담고 있는 도메인 `JobExecution`을 생성한다.**            
+또한, `Step`의 실행 정보를 담고 있는 **`StepExecution`도 저장소에 저장하며 전체 메타데이터를 저장/관리하는 역할을 수행한다.**              
+   
+즉, 앞서 정리했던,   
+`JobExecution`을 생성하고 `StepExecution`을 저장하는 역할을 한다.     
+   
+## 📖 JobLauncher   
+`JobLauncher` 는 `Job`, `JobParameters`와 함께 **배치를 실행하는 인터페이스다.**     
+인터페이스의 메소드도 `run()` 하나이다.     
+     
+**JobLauncher**
+```java
+package org.springframework.batch.core.launch;
+
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersInvalidException;
+import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
+import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
+import org.springframework.batch.core.repository.JobRestartException;
+
+public interface JobLauncher {
+	public JobExecution run(Job job, JobParameters jobParameters) throws JobExecutionAlreadyRunningException,
+			JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException;
+
+}
+```
+`run()` 메서드는 매개변수로 `Job`과 `JobParameters`를 받아 `JobExecution`을 반환한다.   
+만약 매개변수가 이전과 동일하면서, 이전에 `JobExecution`이 중단된 적이 있다면 동일한 `JobExecution`을 반환한다.   
+  
 ## 📖 Step      
 `Step`은 **실질적인 `배치 처리를 정의하고 제어하는데 필요한 모든 정보`가 들어 있는 도메인 객체다.**    
 그렇기에 **`Job`을 처리하는 실질적인 단위**로 쓰인다.      
 모든 `Job`에는 최소 1개 이상의 `Step`이 있어야 한다.      
-
 
 ## 📖 StepExecution   
 `Job`에는 `JobExecution`이라는 `Job 실행 정보`가 있듯이       
@@ -348,41 +385,7 @@ public class StepExecution extends Entity {
 * terminateOnly : `Job` 실행 중지 여부       
 * filterCount : 실행에서 필터링된 레코드 수    
 * failureExceptions : Step 실행 중 발생한 예외를 List 타입으로 저장한다.     
-          
-## 📖 JobRepository           
-`JobRepository` 는 배치 처리 정보를 담고 있는 매커니즘이다.               
-어떤 Job이 실행되었으며 몇 번 실행되었고 언제 끝났는지 등 **배치 처리에 대한 메타데이터를 저장한다.**        
-예를 들어 Job 하나가 실행되면, `JobRepository`에서는 **배치 실행에 관련된 정보를 담고 있는 도메인 `JobExecution`을 생성한다.**            
-또한, `Step`의 실행 정보를 담고 있는 **`StepExecution`도 저장소에 저장하며 전체 메타데이터를 저장/관리하는 역할을 수행한다.**              
-   
-즉, 앞서 정리했던,   
-`JobExecution`을 생성하고 `StepExecution`을 저장하는 역할을 한다.     
-   
-## 📖 JobLauncher   
-`JobLauncher` 는 `Job`, `JobParameters`와 함께 **배치를 실행하는 인터페이스다.**     
-인터페이스의 메소드도 `run()` 하나이다.     
-     
-**JobLauncher**
-```java
-package org.springframework.batch.core.launch;
 
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersInvalidException;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
-
-public interface JobLauncher {
-	public JobExecution run(Job job, JobParameters jobParameters) throws JobExecutionAlreadyRunningException,
-			JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException;
-
-}
-```
-`run()` 메서드는 매개변수로 `Job`과 `JobParameters`를 받아 `JobExecution`을 반환한다.   
-만약 매개변수가 이전과 동일하면서, 이전에 `JobExecution`이 중단된 적이 있다면 동일한 `JobExecution`을 반환한다.   
-  
 ## 📖 ItemReader   
 `ItemReader` 는 `Step`의 대상이 되는 배치 데이터를 읽어오는 인터페이스다.   
 `FILE`, `XML`, `DB` 등 여러 타입의 데이터를 읽어올 수 있다.      
