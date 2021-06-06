@@ -306,11 +306,12 @@ public class JobExecution extends Entity {
 모든 `Job`에는 최소 1개 이상의 `Step`이 있어야 한다.      
 
 
-### StepExecution   
-Job 에 JobExecution이라는 Job 실행 정보가 있다면 Step 에는 StepExecution 이라는 Step 실행 정보를 담는 객체가 있습니다.      
-각각의 Step이 실행될 때 마다 StepExecution이 생성됩니다.   
-다음은 StepExecution 클래스입니다. 어떤 실행 정보들을 포함하고 있는지 확인해보겠습니다.  
-
+### 📄 StepExecution   
+`Job`에는 `JobExecution`이라는 `Job 실행 정보`가 있듯이       
+`Step` 에도 `StepExecution` 이라는 `Step 실행 정보`를 담는 객체가 있다.   
+       
+각각의 `Step`이 실행될 때 마다 `StepExecution`이 생성된다.       
+   
 **StepExecution**
 ```java
 public class StepExecution extends Entity {
@@ -337,29 +338,31 @@ public class StepExecution extends Entity {
 ...
 ```
     
-* jobExecution : 현재의 JobExecution 정보를 담고 있는 필드입니다.     
-* stepName : Step의 이름을 가지고 있는 필드입니다.       
-* status : Step의 실행 상태를 나타내는 필드입니다.     
-상탯값은 COMPLETED, STARTING, STARTED, STOPPING, STOPPED, FAILED, ABANDONED, UNKNOWN 등이 있으며     
-기본값은 STARTING 입니다.     
-* readCount : 성공적으로 읽은 레코드 수입니다.     
-* writeCount : 성공적으로 쓴 레코드 수입니다.    
-* commitCount : Step 의 실행에 대해 커밋된 트랜잭션 수입니다.   
-* rollbackCount : Step의 실행에 대해 롤백된 트랜잭션 수입니다.      
-* readSkipCount : 읽기에 실패해 건너뛴 레코드 수입니다.       
-* processSkipCount : 프로세스가 실패해 건너뛴 레코드 수입니다.     
-* writeSkipCount : 쓰기에 실패해 건너뛴 레코드 수입니다.       
-* startTime : Step이 실행된 시간입니다. null이면 시작하지 않았다는 것을 나타냅니다.    
-* endTime : Step의 실행 성공 여부와 관련 없이 Step이 끝난 시간입니다.   
-* lastUpdated : 마지막으로 수정된 시간입니다.    
-* executionContext : Step 실행 사이에 유지해야 하는 사용자 데이터가 들어있습니다.    
-* exitStatus : Step 실행 결과에 대한 상태를 나타냅니다.   
-상탯값은 UNKNOWN, EXECUTING, COMPLETED, NOOP, FAILED, STOPPED 등이 있으며 기본값은 UNKNOWN 입니다.      
-* terminateOnly : Job 실행 중지 여부입니다.    
-* filterCount : 실행에서 필터링된 레코드 수입니다.   
-* failureExceptions : Step 실행 중 발생한 예외를 List 타입으로 저장합니다.   
-
-## 2.3. JobRepository   
+* jobExecution : 현재의 JobExecution 정보를 담고 있는 필드
+* stepName : Step의 이름을 가지고 있는 필드       
+* status : Step의 실행 상태를 나타내는 필드     
+    * 상태값은 `COMPLETED`, `STARTING`, `STARTED`, `STOPPING`, `STOPPED`, `FAILED`, `ABANDONED`, `UNKNOWN` 등이 있다.         
+    * 기본값은 `STARTING` 이다.        
+* readCount : 성공적으로 읽은 레코드 수     
+* writeCount : 성공적으로 쓴 레코드 수    
+* commitCount : Step 의 실행에 대해 커밋된 트랜잭션 수 
+* rollbackCount : Step의 실행에 대해 롤백된 트랜잭션 수      
+* readSkipCount : 읽기에 실패해 건너뛴 레코드 수       
+* processSkipCount : 프로세스가 실패해 건너뛴 레코드 수     
+* writeSkipCount : 쓰기에 실패해 건너뛴 레코드 수       
+* startTime : Step이 실행된 시간 
+    * null이면 시작하지 않았다는 것을 나타낸다.    
+* endTime : Step의 실행 성공 여부와 관련 없이 Step이 끝난 시간   
+* lastUpdated : 마지막으로 수정된 시간   
+* executionContext : Step 실행 사이에 유지해야 하는 사용자 데이터가 들어있다.      
+* exitStatus : Step 실행 결과에 대한 상태  
+    * 상탯값은 `UNKNOWN`, `EXECUTING`, `COMPLETED`, `NOOP`, `FAILED`, `STOPPED` 등이 있다.   
+    * 기본값은 `UNKNOWN` 이다.       
+* terminateOnly : `Job` 실행 중지 여부       
+* filterCount : 실행에서 필터링된 레코드 수    
+* failureExceptions : Step 실행 중 발생한 예외를 List 타입으로 저장한다.     
+      
+## JobRepository   
 JobRepository 는 배치 처리 정보를 담고 있는 매커니즘입니다.       
 어떤 Job이 실행되었으며 몇 번 실행되었고 언제 끝났는지 등 배치 처리에 대한 메타데이터를 저장합니다.     
 예를 들어 Job 하나가 실행되면 JobRepository에서는 배치 실행에 관련된 정보를 담고 있는 도메인 JobExecution을 생성합니다.      
