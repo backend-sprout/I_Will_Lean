@@ -394,19 +394,21 @@ package org.springframework.batch.item;
 public interface ItemReader<T> {
 	T read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException;
 }
-
 ```
-ItemReader에서 read() 메서드의 반환 타입을 제네릭으로 구현했기 때문에 직접 타입을 지정할 수 있습니다.      
+`ItemReader`에서 `read()` 메서드의 반환 타입을 제네릭으로 구현했기 때문에 **직접 타입을 지정할 수 있다.**         
       
 ### 📄 ItemProcessor   
-ItemProcessor 는 ItemReader로 읽어온 배치 데이터를 변환하는 역할을 수행합니다.         
-굳이 ItemWriter에 변환하는 로직을 넣을 수도 있는데 왜 ItemProcessor를 따로 제공할까요?    
-그 이유는 2가지 입니다.      
-1. 비즈니스 로직을 분리하기 위해서      
-ItemWriter 는 저장만 수행하고, ItemProcessor 는 로직 처리만 수행해 역할을 명확하게 분리합니다.      
-2. 읽어온 배치 데이터와 쓰여질 데이터의 타입이 다를 경우에 대응하기 위해서입니다.             
-명확한 인풋과 아웃픗을 ItemProcessor로 구현해 놓는다면 더 직관적인 코드가 될 것입니다.      
+`ItemProcessor`는 **`ItemReader`로 읽어온 배치 데이터를 변환하는 역할을 수행한다.**                
 
+**그렇다면 왜?, `ItemWriter`에 변환하는 로직을 넣을 수도 있는데 `ItemProcessor`를 따로 제공했을까? 🤔**         
+         
+그 이유는 2가지다.         
+1. **비즈니스 로직을 분리하기 위해서**      
+   `ItemWriter` 는 저장만 수행하고,     
+   `ItemProcessor` 는 로직 처리만 수행해 역할을 명확하게 분리한다.            
+2. `읽어온 배치 데이터`와 `쓰여질 데이터의 타입`이 다를 경우에 대응하기 위해서다.             
+   명확한 인풋과 아웃픗을 `ItemProcessor`로 구현해 놓는다면 더 직관적인 코드가 될 것입니다.      
+    
 **ItemProcessor**
 ```java
 package org.springframework.batch.item;
@@ -415,12 +417,12 @@ public interface ItemProcessor<I, O> {
 	O process(I item) throws Exception;
 }
 ```
-제네릭을 사용해 인풋, 아웃풋 타입을 정의하고 비즈니스 로직을 구현합니다.   
-
+제네릭을 사용해 `인풋`, `아웃풋 타입`을 정의하고 비즈니스 로직을 구현한다.         
+   
 ## 📄 ItemWriter   
-ItemWriter는 배치 데이터를 저장합니다.   
-일반적으로 DB나 파일에 저장합니다.   
-
+`ItemWriter`는 배치 데이터를 저장하는 역할을 한다.       
+일반적으로 배치 데이터들은 `DB`나 `파일`에 저장한다.           
+      
 **ItemWriter**
 ```java
 package org.springframework.batch.item;
@@ -430,13 +432,10 @@ import java.util.List;
 public interface ItemWriter<T> {
 	void write(List<? extends T> items) throws Exception;
 }
-```
-ItemWriter도 ItemReader와 비슷한 방식으로 구현하면 됩니다.       
-제네릭으로 원하는 타입을 받습니다.     
-write() 메서드는 List 자료구조를 사용해 지정한 타입의 리스트를 매개변수로 받습니다.      
-리스트의 데이터 수는 설정한 청크 단위로 불러옵니다.     
-write() 메서드의 반환값은 따로 없고 매개변수로 받은 데이터를 저장하는 로직을 구현하면 됩니다.      
+```   
+`ItemWriter`도 `ItemReader`와 비슷한 방식으로 구현하면 된다.            
 
-```
-청크 : 아이템이 트랜잭션에서 커밋되는 수를 말합니다.   
-```
+* 제네릭으로 원하는 타입을 받는다.       
+* `write()`는 `List` 자료구조를 사용해 지정한 타입의 리스트를 매개변수로 받는다.         
+* 리스트의 데이터 수는 설정한 청크 단위(아이템이 트랜잭션에서 커밋되는 수)로 불러온다.         
+* `write()` 메서드의 반환값은 따로 없고 **매개변수로 받은 데이터를 저장하는 로직을 구현하면 된다.**         
