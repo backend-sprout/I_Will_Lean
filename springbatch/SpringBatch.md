@@ -226,15 +226,29 @@ ___
    
 
 ### JobInstance   
-JobInstance는 배치에서 Job이 실행될 때 하나의 Job 실행 단위입니다.   
-만약 하루에 한 번씩 배치의 Job이 실행된다면 어제와 오늘 실행한 각각의 Job을 JobInstance라고 부를 수 있습니다.     
-그렇다면 각각의 JobInstance는 하나의 JobExecution(JobInstance에 대한 한번의 실행을 나타내는 객체)을 갖고 있을 까요?  
-**아닙니다.**   
-오늘 Job을 실행했는데 실패했다면 다음날 동일한 JobInstance를 가지고 또 실행합니다.    
-Job 실행이 실패하면 JobInstance가 끝난 것으로 간주하지 않기 때문입니다.    
-그러면 JobInstance는 어제의 실패한 JobExecution과 오늘의 성공한 JobExecution 두 개를 가지게 됩니다.    
-즉, JobInstance는 JobExecution 을 여러 개 가질 수 있습니다.    
-         
+`JobInstance`는 배치에서 `Job이 실행될 때` **하나의 Job 실행 단위**이다.   
+만약 하루에 한 번씩 배치의 `Job`이 실행된다면    
+어제와 오늘 실행한 각각의 `Job`을 `JobInstance`라고 부를 수 있다.         
+
+그렇다면 각각의 `JobInstance`는 하나의 `JobExecution`을 갖고 있을까?
+이에 대한 대답은 **아니다.** 라고 말할 수 있을 것 같다.   
+   
+**JobExecution? 🤔**
+```
+JobExecution는 JobInstance에 대한 한번의 실행을 나타내는 객체다.  
+자세한 설명은 바로 다음 Context에서 설명하겠다. 😉          
+```
+
+**`Job` 실행이 실패하면 `JobInstance`가 끝난 것으로 간주하지 않는다.**        
+즉, 오늘 Job을 실행했는데 실패했다면 다음날 **동일한 `JobInstance`를 가지고 또 실행한다.**   
+       
+결과적으로 `JobInstance`는 아래와 같은 `JobExecution` 가지게 된다.      
+    
+* 어제의 실패한 `JobExecution`
+* 오늘의 성공한 `JobExecution` 
+
+그렇기에, `JobInstance`는 `JobExecution`을 여러 개 가질 수 있다.   
+  
 ### JobExecution     
 JobExecution 은 JobInstance에 대한 한 번의 실행을 나타내는 객체입니다.        
 만약 오늘의 Job 이 실패했다면 내일 다시 동일한 Job을 실행하며 오늘/내일의 실행 모두 같은 JobInstance를 사용할 것입니다.      
