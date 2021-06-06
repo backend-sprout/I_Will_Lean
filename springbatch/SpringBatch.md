@@ -137,9 +137,9 @@ public class JobBuilderFactory {
 `JobBuilderFactory`는 `JobBuilder`를 생성할 수 있는 `get()` 메서드를 포함하고 있다.         
 `get()` 메서드 내부를 들여다보면 `JobBuilderFactory`가 새로운 `JobBuilder`를 생성해서 반환하는 것을 확인할 수 있다.     
 `JobBuilderFactory` 에 **`get()` 메서드를 호출할 때마다 새로운 빌더가 생성되는 것이다.**      
-               
+
 게다가 새로운 `JobBuilder`를 생성할 때마다 생성자로 주입 받은 `JobRepository`를 사용할 리포지토리로 설정한다.               
-즉 동일한 `JobBuilderFactory 인스턴스`에서 생성되는 모든 `JobBuilder`들은 **동일한 리포지토리를 사용한다.**              
+즉, 동일한 `JobBuilderFactory 인스턴스`에서 생성되는 모든 `JobBuilder`들은 **동일한 리포지토리를 사용한다.**              
   
 
 ### 📄 JobBuilder
@@ -206,33 +206,25 @@ ___
                 .build();
     }
 ```
+> 우선 여기에 나온 코드들은 위에서 한 번씩 기술한 메서드들이다.  
+> 이와, 관련해서 관련된 메서드 설명에 링크를 참조할테니 이해가 안가면 링크를 따라가면 좋을 것이다.    
+    
 `get()`메서드는 넘겨온 파라미터를 생성자로 받는 **JobBuilder 객체 인스턴스를 반환된다.**     
 설명이 어렵기에 코드로 표현하면 `return new JobBuilder(name).repository(jobRepository);`로 되어있다.   
 정리하자면, **"simpleJob"이름을 가진 `Job`** 을 `생성할 수 있는` **JobBuilder 객체 인스턴스가 반환된다.**     
-관련된 코드는 위 
-
+[정리했던 내용](#)   
+   
 `start()`메서드는 파라미터로 `Step 인스턴스`를 받는다.   
-또한, 반환형으로 체이닝을 위해 `SimpleJobBuilder`를 반환한다.   
+또한, 체이닝을 진행하기에 반환형으로 `SimpleJobBuilder`를 반환한다.      
+`불변 객체`를 위해서 `new`를 통해 새로운 객체를 반환하는 것 같다.    
+예제의 `simpleStep()` 메서드는 아주 간단한 `Step` 인스턴스를 생성 및 반환하는 메서드라 가정한 것이다.  
+[정리했던 내용](#)   
 
+마지막으로 `SimpleJobBuilder`의 `build()` 메서드를 호출하여 빌드하면    
+비로소 `"simpleJob"` 이라는 이름을 가진 `Job`이 생성되어 반환된다.   
+[정리했던 내용](#)   
+   
 
-`simpleStep()` 메서드는 아주 간단한 Step 인스턴스를 생성하여 반환하는 메서드라 가정하자.   
-결국 start() 메서드로 인해 생성되는 빌더는 SimpleJobBuilder입니다.   
-
-마지막으로 SimpleJobBuilder의 build() 메서드를 호출하여 빌드하면 비로소 simpleJob 이라는 이름을 가진 Job이 생성되어 반환됩니다.   
-(메서드 체인 방식을 이용한 것을 알 수 있다.)      
-         
-**jobBuilderFactory.get() 참고 내용**
-```java
-동일한 JobBuilderFactory 인스턴스에서 생성되는 모든 JobBuilder들은 동일한 리포지토리를 사용한다.   
-jobBuilderFactory.get()의 내부 코드를 다시 표현하자면 아래와 같이 생겼다.    
-
-	public JobBuilder get(String name) {
-		JobBuilder builder = new JobBuilder(name).repository(jobRepository);
-		return builder;
-	}
-```	
-
-       
 ### JobInstance   
 JobInstance는 배치에서 Job이 실행될 때 하나의 Job 실행 단위입니다.   
 만약 하루에 한 번씩 배치의 Job이 실행된다면 어제와 오늘 실행한 각각의 Job을 JobInstance라고 부를 수 있습니다.     
