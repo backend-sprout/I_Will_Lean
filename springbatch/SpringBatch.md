@@ -12,15 +12,6 @@
 이는 [스프링 배치 공식 문서](https://docs.spring.io/spring-batch/docs/4.2.x/reference/html/index-single.html)에서도 언급되어 있는데     
 `Quartz`, `Tivoli`, `Control-M`와 같은 스케줄러와 함께 동작하도록 설계되어 있다.        
      
-**📚 목록**   
-[1. 배경지식](https://github.com/springframework-sprout/Spring_Expert/blob/main/SpringBatch.md#-%EB%B0%B0%EA%B2%BD%EC%A7%80%EC%8B%9D)        
-[2. 스프링 부트 배치 이해하기]()           
-[3. 스프링 부트 휴먼회원 배치 설계하기]()       
-[4. 스프링 부트 배치 설정하기]()     
-[5. 스프링 부트 휴먼회원 배치 구현하기]()      
-[6. 스프링 배치 심화학습]()      
-[7. 멀티 스레드로 여러 개의 Step 실행하기]()   
-  
 **용어**
 ```
 배치 : 프로그램의 흐름에 따라 순차적으로 자료를 처리한다 
@@ -207,24 +198,20 @@ ___
     }
 ```
 > 우선 여기에 나온 코드들은 위에서 한 번씩 기술한 메서드들이다.  
-> 이와, 관련해서 관련된 메서드 설명에 링크를 참조할테니 이해가 안가면 링크를 따라가면 좋을 것이다.    
     
 `get()`메서드는 넘겨온 파라미터를 생성자로 받는 **JobBuilder 객체 인스턴스를 반환된다.**     
 설명이 어렵기에 코드로 표현하면 `return new JobBuilder(name).repository(jobRepository);`로 되어있다.   
 정리하자면, **"simpleJob"이름을 가진 `Job`** 을 `생성할 수 있는` **JobBuilder 객체 인스턴스가 반환된다.**     
-[정리했던 내용](#)   
    
 `start()`메서드는 파라미터로 `Step 인스턴스`를 받는다.   
 또한, 체이닝을 진행하기에 반환형으로 `SimpleJobBuilder`를 반환한다.      
 `불변 객체`를 위해서 `new`를 통해 새로운 객체를 반환하는 것 같다.    
 예제의 `simpleStep()` 메서드는 아주 간단한 `Step` 인스턴스를 생성 및 반환하는 메서드라 가정한 것이다.  
-[정리했던 내용](#)   
 
 마지막으로 `SimpleJobBuilder`의 `build()` 메서드를 호출하여 빌드하면    
 비로소 `"simpleJob"` 이라는 이름을 가진 `Job`이 생성되어 반환된다.   
-[정리했던 내용](#)   
    
-### 🔖 JobInstance   
+### 📄 JobInstance   
 `JobInstance`는 배치에서 `Job이 실행될 때` **하나의 Job 실행 단위**이다.   
 만약 하루에 한 번씩 배치의 `Job`이 실행된다면    
 어제와 오늘 실행한 각각의 `Job`을 `JobInstance`라고 부를 수 있다.         
@@ -248,7 +235,7 @@ JobExecution는 JobInstance에 대한 한번의 실행을 나타내는 객체다
 
 그렇기에, `JobInstance`는 `JobExecution`을 여러 개 가질 수 있다.   
     
-### 🔖 JobExecution       
+### 📄 JobExecution       
 `JobExecution` 은 `JobInstance`에 대한 한 번의 실행을 나타내는 객체다.              
 `JobExecution` 인터페이스를 보면 **`Job` 실행에 대한 정보**를 담고 있는 도메인 객체라는 것을 알 수 있다.           
 `JobExecution`은 `JobInstance`, `배치 실행 상태`, `시작 시간`, `끝난 시간`, `실패했을 때의 메시지`등의 정보를 담고 있다.       
@@ -291,7 +278,7 @@ public class JobExecution extends Entity {
 * failureExceptions : job 실행 중 발생한 예외를 List 타입으로 저장한다.       
 * jobConfigurationName : Job 설정 이름        
        
-#### 📌 JobParameters   
+### 📄 JobParameters   
 `JobParameters`는 **`Job`이 실행될 때 필요한 파라미터들을 `Map` 타입으로 지정하는 객체다.**          
       
 **`JobParameters`는 `JobInstance`를 구분하는 기준이 되기도 한다.**        
@@ -362,7 +349,7 @@ public class StepExecution extends Entity {
 * filterCount : 실행에서 필터링된 레코드 수    
 * failureExceptions : Step 실행 중 발생한 예외를 List 타입으로 저장한다.     
           
-## 📖 JobRepository           
+### 📄 JobRepository           
 `JobRepository` 는 배치 처리 정보를 담고 있는 매커니즘이다.               
 어떤 Job이 실행되었으며 몇 번 실행되었고 언제 끝났는지 등 **배치 처리에 대한 메타데이터를 저장한다.**        
 예를 들어 Job 하나가 실행되면, `JobRepository`에서는 **배치 실행에 관련된 정보를 담고 있는 도메인 `JobExecution`을 생성한다.**            
@@ -371,7 +358,7 @@ public class StepExecution extends Entity {
 즉, 앞서 정리했던,   
 `JobExecution`을 생성하고 `StepExecution`을 저장하는 역할을 한다.     
    
-## 📖 JobLauncher   
+### 📄 JobLauncher   
 `JobLauncher` 는 `Job`, `JobParameters`와 함께 **배치를 실행하는 인터페이스다.**     
 인터페이스의 메소드도 `run()` 하나이다.     
      
@@ -393,12 +380,12 @@ public interface JobLauncher {
 
 }
 ```
-run() 메서드는 매개변수로 Job과 JobParameters를 받아 JobExecution을 반환합니다.   
-만약 매개변수가 이전과 동일하면서 이전에 JobExecution이 중단된 적이 있따면 동일한 JobExecution을 반환합니다.   
+`run()` 메서드는 매개변수로 `Job`과 `JobParameters`를 받아 `JobExecution`을 반환한다.   
+만약 매개변수가 이전과 동일하면서, 이전에 `JobExecution`이 중단된 적이 있다면 동일한 `JobExecution`을 반환한다.   
   
-## 2.5. ItemReader   
-ItemReader 는 Step의 대상이 되는 배치 데이터를 읽어오는 인터페이스입니다.   
-FILE, XML, DB 등 여러 타입의 데이터를 읽어올 수 있습니다.   
+### 📄 ItemReader   
+`ItemReader` 는 `Step`의 대상이 되는 배치 데이터를 읽어오는 인터페이스다.   
+`FILE`, `XML`, `DB` 등 여러 타입의 데이터를 읽어올 수 있다.      
 
 **ItemReader**
 ```java
@@ -411,7 +398,7 @@ public interface ItemReader<T> {
 ```
 ItemReader에서 read() 메서드의 반환 타입을 제네릭으로 구현했기 때문에 직접 타입을 지정할 수 있습니다.      
       
-## 2.6. ItemProcessor   
+### 📄 ItemProcessor   
 ItemProcessor 는 ItemReader로 읽어온 배치 데이터를 변환하는 역할을 수행합니다.         
 굳이 ItemWriter에 변환하는 로직을 넣을 수도 있는데 왜 ItemProcessor를 따로 제공할까요?    
 그 이유는 2가지 입니다.      
@@ -430,7 +417,7 @@ public interface ItemProcessor<I, O> {
 ```
 제네릭을 사용해 인풋, 아웃풋 타입을 정의하고 비즈니스 로직을 구현합니다.   
 
-## 2.7. ItemWriter   
+## 📄 ItemWriter   
 ItemWriter는 배치 데이터를 저장합니다.   
 일반적으로 DB나 파일에 저장합니다.   
 
