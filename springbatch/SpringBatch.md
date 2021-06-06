@@ -224,8 +224,7 @@ ___
 비로소 `"simpleJob"` 이라는 이름을 가진 `Job`이 생성되어 반환된다.   
 [정리했던 내용](#)   
    
-
-### JobInstance   
+### 🔖 JobInstance   
 `JobInstance`는 배치에서 `Job이 실행될 때` **하나의 Job 실행 단위**이다.   
 만약 하루에 한 번씩 배치의 `Job`이 실행된다면    
 어제와 오늘 실행한 각각의 `Job`을 `JobInstance`라고 부를 수 있다.         
@@ -248,14 +247,11 @@ JobExecution는 JobInstance에 대한 한번의 실행을 나타내는 객체다
 * 오늘의 성공한 `JobExecution` 
 
 그렇기에, `JobInstance`는 `JobExecution`을 여러 개 가질 수 있다.   
-  
-### JobExecution     
-JobExecution 은 JobInstance에 대한 한 번의 실행을 나타내는 객체입니다.        
-만약 오늘의 Job 이 실패했다면 내일 다시 동일한 Job을 실행하며 오늘/내일의 실행 모두 같은 JobInstance를 사용할 것입니다.      
-대신 오늘/내일의 실행은 각기 다른 JobExecution을 생성합니다.       
-
-실제로 JobExecution 인터페이스를 보면 Job 실행에 대한 정보를 담고 있는 도메인 객체라는 것을 알 수 있습니다.     
-JobExecution은 JobInstance, 배치 실행 상태, 시작 시간, 끝난 시간, 실패했을 때의 메시지등의 정보를 담고 있습니다.    
+    
+### 🔖 JobExecution       
+`JobExecution` 은 `JobInstance`에 대한 한 번의 실행을 나타내는 객체다.              
+`JobExecution` 인터페이스를 보면 **`Job` 실행에 대한 정보**를 담고 있는 도메인 객체라는 것을 알 수 있다.           
+`JobExecution`은 `JobInstance`, `배치 실행 상태`, `시작 시간`, `끝난 시간`, `실패했을 때의 메시지`등의 정보를 담고 있다.       
 
 **JobExecution 일부**
 ```java
@@ -277,33 +273,38 @@ public class JobExecution extends Entity {
 ...
 ```
    
-* jobParameters : Job 실행에 필요한 매개변수 데이터입니다.               
+* **jobParameters :** Job 실행에 필요한 매개변수 데이터            
 * jobInstance : Job 실행의 단위가 되는 객체              
-* stepExecutions : StepExecution을 여러 개 가질 수 있는 Collection 타입입니다.        
-* status : Job 의 실행 상태를 나타내는 필드입니다.          
-상탯값은 COMPLETED, STARTING, STARTED, STOPPING, STOPPED, FAILED, ABANONED, UNKNOWN 등이 있으며         
-기본 값은 SRARTING 입니다.        
-* startTime : Job이 실행된 시간입니다. null 이면 아직  시작하지 않았다는 것을 의미합니다.         
-* createTime : JobExecution 이 생성된 시간입니다.            
-* endTime : JobExecution이 끝난 시간입니다.     
-* lastUpdated : 마지막으로 수정된 시간입니다.      
-* exitStatus : Job 실행 결과에 대한 상태를 나타냅니다.       
-상탯값은 UNKNOWN, EXECUTING, COMPLETED, NOOP, FAILED, STOPPED 등이 있으며 기본값은 UNKNOWN 입니다.         
-* executionContext : Job 실행 사이에 유지해야 하는 사용자 데이터가 들어있습니다.      
-* failureExceptions : job 실행 중 발생한 예외를 List 타입으로 저장합니다.       
-* jobConfigurationName : Job 설정 이름을 나타냅니다.     
+* stepExecutions : StepExecution을 여러개 가질 수 있는 Collection 타입        
+* status : Job 의 실행 상태를 나타내는 필드         
+    * 상태값은 `COMPLETED`, `STARTING`, `STARTED`, `STOPPING`, `STOPPED`, `FAILED`, `ABANONED`, `UNKNOWN`등이 있다.         
+    * 기본 값은 `SRARTING` 이다.          
+* startTime : Job이 실행된 시간     
+    * null 이면 아직 시작하지 않았다는 것을 의미한다.         
+* createTime : JobExecution 이 생성된 시간            
+* endTime : JobExecution이 끝난 시간 (Job이 아닌, JobExecution이다.)        
+* lastUpdated : 마지막으로 수정된 시간         
+* exitStatus : Job 실행 결과에 대한 상태        
+    * 상태값은 `UNKNOWN`, `EXECUTING`, `COMPLETED`, `NOOP`, `FAILED`, `STOPPED` 등이 있다.
+    * 기본값은 `UNKNOWN` 이다.          
+* executionContext : Job 실행 사이에 유지해야 하는 사용자 데이터가 들어있다.      
+* failureExceptions : job 실행 중 발생한 예외를 List 타입으로 저장한다.       
+* jobConfigurationName : Job 설정 이름        
+       
+#### 📌 JobParameters   
+`JobParameters`는 **`Job`이 실행될 때 필요한 파라미터들을 `Map` 타입으로 지정하는 객체다.**          
+      
+**`JobParameters`는 `JobInstance`를 구분하는 기준이 되기도 한다.**        
+예를 들어, `Job` 하나를 생성할 때 `시작 시간` 등의 정보를 파라미터로 해서 하나의 `JobInstance`를 생성한다면?   
+각각의 `JobInstance`들은 서로 다른 `시작 시간`을 가지게 되므로 구분이 될 수 있다.      
+이와 같은 방법을 사용하면, `JobInstance`와 `JobParameters`는 1:1 관계가 될 수 있다.            
+참고로, 파라미터의 타입으로는 `String`, `Long`, `Date`, `Double`을 사용할 수 있다.         
+    
+## 📖 Step      
+`Step`은 **실질적인 `배치 처리를 정의하고 제어하는데 필요한 모든 정보`가 들어 있는 도메인 객체다.**    
+그렇기에 **`Job`을 처리하는 실질적인 단위**로 쓰인다.      
+모든 `Job`에는 최소 1개 이상의 `Step`이 있어야 한다.      
 
-### JobParameters   
-JobParameters는 Job이 실행될 때 필요한 파라미터들을 Map 타입으로 지정하는 객체입니다.      
-JobParameters는 JobInstance를 구분하는 기준이 되기도 합니다.      
-예를 들어 Job 하나를 생성할 때 시작 시간 등의 정보를 파라미터로 해서 하나의 JobInstance를 생성합니다.    
-즉, JobInstance와 JobParameters는 1:1 관계입니다.   
-파라미터의 타입으로는 String, Long, Date, Double을 사용할 수 있습니다.   
-
-## 2.2. Step   
-Step은 실질적인 배치 처리를 정의하고 제어하는데 필요한 모든 정보가 들어 있는 도메인 객체입니다.    
-Job을 처리하는 실질적인 단위로 쓰입니다.   
-모든 Job에는 1개 이상의 Step이 있어야 합니다.   
 
 ### StepExecution   
 Job 에 JobExecution이라는 Job 실행 정보가 있다면 Step 에는 StepExecution 이라는 Step 실행 정보를 담는 객체가 있습니다.      
