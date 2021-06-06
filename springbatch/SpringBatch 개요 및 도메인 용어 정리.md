@@ -109,7 +109,7 @@
 여러 빌더를 통합 처리하는 공장인 `JobBuilderFactory`로 원하는 `Job`을 손쉽게 만들 수 있다.        
 `JobBuilderFactory`의 `get()` 메서드로 `JobBuilder`를 생성하고 이를 이용하면 된다.        
      
-### 📄 JobBuilderFactory
+## 📖 JobBuilderFactory
 ```java
 public class JobBuilderFactory {
 
@@ -133,7 +133,7 @@ public class JobBuilderFactory {
 즉, 동일한 `JobBuilderFactory 인스턴스`에서 생성되는 모든 `JobBuilder`들은 **동일한 리포지토리를 사용한다.**              
   
 
-### 📄 JobBuilder
+## 📖 JobBuilder
 `JobBuilderFactory`는 앞서 설명한 바와 같이 `JobBuilder`를 생성하는 역할만 수행한다.   
 그리고 이렇게 생성된 `JobBuilder`를 이용해서 `Job`을 생성해야 한다.   
     
@@ -211,7 +211,7 @@ ___
 마지막으로 `SimpleJobBuilder`의 `build()` 메서드를 호출하여 빌드하면    
 비로소 `"simpleJob"` 이라는 이름을 가진 `Job`이 생성되어 반환된다.   
    
-### 📄 JobInstance   
+## 📖 JobInstance   
 `JobInstance`는 배치에서 `Job이 실행될 때` **하나의 Job 실행 단위**이다.   
 만약 하루에 한 번씩 배치의 `Job`이 실행된다면    
 어제와 오늘 실행한 각각의 `Job`을 `JobInstance`라고 부를 수 있다.         
@@ -235,7 +235,7 @@ JobExecution는 JobInstance에 대한 한번의 실행을 나타내는 객체다
 
 그렇기에, `JobInstance`는 `JobExecution`을 여러 개 가질 수 있다.   
     
-### 📄 JobExecution       
+## 📖 JobExecution       
 `JobExecution` 은 `JobInstance`에 대한 한 번의 실행을 나타내는 객체다.              
 `JobExecution` 인터페이스를 보면 **`Job` 실행에 대한 정보**를 담고 있는 도메인 객체라는 것을 알 수 있다.           
 `JobExecution`은 `JobInstance`, `배치 실행 상태`, `시작 시간`, `끝난 시간`, `실패했을 때의 메시지`등의 정보를 담고 있다.       
@@ -278,7 +278,7 @@ public class JobExecution extends Entity {
 * failureExceptions : job 실행 중 발생한 예외를 List 타입으로 저장한다.       
 * jobConfigurationName : Job 설정 이름        
        
-### 📄 JobParameters   
+## 📖 JobParameters   
 `JobParameters`는 **`Job`이 실행될 때 필요한 파라미터들을 `Map` 타입으로 지정하는 객체다.**          
       
 **`JobParameters`는 `JobInstance`를 구분하는 기준이 되기도 한다.**        
@@ -293,7 +293,7 @@ public class JobExecution extends Entity {
 모든 `Job`에는 최소 1개 이상의 `Step`이 있어야 한다.      
 
 
-### 📄 StepExecution   
+## 📖 StepExecution   
 `Job`에는 `JobExecution`이라는 `Job 실행 정보`가 있듯이       
 `Step` 에도 `StepExecution` 이라는 `Step 실행 정보`를 담는 객체가 있다.   
        
@@ -349,7 +349,7 @@ public class StepExecution extends Entity {
 * filterCount : 실행에서 필터링된 레코드 수    
 * failureExceptions : Step 실행 중 발생한 예외를 List 타입으로 저장한다.     
           
-### 📄 JobRepository           
+## 📖 JobRepository           
 `JobRepository` 는 배치 처리 정보를 담고 있는 매커니즘이다.               
 어떤 Job이 실행되었으며 몇 번 실행되었고 언제 끝났는지 등 **배치 처리에 대한 메타데이터를 저장한다.**        
 예를 들어 Job 하나가 실행되면, `JobRepository`에서는 **배치 실행에 관련된 정보를 담고 있는 도메인 `JobExecution`을 생성한다.**            
@@ -358,7 +358,7 @@ public class StepExecution extends Entity {
 즉, 앞서 정리했던,   
 `JobExecution`을 생성하고 `StepExecution`을 저장하는 역할을 한다.     
    
-### 📄 JobLauncher   
+## 📖 JobLauncher   
 `JobLauncher` 는 `Job`, `JobParameters`와 함께 **배치를 실행하는 인터페이스다.**     
 인터페이스의 메소드도 `run()` 하나이다.     
      
@@ -383,7 +383,7 @@ public interface JobLauncher {
 `run()` 메서드는 매개변수로 `Job`과 `JobParameters`를 받아 `JobExecution`을 반환한다.   
 만약 매개변수가 이전과 동일하면서, 이전에 `JobExecution`이 중단된 적이 있다면 동일한 `JobExecution`을 반환한다.   
   
-### 📄 ItemReader   
+## 📖 ItemReader   
 `ItemReader` 는 `Step`의 대상이 되는 배치 데이터를 읽어오는 인터페이스다.   
 `FILE`, `XML`, `DB` 등 여러 타입의 데이터를 읽어올 수 있다.      
 
@@ -397,7 +397,7 @@ public interface ItemReader<T> {
 ```
 `ItemReader`에서 `read()` 메서드의 반환 타입을 제네릭으로 구현했기 때문에 **직접 타입을 지정할 수 있다.**         
       
-### 📄 ItemProcessor   
+## 📖 ItemProcessor   
 `ItemProcessor`는 **`ItemReader`로 읽어온 배치 데이터를 변환하는 역할을 수행한다.**                
 
 **그렇다면 왜?, `ItemWriter`에 변환하는 로직을 넣을 수도 있는데 `ItemProcessor`를 따로 제공했을까? 🤔**         
@@ -419,7 +419,7 @@ public interface ItemProcessor<I, O> {
 ```
 제네릭을 사용해 `인풋`, `아웃풋 타입`을 정의하고 비즈니스 로직을 구현한다.         
    
-## 📄 ItemWriter   
+## 📖 ItemWriter   
 `ItemWriter`는 배치 데이터를 저장하는 역할을 한다.       
 일반적으로 배치 데이터들은 `DB`나 `파일`에 저장한다.           
       
