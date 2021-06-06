@@ -39,7 +39,7 @@
 
 ## 📖 스프링 배치 아키텍처
    
-![image](../images/springbatch/architecture.JPG)
+![image](./images/architecture.JPG)
 
 스프링 배치는 확장성과 다양한 사용자 유형을 고려해 설계했다.   
 이 계층 구조는 3가지 주요 컴포넌트가 있는데  
@@ -91,7 +91,7 @@
      
 다음 그림은 배치 처리와 관련된 객체의 관계를 보여준다.        
      
-![](../images/springbatch/objectMap.jpg)      
+![image](./images/objectMap.jpg)      
    
 * Job과 Step은 `1:M 관계`를 가진다.   
 * Step과 `ItemReader`, `ItemPeocessor`, `ItemWriter`는 `1:1 관계`를 가진다.     
