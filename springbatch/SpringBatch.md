@@ -178,9 +178,9 @@ public JobFlowBuilder flow(Step step){
 `Job`은 `Step` 또는 `Flow 인스턴스`의 컨테이너 역할을 하기 때문에 생성하기 전에 인스턴스를 전달받는다.           
       
 ___   
-       
-그럼 JobBuilder로 가장 간단하게 만들 수 있는 빌더인 SimpleJobBuilder를 이용해 Job을 생성해봅시다. 
-
+         
+그럼 `JobBuilder`로 가장 간단하게 만들 수 있는 빌더인 **SimpleJobBuilder를 이용해 Job을 생성해보자**   
+   
 **예시**
 ```java
     @Autowired
@@ -193,8 +193,24 @@ ___
                 .build();
     }
 ```
-JobBuilderFactory의 get() 메서드에 ```"simpleJob"``` 문자열을 파라미터로 넘기면    
-```"simpleJob"```이라는 이름을 가진 Job을 생성할 수 있는 JobBuilder 객체 인스턴스가 반환됩니다.   
+`JobBuilderFactory`의 `get()` 메서드에 `"simpleJob"` 문자열을 파라미터로 넘기면       
+**"simpleJob"이름을 가진 `Job`** 을 `생성할 수 있는` **JobBuilder 객체 인스턴스가 반환된다.**     
+보다 쉽게 말하면, `return new JobBuilder(name).repository(jobRepository);`를 반환한다.            
+   
+**참고**
+```
+앞서 언급했던대로,    
+동일한 JobBuilderFactory 인스턴스에서 생성되는 모든 JobBuilder들은 동일한 리포지토리를 사용한다.   
+get()의 내부 코드를 다시 표현하자면 아래와 같이 생겼다.    
+
+	public JobBuilder get(String name) {
+		JobBuilder builder = new JobBuilder(name).repository(jobRepository);
+		return builder;
+	}
+```	
+  
+  
+  
 여기서 simpleStep() 메서드는 아주 간단한 Step 인스턴스를 생성하여 반환하는 메서드라 가정하면 결국 
 결국 start() 메서드로 인해 생성되는 빌더는 SimpleJobBuilder입니다.   
 마지막으로 SimpleJobBuilder의 build() 메서드를 호출하여 빌드하면 비로소 simpleJob 이라는 이름을 가진 Job이 생성되어 반환됩니다.   
