@@ -282,6 +282,9 @@ public class JobExecution extends Entity {
 * jobConfigurationName : Job 설정 이름        
        
 ## 📖 JobParameters   
+
+![image](./images/job-stereotypes-parameters.png)
+
 `JobParameters`는 **`Job`이 실행될 때 필요한 파라미터들을 `Map` 타입으로 지정하는 객체다.**          
       
 **`JobParameters`는 `JobInstance`를 구분하는 기준이 되기도 한다.**        
@@ -326,6 +329,9 @@ public interface JobLauncher {
 만약 매개변수가 이전과 동일하면서, 이전에 `JobExecution`이 중단된 적이 있다면 동일한 `JobExecution`을 반환한다.   
   
 ## 📖 Step      
+
+![image](./images/jobHeirarchyWithSteps.png)
+
 `Step`은 **실질적인 `배치 처리를 정의하고 제어하는데 필요한 모든 정보`가 들어 있는 도메인 객체다.**    
 그렇기에 **`Job`을 처리하는 실질적인 단위**로 쓰인다.      
 모든 `Job`에는 최소 1개 이상의 `Step`이 있어야 한다.      
