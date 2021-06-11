@@ -1,3 +1,5 @@
+https://blog.lulab.net/programmer/what-should-i-log-with-an-intention-method-and-level/
+
 # LogBack 개요 
 `버그가 발생`, `모니터링`과 같이 애플리케이션을 개발하는 과정에서 개발자는 로그를 기록하고 분석한다.    
 `Logback`은 `Java`에서 가장 많이 사용되었던 로깅 라이브러리인 `log4j`의 후속 버전이다.       
