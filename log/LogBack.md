@@ -15,6 +15,8 @@ https://blog.lulab.net/programmer/what-should-i-log-with-an-intention-method-and
 이슈가 발생했을때 재현하지 않고 로그만 봐도 원인 파악을 할 수 있는게 좋죠   
 실제로 에러도 한번 발생시켜 보시고    
 로그에 나온 정보가 어떻게 도움이 되는지   
+   
+https://steven-life-1991.tistory.com/104   
 
 # LogBack 개요 
 `버그가 발생`, `모니터링`과 같이 애플리케이션을 개발하는 과정에서 개발자는 로그를 기록하고 분석한다.    
