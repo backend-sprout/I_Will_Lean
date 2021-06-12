@@ -2,9 +2,9 @@ https://blog.lulab.net/programmer/what-should-i-log-with-an-intention-method-and
 https://nice2049.tistory.com/entry/Elastic-stacklogstashlogbackencoder%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%A1%9C%EA%B7%B8%EC%A0%84%EC%86%A1     
 https://jeong-pro.tistory.com/171     
 baeldung.com/spring-performance-logging   
-https://jojoldu.tistory.com/71   
-   
-   
+https://jojoldu.tistory.com/71      
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#application-properties.core.spring.aop.auto     
+    
 # 사용처
 보통 에러 나올거같은 부분에서 씁니다     
 어떤 값을 이용해서 시도하다 에러가 난건지 파악할수있는 정보를 넣으면 좋아요     
