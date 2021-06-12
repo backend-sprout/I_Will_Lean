@@ -1,5 +1,9 @@
-https://blog.lulab.net/programmer/what-should-i-log-with-an-intention-method-and-level/
-https://nice2049.tistory.com/entry/Elastic-stacklogstashlogbackencoder%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%A1%9C%EA%B7%B8%EC%A0%84%EC%86%A1   
+https://blog.lulab.net/programmer/what-should-i-log-with-an-intention-method-and-level/    
+https://nice2049.tistory.com/entry/Elastic-stacklogstashlogbackencoder%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EB%A1%9C%EA%B7%B8%EC%A0%84%EC%86%A1     
+https://jeong-pro.tistory.com/171     
+baeldung.com/spring-performance-logging   
+https://jojoldu.tistory.com/71   
+   
    
 # 사용처
 보통 에러 나올거같은 부분에서 씁니다     
