@@ -4,7 +4,8 @@ https://jeong-pro.tistory.com/171
 baeldung.com/spring-performance-logging   
 https://jojoldu.tistory.com/71      
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#application-properties.core.spring.aop.auto     
-    
+https://shortstories.gitbook.io/studybook/spring_ad00_b828_c815_b9ac/aop/baa8-b4e0-c6f9-c694-ccad-c5d0-b300-d574-c11c-b85c-adf8-b85c-b0a8-ae30-ae30    
+      
 # 사용처
 보통 에러 나올거같은 부분에서 씁니다     
 어떤 값을 이용해서 시도하다 에러가 난건지 파악할수있는 정보를 넣으면 좋아요     
