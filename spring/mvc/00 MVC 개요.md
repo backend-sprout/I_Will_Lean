@@ -1,13 +1,16 @@
-# MVC  
-`MVC`는 `Model-View-Controller`의 약자이다.    
-
+# MVC    
+## MVC란?  
+`MVC`는 `Model-View-Controller`의 약자이다.      
    
+![model-view-controller-light-blue](https://user-images.githubusercontent.com/50267433/123188814-a36fc380-d4d7-11eb-91d1-a827534bda9d.png)
+
 * **Model :** 비지니스 로직에서의 알고리즘, 데이터 등의 기능을 처리합니다.
 * **Controller :** 화면의 처리기능과 Model과 View를 연결시켜주는 역할을 합니다.
 * **View :** 웹이라면 웹페이지, 모바일이라면 어플의 화면의 보여지는 부분입니다.     
-
-`MVC`의 사용에 따라서 얻게되는 이점은   
-Model, View, Controller 가 각자 독립적으로 실행되기에 교체가 쉬운등 유지보수가 편하며  
+   
+##    
+**`MVC`의 사용에 따라서 얻게되는 이점**   
+1. Model, View, Controller 가 각자 독립적으로 실행되기에 교체가 쉬운등 유지보수가 편하며  
 
 
 
