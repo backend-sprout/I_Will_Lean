@@ -1,5 +1,10 @@
 # Spring_Expert
 스프링에서 깊게 공부하고 싶은 내용들을 정리하는 레포지토리
+ 
+1. aop와 logback 로그 남기기 
+2. macstruct
+3. domain, entity, vo, dto 구분 
+4.   
 
 [[#1] BeanDefinition](#)     
 [[#2] ThreadLocal](#)     
