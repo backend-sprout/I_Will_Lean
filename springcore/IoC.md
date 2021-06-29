@@ -1,45 +1,75 @@
 # IoC(Inversion of Control)  
 `IoC(Inversion of Control)`란, 이름 그대로 **제어의 역전**이라는 의미를 가지고 있다.       
+           
+```
+IoC 란 제어의 역전으로   
+객체를 생성하고 관리하는 '제어'를 역전시키는 것이다.   
+```
+       
+보다 쉽게 설명하면, **내가 객체를 생성하고 사용하면서 관리하는 것이 아니라**          
+`객체의 생성`은 외부에 맡기고 나는 **객체의 사용만을 관리**하는 것이다.             
+(외부에 맡긴다는 말은 주로, **프레임워크에 빈을 생성하고 관리하는 것을 맡긴다**는 것이다.)             
+   
+**기존 코드**
+```java
+import me.kwj1270.javaapi.test.domain.SampleInstance;
+
+public class StudyTest {
+
+    SampleInstance sampleInstance = new SampleInstance();       // 객체의 생성 방법이 바뀌면 코드 수정해야함
+
+    public void doLogic() {
+        ...                                                     // 객체를 사용하는 코드 또한 영향을 받을 가능성이 있다.    
+    }
+}
+```
+기존 방식대로 코드를 짠다면 객체를 **생성**하고 **사용**하는 `2가지 책임`이 존재한다.      
+       
+만약, 객체를 생성하는 과정에 변경사항이 생긴다고 가정을 한다면     
+**생성에 관한 코드를 수정**해야하는 것은 물론이고          
+경우에 따라서 **객체를 사용하는 코드 또한 수정하는 경우가 존재한다.**         
+                    
+결국, 프로그래머는 `객체의 생성` 및 `객체의 사용` 또한 지속적으로 신경쓰면서 코딩해야하고                     
+만약 이러한 내용을 잊어버리고 **어느 하나라도 누락하게 된다면 잠재적으로 버그를 가지게 된다.**         
+
+**생성과 관련된 코드**
+```java
+public class TestApplication {
+
+    public static void main(String[] args) {
+        SampleInstance sampleInstance = new SampleInstance();
+        StudyTest studyTest = new StudyTest(sampleInstance);
+    }
+    
+}
+```
+**사용과 관련된 코드**
+```java
+import me.kwj1270.javaapi.test.domain.SampleInstance;
+
+public class StudyTest {
+
+    private SampleInstance sampleInstance;                      // 객체의 생성 방법이 바뀌어도 영향이 없다.
+
+    public StudyTest(SampleInstance sampleInstance) {
+        this.sampleInstance = sampleInstance;
+    }
+
+    public void doLogic() {
+        ...                                                     // 객체를 사용하는 코드는 영향을 받을 가능성이 있다.
+    }
+}
+```
+위 코드를 보면 우리는 단순히 객체를 주입받아서 사용하는 것이기 때문에,                   
+로직이 객체의 생성에 영향을 받는다하더라도,       
+이제는 **생성을 제외한 사용하는 부분만 수정을 해주면 된다.**                 
+            
+즉, `IoC`를 이용하면 `SOLID`의 원칙 중 하나인 `SRP(단일 책임의 원칙)`를 지켜주며             
+개발자는 객체의 생성과 유지 및 관리에 대한 신경을 쓰지 않도록 도와준다.     
+       
+보다 자세한 내용은 필자가 정리한 [클린코드 11장 시스템_제작과 사용을 분리하라](https://github.com/kwj1270/TIL_CleanCode/blob/master/11%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md#%EC%A0%9C%EC%9E%91%EA%B3%BC-%EC%82%AC%EC%9A%A9%EC%9D%84-%EB%B6%84%EB%A6%AC%ED%95%98%EB%9D%BC)
+을 참고하자.    
+             
+`IoC`와 관련되어서 `DI(의존성 주입)`, `DIP(의존관계역전)`라는 개념도 존재하지만,      
+이 부분에 대해서는 따로 공부해보는 것을 추천한다.        
       
-**기존 프로그램**
-```java
-public class Sample {
-    public void run(String keyword) {
-        NameSearch nameSearch = new NameSearch();
-        Result result = nameSearch(keyword);
-    }
-}
-```
-
-기존 프로그램은 클라이언트 구현 객체가 스스로 필요한 서버 구현 객체를 생성하고, 연결하고, 실행했다.   
-
-
-한마디로 구현 객체가 프로그램의 제어 흐름을 스스로 조종했다. 개발자 입장에서는 매우 자연스러운 흐름이었다.
-AppConfig의 등장으로 클라이언트 구현 객체는 자신의 로직을 실행하는 역할만 담당하게 되었다.
-프로그램에 대한 제어 흐름에 대한 권한은 AppConfig가 가지고 있다.
-인터페이스를 구현한 객체를 다루므로 로직의 주도권을 잡고있다고 생각하면 된다.
-이렇듯 프로그램의 제어 흐름을 직접 제어하는 것이 아니라 외부에서 관리하는 것을 제어의 역전이라고 한다.
-
-일반적으로 프로그램을 구현할 때 사용하는 프로세스는 일체형으로    
-`메인 클래스`에서 `서브 클래스`들을 생성하여 이를 부품과 도구 처럼 활용하여 사용했다.   
-즉, 객체를 `new 키워드`를 통해 직접 생성하고 이를 활용했다.    
-
-```java
-public class Sample {
-    public void run(SearchStrategy searchStrategy) {
-        NameSearch nameSearch = new NameSearch();
-        Result result = nameSearch(keyword);
-    }
-}
-```
-
-하지만, 이같은 
-
-스프링 프로세스 : 분리/도킹형으로 컨테이너에서 서브 클래스들을 생성하여 메인 클레스에서 DI로 받는 방식
-
-기존에 객체를 활용하는 프로세스는    
-개발자가 `new 객체()`를 통해 객체를 만들고 사용하는 전략이었다.  
-
-
-기존 프로세스와 달리 객체의 생성 흐름이 반대로 동작하는 것을 의미 (서브 먼저 생성 후 사용)
-
