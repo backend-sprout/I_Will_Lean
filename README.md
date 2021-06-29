@@ -21,3 +21,4 @@
 [[#11 도메인, 엔티티, DTO, VO]](#)      
 [[#12 벨리데이션]](https://meetup.toast.com/posts/223)
 
+https://medium.com/storyblocks-engineering/web-architecture-101-a3224e126947
