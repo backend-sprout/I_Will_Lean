@@ -185,4 +185,21 @@ Spring은 `스프링 설정` 및 `애플리케이션 구현`과 관련된 `빈(B
 
 #### ✏ ApplicationContext   
 
-
+```java
+@Configuration
+public class DiscountPolicyConfig {
+ 
+    @Bean
+    public DiscountPolicy rateDiscountPolicy() {
+        return new RateDiscountPolicy();
+    }
+    @Bean
+    public DiscountPolicy fixDiscountPolicy() {
+        return new FixDiscountPolicy();
+    }
+}
+```
+```java
+    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(DiscountPolicyConfig.class);    
+    DiscountPolicy rateDiscountPolicy = ac.getBean(DiscountPolicy.class);
+```
