@@ -128,19 +128,20 @@ Spring에서 말하는 `Spring IoC`는 `DI`와 동일하다고 말한다.(Spring
 즉, **어떤 객체가 사용하는 의존 객체를 직접 만들어 사용하는게 아니라, 주입 받아 사용하는 방법을 의미한다.**   
                          
 ## 📖 스프링 IoC(DI)는 어디에서 빈(Bean)을 가져와 주입해주는 것일까?          
-스프링은 스프링 설정과 애플리케이션 구현과 관련된 `빈(Bean)`들을 `스프링 컨테이너`에 저장한다.           
-   
-스프링 컨테이너는 `Servlet 컨테이너`와 비슷하며 2가지 종류가 존재한다.          
-  
+Spring은 `스프링 설정` 및 `애플리케이션 구현`과 관련된 `빈(Bean)`들을 `Spring Container`에 저장한다.           
+(`Spring Container` 는 `Servlet 컨테이너`와 비슷하다.)     
+        
+그리고 이러한 `Spring Container`의 종류는 크게 2가지가 있다.    
+     
 1. BeanFactory    
 2. ApplicationContext   
       
-### BeanFactory   
+### 📄 BeanFactory   
 스프링 설정 파일에 등록된 `Bean`을 생성하고 관리하는 가장 기본적인 컨테이너 기능만 제공     
 처음부터 객체를 생성하지 않고, 클라이언트의 요청(Lookup)에 의해서만 `Bean`이 생성되는 **지연로딩 방식을 사용한다.**        
 일반적인 스프링 프로젝트에서 `BeanFactroy`를 사용할 일은 거의 없다.          
           
-### ApplicationContext     
+### 📄 ApplicationContext     
 `BeanFactory`를 상속받고 있다. (인터페이스 상속, `HierarchicalBeanFactory`)       
 컨테이너식으로 동작하며 `트랜잭션 관리`나 `리소스 로딩 기능` 그리고 `메시지 기반의 다국어 처리` 등 다양한 기능을 지원한다.    
 대부분 스프링 프로젝트는 `ApplicationContext` 유형의 **스프링 컨테이너**를 이용한다.          
