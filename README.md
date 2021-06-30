@@ -20,5 +20,6 @@
 [[#10 레이어]](#)    
 [[#11 도메인, 엔티티, DTO, VO]](#)      
 [[#12 벨리데이션]](https://meetup.toast.com/posts/223)
-
+[[#13 Importanntation]](https://hilucky.tistory.com/244)  
+[[#14 DependsOn annotaion]](https://heavenly-appear.tistory.com/265)      
 https://medium.com/storyblocks-engineering/web-architecture-101-a3224e126947
