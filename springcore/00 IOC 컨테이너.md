@@ -135,7 +135,7 @@ Spring은 `스프링 설정` 및 `애플리케이션 구현`과 관련된 `빈(B
      
 1. BeanFactory    
 2. ApplicationContext   
-        
+
 ### 📄 BeanFactory     
 스프링 설정 파일에 등록된 `Bean`을 생성하고 관리하는 가장 기본적인 컨테이너 기능만 제공한다.        
 처음부터 객체를 생성하지 않고, 클라이언트의 요청(Lookup)에 의해서만 `Bean`이 생성되는 **지연로딩 방식을 사용한다.**        
@@ -151,11 +151,13 @@ Spring은 `스프링 설정` 및 `애플리케이션 구현`과 관련된 `빈(B
               
 `BeanFactory` 같은 경우, 빈을 관리하는 기본적인 역할만 수행하기에             
 대부분의 스프링 프로젝트에서 사용하는 컨테이너는 대부분 `ApplicationContext`를 상속받은 구현체들이다.         
+
+## 📖 스프링 IoC(DI) 컨테이너 직접 사용
        
 * ClassPathXmlApplicationContext (XML)
 * AnnotationConfigApplicationContext (Java)
 
-#### ✏ ClassPathXmlApplicationContext (XML)    
+### 📄 ClassPathXmlApplicationContext (XML)    
   
 **설정 xml파일**    
 ```xml
@@ -183,7 +185,7 @@ Spring은 `스프링 설정` 및 `애플리케이션 구현`과 관련된 `빈(B
         MemberService memberService = ac.getBean("memberService", MemberService.class);
 ```
 
-#### ✏ ApplicationContext   
+### 📄 ApplicationContext   
 
 ```java
 @Configuration
