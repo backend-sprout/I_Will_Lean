@@ -121,12 +121,12 @@ public class StudyTest {
               
 보다 자세한 내용은 필자가 정리한 [클린코드 11장 시스템_제작과 사용을 분리하라](https://github.com/kwj1270/TIL_CleanCode/blob/master/11%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md#%EC%A0%9C%EC%9E%91%EA%B3%BC-%EC%82%AC%EC%9A%A9%EC%9D%84-%EB%B6%84%EB%A6%AC%ED%95%98%EB%9D%BC)
 을 참고하자.   
-
    
+     
 # 📕 스프링 IoC 컨테이너     
 Spring에서 말하는 `Spring IoC`는 `DI`와 동일하다고 말한다.(Spring 레퍼런스에서 직접 언급)            
 즉, **어떤 객체가 사용하는 의존 객체를 직접 만들어 사용하는게 아니라, 주입 받아 사용하는 방법을 의미한다.**   
-                         
+                           
 ## 📖 스프링 IoC(DI)는 어디에서 빈(Bean)을 가져와 주입해주는 것일까?          
 Spring은 `스프링 설정` 및 `애플리케이션 구현`과 관련된 `빈(Bean)`들을 `Spring Container`에 저장한다.           
 (`Spring Container` 는 `Servlet 컨테이너`와 비슷하다.)     
@@ -140,19 +140,19 @@ Spring은 `스프링 설정` 및 `애플리케이션 구현`과 관련된 `빈(B
 스프링 설정 파일에 등록된 `Bean`을 생성하고 관리하는 가장 기본적인 컨테이너 기능만 제공한다.        
 처음부터 객체를 생성하지 않고, 클라이언트의 요청(Lookup)에 의해서만 `Bean`이 생성되는 **지연로딩 방식을 사용한다.**        
 일반적인 스프링 프로젝트에서 `BeanFactroy`를 사용할 일은 거의 없다.          
-          
+            
 ### 📄 ApplicationContext     
 `BeanFactory`를 상속받고 있다. (인터페이스 상속, `HierarchicalBeanFactory`)       
 컨테이너식으로 동작하며 `트랜잭션 관리`나 `리소스 로딩 기능` 그리고 `메시지 기반의 다국어 처리` 등 다양한 기능을 지원한다.    
-대부분 스프링 프로젝트는 `ApplicationContext` 유형의 **스프링 컨테이너**를 이용한다.          
-
-* `BeanFactory`, `ApplicationEventPublisher`, `EnvironmentCapable`,   `HierarchicalBeanFactory`, `ListableBeanFactory`,   
-  `MessageSource`, `ResourceLoader`, `ResourcePatternResolver`등의 인터페이스를 구현하고 있다.   
- 
-  
-`BeanFactory` 같은 경우, 빈을 관리하는 기본적인 역할만 수행하기에        
-우리가 스프링에서 사용하는 컨테이너는 대부분 `ApplicationContext`를 상속받은 구현체들이다.   
+**대부분의 스프링 프로젝트는 `ApplicationContext` 유형의 `Spring Container`를 이용한다.            
       
+* `BeanFactory`, `ApplicationEventPublisher`, `EnvironmentCapable`,   `HierarchicalBeanFactory`, `ListableBeanFactory`,        
+  `MessageSource`, `ResourceLoader`, `ResourcePatternResolver`등의 인터페이스를 구현하고 있다.     
+              
+`BeanFactory` 같은 경우, 빈을 관리하는 기본적인 역할만 수행하기에             
+대부분의 스프링 프로젝트에서 사용하는 컨테이너는 대부분 `ApplicationContext`를 상속받은 구현체들이다.         
+       
 * ClassPathXmlApplicationContext (XML)
 * AnnotationConfigApplicationContext (Java)
-* 
+
+
