@@ -23,3 +23,4 @@
 [[#13 Importanntation]](http://wonwoo.ml/index.php/post/1028)  
 [[#14 DependsOn annotaion]](https://heavenly-appear.tistory.com/265)      
 https://medium.com/storyblocks-engineering/web-architecture-101-a3224e126947
+[[#15 빈팩토리 라이프 사이클]](https://howtodoinjava.com/spring-core/spring-bean-life-cycle/)   
