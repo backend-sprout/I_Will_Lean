@@ -123,27 +123,28 @@ public class StudyTest {
 을 참고하자.   
 
    
-## 스프링 IoC 컨테이너     
-`Spring framework` 에서 말하는 `스프링 IoC`는 `DI`와 동일하다고 말한다.(Spring 레퍼런스에서 직접 언급)        
-즉, **어떤 객체가 사용하는 의존 객체를 직접 만들어 사용하는게 아니라, 주입 받아 사용하는 방법을 말한다.**   
-                 
-**그렇다면 `스프링 IoC(DI)`는 어디에서 `객체(빈)`를 가져와 주입해주는 것일까? 🤔**       
-스프링은 `스프링 설정`과 `애플리케이션 구현`과 관련된 `Bean`들을 `스프링 컨테이너`에 저장한다.           
-이러한, 스프링 컨테이너는 `Servlet 컨테이너`와 비슷하며 2가지 종류가 존재한다.          
+# 📕 스프링 IoC 컨테이너     
+Spring에서 말하는 `Spring IoC`는 `DI`와 동일하다고 말한다.(Spring 레퍼런스에서 직접 언급)            
+즉, **어떤 객체가 사용하는 의존 객체를 직접 만들어 사용하는게 아니라, 주입 받아 사용하는 방법을 의미한다.**   
+                         
+## 📖 스프링 IoC(DI)는 어디에서 빈(Bean)을 가져와 주입해주는 것일까?          
+스프링은 스프링 설정과 애플리케이션 구현과 관련된 `빈(Bean)`들을 `스프링 컨테이너`에 저장한다.           
+   
+스프링 컨테이너는 `Servlet 컨테이너`와 비슷하며 2가지 종류가 존재한다.          
   
-**컨테이너란?**    
-[링크](https://doozi316.github.io/web/2020/09/13/WEB26/)   
-  
-**BeanFactory**   
-* 스프링 설정 파일에 등록된 `Bean`을 생성하고 관리하는 가장 기본적인 컨테이너 기능만 제공     
-* 처음부터 객체를 생성하지 않고,        
-  클라이언트의 요청(Lookup)에 의해서만 `Bean`이 생성되는 **지연로딩 방식을 사용한다.**        
-* 일반적인 스프링 프로젝트에서 `BeanFactroy`를 사용할 일은 거의 없다.          
-        
-**ApplicationContext**  
-* `BeanFactory`를 상속받고 있다. (인터페이스 상속, `HierarchicalBeanFactory`)       
-* 컨테이너식으로 동작하며 `트랜잭션 관리`나 `리소스 로딩 기능` 그리고 `메시지 기반의 다국어 처리` 등 다양한 기능을 지원한다.    
-* 대부분 스프링 프로젝트는 `ApplicationContext` 유형의 **스프링 컨테이너**를 이용한다.          
+1. BeanFactory    
+2. ApplicationContext   
+      
+### BeanFactory   
+스프링 설정 파일에 등록된 `Bean`을 생성하고 관리하는 가장 기본적인 컨테이너 기능만 제공     
+처음부터 객체를 생성하지 않고, 클라이언트의 요청(Lookup)에 의해서만 `Bean`이 생성되는 **지연로딩 방식을 사용한다.**        
+일반적인 스프링 프로젝트에서 `BeanFactroy`를 사용할 일은 거의 없다.          
+          
+### ApplicationContext     
+`BeanFactory`를 상속받고 있다. (인터페이스 상속, `HierarchicalBeanFactory`)       
+컨테이너식으로 동작하며 `트랜잭션 관리`나 `리소스 로딩 기능` 그리고 `메시지 기반의 다국어 처리` 등 다양한 기능을 지원한다.    
+대부분 스프링 프로젝트는 `ApplicationContext` 유형의 **스프링 컨테이너**를 이용한다.          
+
 * `BeanFactory`, `ApplicationEventPublisher`, `EnvironmentCapable`,   `HierarchicalBeanFactory`, `ListableBeanFactory`,   
   `MessageSource`, `ResourceLoader`, `ResourcePatternResolver`등의 인터페이스를 구현하고 있다.   
  
