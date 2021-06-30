@@ -155,4 +155,34 @@ Spring은 `스프링 설정` 및 `애플리케이션 구현`과 관련된 `빈(B
 * ClassPathXmlApplicationContext (XML)
 * AnnotationConfigApplicationContext (Java)
 
+#### ✏ ClassPathXmlApplicationContext (XML)    
+  
+**설정 xml파일**    
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="memberService" class="hello.core.member.MemberServiceImpl">
+        <constructor-arg name="memberRepository" ref="memberRepository"/>
+    </bean>
+
+    <bean id="memberRepository" class="hello.core.member.MemoryMemberRepository"/>
+
+    <bean id="orderService" class="hello.core.order.OrderServiceImpl">
+        <constructor-arg name="memberRepository" ref="memberRepository"/>
+        <constructor-arg name="discountPolicy" ref="discountPolicy"/>
+    </bean>
+
+    <bean id="discountPolicy" class="hello.core.discount.RateDiscountPolicy"/>
+</beans>
+```
+```java
+        ApplicationContext ac = new GenericXmlApplicationContext("appConfig.xml");
+        MemberService memberService = ac.getBean("memberService", MemberService.class);
+```
+
+#### ✏ ApplicationContext   
+
 
