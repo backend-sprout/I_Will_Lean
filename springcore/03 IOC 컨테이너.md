@@ -186,11 +186,11 @@ Spring에서 말하는 `Spring IoC`는 `DI`와 동일하다고 말한다.(Spring
 즉, **어떤 객체가 사용하는 의존 객체를 직접 만들어 사용하는게 아니라, 주입 받아 사용하는 방법을 의미한다.**   
                            
 ## 📖 스프링 IoC(DI)는 어디에서 빈(Bean)을 가져와 주입해주는 것일까?          
-Spring은 `스프링 설정` 및 `애플리케이션 구현`과 관련된 `빈(Bean)`들을 `Spring Container`에 저장한다.           
-(`Spring Container` 는 `Servlet 컨테이너`와 비슷하다.)     
-        
+Spring은 '스프링 설정 및 '애플리케이션 구현'과 관련된 `빈(Bean)`들을 `Spring Container`에 저장한다.           
+(`Spring Container` 는 'Servlet 컨테이너'와 비슷하다.)     
+           
 그리고 이러한 `Spring Container`의 종류는 크게 2가지가 있다.    
-     
+       
 1. BeanFactory    
 2. ApplicationContext   
 
@@ -200,30 +200,62 @@ Spring은 `스프링 설정` 및 `애플리케이션 구현`과 관련된 `빈(B
 일반적인 스프링 프로젝트에서 `BeanFactroy`를 사용할 일은 거의 없다.          
             
 ### 📄 ApplicationContext     
-`BeanFactory`를 상속받고 있다. (인터페이스 상속, `HierarchicalBeanFactory`)       
+`BeanFactory`를 상속받고 있다. (인터페이스간의 상속, `HierarchicalBeanFactory`)       
 이외에도 `ApplicationEventPublisher`, `EnvironmentCapable`,   `HierarchicalBeanFactory`, `ListableBeanFactory`,           
 `MessageSource`, `ResourceLoader`, `ResourcePatternResolver`등의 인터페이스를 구현하고 있다.      
-          
-컨테이너식으로 동작하며 `빈 처리 로직`외에도       
+              
+'컨테이너식'으로 동작하며 `빈 처리 로직`외에도       
 `트랜잭션 관리`나 `리소스 로딩 기능` 그리고 `메시지 기반의 다국어 처리`과 같은 다양한 기능을 지원한다.          
+        
+**메시지 소스를 활용한 국제화 기능**         
+한국에서 들어오면 한국어로, 영어권에서 들어오면 영어로         
+출력 파일을 여러 개로 분리해서 들어온 IP에 따라 알맞는 언어로 처리한다.        
    
-* **메시지 소스를 활용한 국제화 기능 :**   
-한국에서 들어오면 한국어로, 영어권에서 들어오면 영어로       
-출력 파일을 여러개로 분리해서 들어온 IP에 따라 알맞는 언어로 처리한다.    
-* **환경변수 :**   
+**환경변수**     
 로컬, 개발, 운영등을 구분해서 처리   
-* **애플리케이션 이벤트 :**      
-  이벤트를 발행하고 구독하는 모델을 편리하게 지원  
-* **편리한 리소스 조회 :**      
-  파일, 클래스패스, 외부 등에서 리소스를 편리하게 조회    
+
+**애플리케이션 이벤트**         
+이벤트를 발행하고 구독하는 모델을 편리하게 지원  
+
+**편리한 리소스 조회**         
+파일, 클래스패스, 외부 등에서 리소스를 편리하게 조회    
                   
 `BeanFactory` 같은 경우, 빈을 관리하는 기본적인 역할만 수행하기에               
 **대부분의 스프링 프로젝트는 `ApplicationContext` 유형의 `Spring Container`를 이용한다.**                   
   
 ## 📖 스프링 컨테이너 생성 과정   
+스프링 컨테이너 생성 과정은 아래 코드를 기준으로 한다.   
+   
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public MemberService memberService() {
+        return new MemberServiceImpl(memberRepository());
+    }
+
+    @Bean
+    public OrderService orderService() {
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+
+    @Bean
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+
+    @Bean
+    public DiscountPolicy discountPolicy() {
+        return new RateDiscountPolicy();
+    }
+
+}
+```
+
 ### 📄 스프링 컨테이너 생성
 ```java
-new AnnotaionConfigApplicationContext(AppConfig.class)` 
+new AnnotaionConfigApplicationContext(AppConfig.class)
 ```
 스프링 컨테이너는 생성되면서 내부적으로 `스프링 빈 저장소`를 갖는다.        
 이때, 생성자에 인자값으로 넘긴 클래스를 기준으로 `스프링 빈 저장소`를 채워넣을 예정이다.         
