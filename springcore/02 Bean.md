@@ -18,21 +18,22 @@ JAVA Bean 관련 설계 규약
 (`Spring Container`, `BeanDefinition(빈 설정 메타 정보)`)   
    
 ## 📖 BeanDefinition(스프링 빈 설정 메타 정보)   
-스프링은 어떻게 이런 다양한 설정 형식을 지원하는 것일까?     
-그 중심에는 `BeanDefinition`이라는 추상화가 있다. (빈 정보 자체를 추상화)     
-
-쉽게 이야기해서 **`역할`과 `구현`을 개념적으로 나눈 것이다.**        
+스프링은 `Java`, `XML`, `Gradle` 등을 통해 스프링 컨테이너를 생성할 수 있다.       
+   
+**그렇다면 어떻게 이런 다양한 설정 형식을 지원하는 것일까? 🤔**            
+그 중심에는 `BeanDefinition`이라는 추상화가 있다. (빈 정보 자체를 추상화)         
+              
+쉽게 이야기해서 **`역할`과 `구현`을 개념적으로 나눈 것이다.**             
+즉, 스프링 컨테이너는 `Java`인지, `XML`인지 몰라도 오로지 `BeanDefinition`만 알면 된다.       
+     
 * `XML`을 읽어서 `BeanDefinition`을 만들면 된다.   
-* 자바코드를 읽어서 `BeanDefinition`을 만들면 된다.   
-* 스프링 컨테이너는 자바 코드인지, XML인지 몰라도 오로지 `BeanDefinition`만 알면 된다.   
-        
-`BeanDefinition`을 빈 메타 정보라고 말한다.      
-* `@Bean`, `<bean>`당 각각 하나씩 메타 정보가 생성된다.      
-* 스프링 컨테이너는 이 메타 정보를 기반으로 스프링 빈을 생성한다.      
- 
-[사진]()    
-[사진]()    
-       
+* `Java`를 읽어서 `BeanDefinition`을 만들면 된다.   
+* `Gradle`를 읽어서 `BeanDefinition`을 만들면 된다.       
+                 
+`BeanDefinition`은 `빈 메타 정보`라고 말한다.         
+* `@Bean`, `<bean></bean>`당 하나씩 메타 정보가 생성된다.           
+* 스프링 컨테이너는 이 메타 정보를 기반으로 스프링 빈을 생성한다.           
+    
 `BeanDefinition` 인터페이스를 구현한 클래스들은        
 `BeanDefinitionReader`인터페이스를 구현한 구현체를 의존하고 있다.        
         
