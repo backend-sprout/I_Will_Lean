@@ -65,3 +65,4 @@ public class HelloServlet extends HttpServlet {
 
 ![mvc2](https://user-images.githubusercontent.com/50267433/123186597-74575300-d4d3-11eb-84a6-9f4e649412c5.png)
 
+  
