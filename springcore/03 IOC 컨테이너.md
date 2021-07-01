@@ -292,8 +292,8 @@ new AnnotaionConfigApplicationContext(AppConfig.class)
 * AnnotationConfigApplicationContext (Java)
 
 ### 📄 ClassPathXmlApplicationContext (XML)    
-  
-**설정 xml파일**    
+     
+**설정 xml파일, `src/main/resources/appConfig.xml`에 있다**    
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
