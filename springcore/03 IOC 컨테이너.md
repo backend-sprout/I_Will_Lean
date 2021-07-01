@@ -64,11 +64,15 @@ public class Car {
    
 ### 정적인 클래스 의존관계   
 클래스가 사용하는 `import`만 보고도 의존 관계를 쉽게 판단할 수 있다. 
-즉, 정적인 의존 관계는 애플리케이션을 실행하지 않아도 분석할 수 있다.    
-
+즉, 정적인 의존 관계는 애플리케이션을 실행하지 않아도 분석할 수 있다.      
+   
 ```java
 public class Car {
-    HankookTier tier   
+    HankookTier tier;
+    
+    public Car(HankookTier tier) {
+        this.tier = tier;
+    }
 }
 ```
    
@@ -83,7 +87,25 @@ public class Car {
 ### 동적인 클래스 의존관계      
 `애플리케이션 실행 시점(Runtime)`에 실제 생성된 객체 인스턴스의 참조가 연결된 의존 관계다.         
 즉, 컴파일 타임에서 어떤 객체가 의존 관계를 가질지는 모르지만  런타임에는 의존관계가 결정되는 것을 의미한다.      
-        
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Car car = new Car(new HankookTier());
+        Car car2 = new Car(new MichelinTier());
+    }
+}
+```
+```java
+public class Car {
+    Tier tier; // 변경이 일어나지 않는다.  
+    
+    public Car(Tier tier) {
+        this.tier = tire;
+    }
+}
+```
+
 * `애플리케이션 실행 시점(런타임)`에      
   외부(Spring Container)에서 실제 구현 객체를 생성하고 클라이언트에 전달해서        
   클라이언트와 서버의 실제 의존 관계가 연결되는 것을 `의존 관계 주입(DI)`이라 말한다.               
