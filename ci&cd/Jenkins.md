@@ -28,6 +28,20 @@
 # 젠킨스와 Spring Boot + GitHub 연동하기 
 > [참조 사이트](https://velog.io/@hind_sight/Docker-Jenkins-%EB%8F%84%EC%BB%A4%EC%99%80-%EC%A0%A0%ED%82%A8%EC%8A%A4%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-Spring-Boot-CICD)
 
+## mac docker 다운로드  
+> 필자는 Homebrew 를 기반으로 다운을 진행할 예정이다.   
+
+**Homebrew 다운**
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```   
+  
+**docker 다운**
+```sh
+brew install docker
+```
+
+
 # 출처   
 [개발자의 기록습관](https://ict-nroo.tistory.com/31 )
 [hind_sight.log](https://velog.io/@hind_sight/Docker-Jenkins-%EB%8F%84%EC%BB%A4%EC%99%80-%EC%A0%A0%ED%82%A8%EC%8A%A4%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-Spring-Boot-CICD)
