@@ -160,7 +160,8 @@ zsh-syntax-highlighting
 이후 `Color Presets..` 에서 알맞은 테마를 사용하면 된다.      
 필자는 `3024 Night`를 선택했다.    
 
-
+### 이외의 다양한 플러그인 
+[사이트](https://medium.com/harrythegreat/zsh%EC%99%80-%ED%95%A8%EA%BB%98-%EC%82%AC%EC%9A%A9%ED%95%A0-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8-%EC%B6%94%EC%B2%9C-6%EA%B0%80%EC%A7%80-8f9b8b7f3c24)
 
 
 
