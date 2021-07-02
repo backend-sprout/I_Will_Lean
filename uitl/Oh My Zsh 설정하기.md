@@ -151,19 +151,18 @@ zsh-syntax-highlighting
 )
 ```
 
-
-
-
-
 ### Terms2 테마 설치하기(옵션)
 [iTerm2-Color-Schma](https://github.com/mbadolato/iTerm2-Color-Schemes)에 접속하면 iTerm2에서 사용가능한 다양한 컬러 스키마를 다운받을 수 있다.        
 다운을 받은 후 iTerm2에서 `cmd` + `,`를 눌러 환경 설정을 띄운 후.    
-`Profile -> colors`로 들어가면 아래와같은 화면을 볼 수 있다.    
+`Profile -> colors`로 들어가면 아래와같은 화면을 볼 수 있다.  
+    
+<img width="1030" alt="스크린샷 2021-07-02 오후 3 40 00" src="https://user-images.githubusercontent.com/50267433/124238813-fb4f9f80-db53-11eb-91cf-237c333ae193.png">
 
+스크린샷 2021-07-02 오후 3.41.27<img width="1040" alt="스크린샷 2021-07-02 오후 3 41 27" src="https://user-images.githubusercontent.com/50267433/124238765-ee32b080-db53-11eb-9824-ccb453ba10d6.png">  
 
 이후 `Color Presets..` 에서 알맞은 테마를 사용하면 된다.      
 필자는 `3024 Night`를 선택했다.    
-
+  
 ### 이외의 다양한 플러그인 
 [사이트](https://medium.com/harrythegreat/zsh%EC%99%80-%ED%95%A8%EA%BB%98-%EC%82%AC%EC%9A%A9%ED%95%A0-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8-%EC%B6%94%EC%B2%9C-6%EA%B0%80%EC%A7%80-8f9b8b7f3c24)
 
