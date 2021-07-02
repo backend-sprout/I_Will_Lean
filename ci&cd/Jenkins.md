@@ -41,6 +41,10 @@
 brew install docker
 ```
 
+## Jenkins 이미지 다운 및 실행
+```sh
+docker run -d -p 9090:8080 --name jenkins jenkins/jenkins
+```
 
 # 출처   
 [개발자의 기록습관](https://ict-nroo.tistory.com/31 )
