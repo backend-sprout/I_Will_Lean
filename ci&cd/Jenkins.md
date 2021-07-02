@@ -25,6 +25,8 @@
 * 결합 테스트 환경에 대한 배포작업
 * [아마존에서 말하는 장점](https://aws.amazon.com/ko/devops/continuous-delivery/)
 
+# 젠킨스와 Spring Boot + GitHub 연동하기 
+
 
 # 출처   
 [개발자의 기록습관](https://ict-nroo.tistory.com/31 )
