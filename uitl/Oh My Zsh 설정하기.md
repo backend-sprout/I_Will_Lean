@@ -46,10 +46,10 @@ chsh -s `which zsh`
 vi ~/.zshrc
 ```
 ```sh
-# 방법1
+# 이름 아에 지우기 
 DEFAULT_USER="$(whoami)"
 
-# 방법2
+# 이름만 남기기 
 prompt_context() {
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
     prompt_segment black default "%(!.%{%F{yellow}%}.)$USER"
@@ -117,9 +117,13 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # 적절한 디렉터리에 
 git clone https://github.com/powerline/fonts.git --depth=1
 ```
-
+   
+<img width="779" alt="스크린샷 2021-07-02 오후 4 02 36" src="https://user-images.githubusercontent.com/50267433/124238517-a6ac2480-db53-11eb-848f-da44d938f498.png">
+  
 Terminal의 서체를 `Ubuntu Mono derivative Powerline` 를 사용했다.   
-
+  
+<img width="1055" alt="스크린샷 2021-07-02 오후 4 03 00" src="https://user-images.githubusercontent.com/50267433/124238494-a2800700-db53-11eb-9c48-2b90dd243e99.png">
+   
 이후, Iterm2의 font 도 `Ubuntu Mono derivative Powerline` 를 사용했다.     
 
 ### 경로 자동 설정 (옵션)
