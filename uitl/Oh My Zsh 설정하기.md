@@ -45,7 +45,50 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 ```sh
 chsh -s `which zsh`
 ```
-### 불필요한 이름 지우기
+
+### Terms2 테마 설치하기
+```sh
+vi ~/.zshrc
+```
+```sh
+# 생략, robyrussell 을 agnoster로 바꾼다.   
+ZSH_THEME=”agnoster”    
+```     
+<img width="1025" alt="스크린샷 2021-07-02 오후 12 11 05" src="https://user-images.githubusercontent.com/50267433/124239229-71ec9d00-db54-11eb-8144-829b79cde6b9.png">
+     
+`agnoster` 기본 테마로 설정을 바꾼다.    
+
+
+
+[iTerm2-Color-Schma](https://github.com/mbadolato/iTerm2-Color-Schemes)에 접속하면 iTerm2에서 사용가능한 다양한 컬러 스키마를 다운받을 수 있다.        
+다운을 받은 후 iTerm2에서 `cmd` + `,`를 눌러 환경 설정을 띄운 후.    
+`Profile -> colors`로 들어가면 아래와같은 화면을 볼 수 있다.  
+    
+<img width="1030" alt="스크린샷 2021-07-02 오후 3 40 00" src="https://user-images.githubusercontent.com/50267433/124238813-fb4f9f80-db53-11eb-91cf-237c333ae193.png">
+
+스크린샷 2021-07-02 오후 3.41.27<img width="1040" alt="스크린샷 2021-07-02 오후 3 41 27" src="https://user-images.githubusercontent.com/50267433/124238765-ee32b080-db53-11eb-9824-ccb453ba10d6.png">  
+
+이후 `Color Presets..` 에서 알맞은 테마를 사용하면 된다.      
+필자는 `3024 Night`를 선택했다.  
+
+### 폰트 깨짐 해결
+[ZeddiOS 님의 블로그](https://zeddios.tistory.com/1207)참조   
+
+```sh
+# 적절한 디렉터리에 
+git clone https://github.com/powerline/fonts.git --depth=1
+```
+   
+<img width="779" alt="스크린샷 2021-07-02 오후 4 02 36" src="https://user-images.githubusercontent.com/50267433/124238517-a6ac2480-db53-11eb-848f-da44d938f498.png">
+  
+Terminal의 서체를 `Ubuntu Mono derivative Powerline` 를 사용했다.   
+  
+<img width="1055" alt="스크린샷 2021-07-02 오후 4 03 00" src="https://user-images.githubusercontent.com/50267433/124238494-a2800700-db53-11eb-9c48-2b90dd243e99.png">
+   
+이후, Iterm2의 font 도 `Ubuntu Mono derivative Powerline` 를 사용했다.     
+
+   
+### 불필요한 이름 지우기(옵션)  
 ```sh
 vi ~/.zshrc
 ```
@@ -114,22 +157,6 @@ vi ~/.zshrc
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ```
 
-### 폰트 깨짐 해결
-[ZeddiOS 님의 블로그](https://zeddios.tistory.com/1207)참조   
-
-```sh
-# 적절한 디렉터리에 
-git clone https://github.com/powerline/fonts.git --depth=1
-```
-   
-<img width="779" alt="스크린샷 2021-07-02 오후 4 02 36" src="https://user-images.githubusercontent.com/50267433/124238517-a6ac2480-db53-11eb-848f-da44d938f498.png">
-  
-Terminal의 서체를 `Ubuntu Mono derivative Powerline` 를 사용했다.   
-  
-<img width="1055" alt="스크린샷 2021-07-02 오후 4 03 00" src="https://user-images.githubusercontent.com/50267433/124238494-a2800700-db53-11eb-9c48-2b90dd243e99.png">
-   
-이후, Iterm2의 font 도 `Ubuntu Mono derivative Powerline` 를 사용했다.     
-
 ### 경로 자동 설정 (옵션)
 > [참고 사이트](https://c0wb3ll.tistory.com/entry/%ED%84%B0%EB%AF%B8%EB%84%90-iterm2-zsh-oh-my-zsh%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8)   
   
@@ -155,31 +182,6 @@ zsh-syntax-highlighting
 )
 ```
 
-### Terms2 테마 설치하기(옵션)
-```sh
-vi ~/.zshrc
-```
-```sh
-# 생략, robyrussell 을 agnoster로 바꾼다.   
-ZSH_THEME=”agnoster”    
-```     
-<img width="1025" alt="스크린샷 2021-07-02 오후 12 11 05" src="https://user-images.githubusercontent.com/50267433/124239229-71ec9d00-db54-11eb-8144-829b79cde6b9.png">
-     
-`agnoster` 기본 테마로 설정을 바꾼다.    
-
-
-
-[iTerm2-Color-Schma](https://github.com/mbadolato/iTerm2-Color-Schemes)에 접속하면 iTerm2에서 사용가능한 다양한 컬러 스키마를 다운받을 수 있다.        
-다운을 받은 후 iTerm2에서 `cmd` + `,`를 눌러 환경 설정을 띄운 후.    
-`Profile -> colors`로 들어가면 아래와같은 화면을 볼 수 있다.  
-    
-<img width="1030" alt="스크린샷 2021-07-02 오후 3 40 00" src="https://user-images.githubusercontent.com/50267433/124238813-fb4f9f80-db53-11eb-91cf-237c333ae193.png">
-
-스크린샷 2021-07-02 오후 3.41.27<img width="1040" alt="스크린샷 2021-07-02 오후 3 41 27" src="https://user-images.githubusercontent.com/50267433/124238765-ee32b080-db53-11eb-9824-ccb453ba10d6.png">  
-
-이후 `Color Presets..` 에서 알맞은 테마를 사용하면 된다.      
-필자는 `3024 Night`를 선택했다.    
-  
 ### 이외의 다양한 플러그인 
 [사이트](https://medium.com/harrythegreat/zsh%EC%99%80-%ED%95%A8%EA%BB%98-%EC%82%AC%EC%9A%A9%ED%95%A0-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8-%EC%B6%94%EC%B2%9C-6%EA%B0%80%EC%A7%80-8f9b8b7f3c24)
 
