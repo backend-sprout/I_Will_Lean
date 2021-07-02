@@ -36,3 +36,14 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 ```
 
 쉘을 이용하여 `Oh My Zsh`를 설치한다.   
+
+### 불필요한 이름 지우기
+```sh
+vi ~/.zshrc
+```
+```sh
+DEFAULT_USER="$(whoami)"
+```
+```sh
+source ~/.zshrc
+```
