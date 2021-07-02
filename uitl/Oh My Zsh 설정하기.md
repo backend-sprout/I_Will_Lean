@@ -122,6 +122,35 @@ Terminal의 서체를 `Ubuntu Mono derivative Powerline` 를 사용했다.
 
 이후, Iterm2의 font 도 `Ubuntu Mono derivative Powerline` 를 사용했다.     
 
+### 경로 자동 설정 (옵션)
+> [참고 사이트](https://c0wb3ll.tistory.com/entry/%ED%84%B0%EB%AF%B8%EB%84%90-iterm2-zsh-oh-my-zsh%EB%A5%BC-%EA%B3%81%EB%93%A4%EC%9D%B8)   
+  
+```sh
+// 경로 자동 설정 
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions  
+
+// 앞서 설정한, 하이라이트도 이걸로 설정 가능하다.
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+```
+`.oh-my-zsh` 숨김 폴더에 설정되므로 경로를 신경 안써도 된다.      
+
+```sh
+vi ~/.zshrc
+```
+```sh
+// 생략, 어딘가에 있다.  
+
+plugins=(
+git
+zsh-autosuggestions
+zsh-syntax-highlighting
+)
+```
+
+
+
+
+
 ### Terms2 테마 설치하기(옵션)
 [iTerm2-Color-Schma](https://github.com/mbadolato/iTerm2-Color-Schemes)에 접속하면 iTerm2에서 사용가능한 다양한 컬러 스키마를 다운받을 수 있다.        
 다운을 받은 후 iTerm2에서 `cmd` + `,`를 눌러 환경 설정을 띄운 후.    
