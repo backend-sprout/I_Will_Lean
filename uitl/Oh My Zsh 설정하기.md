@@ -98,9 +98,15 @@ build_prompt() {
 
 ### Syntax Hightlight 적용하기 (옵션)
 ```sh
-//brew를 통해 설치해줍니다.
+// brew를 통해 설치해줍니다.
 brew install zsh-syntax-highlighting
-//플러그인을 적용합니다.
+```
+```sh
+// 매번 Iterm2 실행시 적용되도록 설정해주자  
+vi ~/.zshrc
+```
+```sh    
+// .zshrc 맨 아래에 플러그인을 적용하는 코드를 넣는다.  
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ```
 
