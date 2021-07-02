@@ -9,7 +9,9 @@
 
 ### Homebrew 다운 
 [Homebrew](https://brew.sh/index_ko)에 접속해서 `Homebrew`를 다운 받는다.   
-   
+      
+<img width="1018" alt="스크린샷 2021-07-02 오후 12 07 19" src="https://user-images.githubusercontent.com/50267433/124239356-90eb2f00-db54-11eb-8b8a-bff921b344df.png">
+     
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
@@ -30,6 +32,8 @@ zsh 5.8 (x86_64-apple-darwin20.0)
 최신 버전이 아닌 경우 위와 같이 업데이트를 진행해주면 된다.   
 
 ### Oh My Zsh 설치   
+
+<img width="1025" alt="스크린샷 2021-07-02 오후 12 09 44" src="https://user-images.githubusercontent.com/50267433/124239308-8761c700-db54-11eb-857f-01426f2c42b8.png">
 
 ```sh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
