@@ -30,16 +30,20 @@
 
 ## mac docker 다운로드  
 > 필자는 Homebrew 를 기반으로 다운을 진행할 예정이다.   
-
+> [참고 사이트](https://sinau.tistory.com/42)    
+  
 **Homebrew 다운**
 ```sh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```   
   
-**docker 다운**
+**docker 다운로드**
 ```sh
 brew install docker
+brew install docker-machine
+brew install virtualbox
 ```
+
 
 **docker 다운 - ubuntu**
 ```sh
