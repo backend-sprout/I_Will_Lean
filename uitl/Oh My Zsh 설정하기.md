@@ -46,15 +46,63 @@ chsh -s `which zsh`
 vi ~/.zshrc
 ```
 ```sh
+# 방법1
 DEFAULT_USER="$(whoami)"
+
+# 방법2
+prompt_context() {
+  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+    prompt_segment black default "%(!.%{%F{yellow}%}.)$USER"
+  fi
+}
 ```
 ```sh
 source ~/.zshrc
 ```
 
+### 개행
+```sh
+vi ~/.oh-my-zsh/themes/agnoster.zsh-theme
+```
+```sh
+## Main prompt
+// 생략
+prompt_newline() {
+  if [[ -n $CURRENT_BG ]]; then
+    echo -n "%{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR
+%{%k%F{blue}%}$SEGMENT_SEPARATOR"
+  else
+    echo -n "%{%k%}"
+  fi
+
+  echo -n "%{%f%}"
+  CURRENT_BG=''
+}
+
+build_prompt() {
+  RETVAL=$?
+  prompt_status
+  prompt_virtualenv
+  prompt_aws
+  prompt_context
+  prompt_dir
+  prompt_git
+  prompt_bzr
+  prompt_hg
+  prompt_newline //이부분을 추가 꼭 순서 지키기
+  prompt_end
+}
+
+// 생략
+```
+
+
 ### Terms2 테마 설치하기(옵션)
 [iTerm2-Color-Schma](https://github.com/mbadolato/iTerm2-Color-Schemes)에 접속하면 iTerm2에서 사용가능한 다양한 컬러 스키마를 다운받을 수 있다.        
-다운을 받은 후 iTerm2에서 `cmd` + `,`를 눌러 환경설정을 띄운 후.    
-`Profile -> colors`로 들어가면 아래와같은 화면을 볼 수 있습니다.     
+다운을 받은 후 iTerm2에서 `cmd` + `,`를 눌러 환경 설정을 띄운 후.    
+`Profile -> colors`로 들어가면 아래와같은 화면을 볼 수 있다.    
+
+
+
 
 
