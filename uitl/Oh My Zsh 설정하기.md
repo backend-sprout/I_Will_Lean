@@ -60,7 +60,7 @@ prompt_context() {
 source ~/.zshrc
 ```
 
-### 개행
+### New Line 적용하기(옵션)
 ```sh
 vi ~/.oh-my-zsh/themes/agnoster.zsh-theme
 ```
@@ -96,11 +96,34 @@ build_prompt() {
 // 생략
 ```
 
+### Syntax Hightlight 적용하기 (옵션)
+```sh
+//brew를 통해 설치해줍니다.
+brew install zsh-syntax-highlighting
+//플러그인을 적용합니다.
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+```
+
+### 폰트 깨짐 해결
+[ZeddiOS 님의 블로그](https://zeddios.tistory.com/1207)참조   
+
+```sh
+# 적절한 디렉터리에 
+git clone https://github.com/powerline/fonts.git --depth=1
+```
+
+Terminal의 서체를 `Ubuntu Mono derivative Powerline` 를 사용했다.   
+
+이후, Iterm2의 font 도 `Ubuntu Mono derivative Powerline` 를 사용했다.     
 
 ### Terms2 테마 설치하기(옵션)
 [iTerm2-Color-Schma](https://github.com/mbadolato/iTerm2-Color-Schemes)에 접속하면 iTerm2에서 사용가능한 다양한 컬러 스키마를 다운받을 수 있다.        
 다운을 받은 후 iTerm2에서 `cmd` + `,`를 눌러 환경 설정을 띄운 후.    
 `Profile -> colors`로 들어가면 아래와같은 화면을 볼 수 있다.    
+
+
+이후 `Color Presets..` 에서 알맞은 테마를 사용하면 된다.      
+필자는 `3024 Night`를 선택했다.    
 
 
 
