@@ -66,8 +66,8 @@ ZSH_THEME=”agnoster”
     
 <img width="1030" alt="스크린샷 2021-07-02 오후 3 40 00" src="https://user-images.githubusercontent.com/50267433/124238813-fb4f9f80-db53-11eb-91cf-237c333ae193.png">
 
-스크린샷 2021-07-02 오후 3.41.27<img width="1040" alt="스크린샷 2021-07-02 오후 3 41 27" src="https://user-images.githubusercontent.com/50267433/124238765-ee32b080-db53-11eb-9824-ccb453ba10d6.png">  
-
+<img width="1040" alt="스크린샷 2021-07-02 오후 3 41 27" src="https://user-images.githubusercontent.com/50267433/124238765-ee32b080-db53-11eb-9824-ccb453ba10d6.png">  
+   
 이후 `Color Presets..` 에서 알맞은 테마를 사용하면 된다.      
 필자는 `3024 Night`를 선택했다.  
 
