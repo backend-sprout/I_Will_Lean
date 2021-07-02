@@ -152,6 +152,19 @@ zsh-syntax-highlighting
 ```
 
 ### Terms2 테마 설치하기(옵션)
+```sh
+vi ~/.zshrc
+```
+```sh
+# 생략, robyrussell 을 agnoster로 바꾼다.   
+ZSH_THEME=”agnoster”    
+```     
+<img width="1025" alt="스크린샷 2021-07-02 오후 12 11 05" src="https://user-images.githubusercontent.com/50267433/124239229-71ec9d00-db54-11eb-8144-829b79cde6b9.png">
+     
+`agnoster` 기본 테마로 설정을 바꾼다.    
+
+
+
 [iTerm2-Color-Schma](https://github.com/mbadolato/iTerm2-Color-Schemes)에 접속하면 iTerm2에서 사용가능한 다양한 컬러 스키마를 다운받을 수 있다.        
 다운을 받은 후 iTerm2에서 `cmd` + `,`를 눌러 환경 설정을 띄운 후.    
 `Profile -> colors`로 들어가면 아래와같은 화면을 볼 수 있다.  
