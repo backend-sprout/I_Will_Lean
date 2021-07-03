@@ -30,11 +30,9 @@
 
 ## 코드 
 [예시 코드](https://github.com/my-sprout-code/jenkins-springboot)    
-    
-## mac docker 다운로드  
-> 필자는 Homebrew 를 기반으로 다운을 진행할 예정이다.   
-> [참고 사이트](https://sinau.tistory.com/42)    
-  
+      
+## 환경설정      
+> 필자는 Homebrew 를 기반으로 다운을 진행할 예정이다.    
 ### Docker 다운
 [docker 공식 사이트](https://www.docker.com/get-started)    
 
@@ -58,18 +56,40 @@ See https://docs.docker.com/docker-for-mac for more info.
 * `Docker` -> `Preferences...` -> `Resources` -> `File Sharing.` 으로 접속   
 * `/jenkins`폴더를 마운팅 허용하도록한다.      
 
+## 젠킨스 실행하기 
+브라우저에 `localhost:8080`를 입력한다.    
 
+[]()
 
+위와 같이 로그인을 위한 패스워드를 입력하라고 나온다.      
 
-
-
-
-
-
-## Jenkins 이미지 다운 및 실행
 ```sh
-docker run -d -p 9090:8080 --name jenkins jenkins/jenkins
+docker logs jenkins
 ```
+다시 터미널로 돌아와서 위와 같은 명령어를 입력해준다.     
+   
+```sh
+*************************************************************
+*************************************************************
+*************************************************************
+
+Jenkins initial setup is required. An admin user has been created and a password generated.
+Please use the following password to proceed to installation:
+
+????????????????????????????????
+
+This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
+
+*************************************************************
+*************************************************************
+*************************************************************
+```
+그렇다면 `????????????????????????????????`부분에 영문과 숫자로 이루어진 패스워드가 있다.      
+이를 입력해주면 젠킨스에 로그인이 가능하다.      
+
+
+
+
 
 # 출처   
 [개발자의 기록습관](https://ict-nroo.tistory.com/31 )
