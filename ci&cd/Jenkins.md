@@ -92,5 +92,5 @@ This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
 
 
 # 출처   
-[개발자의 기록습관](https://ict-nroo.tistory.com/31 )
-[hind_sight.log](https://velog.io/@hind_sight/Docker-Jenkins-%EB%8F%84%EC%BB%A4%EC%99%80-%EC%A0%A0%ED%82%A8%EC%8A%A4%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-Spring-Boot-CICD)
+[기억하기 위한 개발노트](http://jmlim.github.io/docker/2019/02/25/docker-jenkins-setup/)      
+[개발자의 기록습관](https://ict-nroo.tistory.com/31)   
