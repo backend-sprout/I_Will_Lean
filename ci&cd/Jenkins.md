@@ -97,5 +97,7 @@ This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
 
 
 # 출처   
-[기억하기 위한 개발노트](http://jmlim.github.io/docker/2019/02/25/docker-jenkins-setup/)      
-[개발자의 기록습관](https://ict-nroo.tistory.com/31)   
+[기억하기 위한 개발노트](http://jmlim.github.io/docker/2019/02/25/docker-jenkins-setup/)        
+[개발자의 기록습관](https://ict-nroo.tistory.com/31)     
+[JayTech의 기술 블로그](https://pjh3749.tistory.com/261)    
+[E: overload](https://dev-overload.tistory.com/40?category=841809)   
