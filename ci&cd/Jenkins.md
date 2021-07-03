@@ -89,8 +89,12 @@ This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
    
 []() 
   
-이후 플러그인 설정에 관한 선택지가 나오는데        
+위와 같이 플러그인 설정에 관한 선택지가 나오는데        
 우선은, `install suggested plugins(추천 플러그인 설치)`를 기본 전제로 진행하자         
+
+이후, `계정 설정`과 `url 설정` 작업을 마치면 비로소 젠킨스를 사용할 수 있다.    
+
+
 
 # 출처   
 [기억하기 위한 개발노트](http://jmlim.github.io/docker/2019/02/25/docker-jenkins-setup/)      
