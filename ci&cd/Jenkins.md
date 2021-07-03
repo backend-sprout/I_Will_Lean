@@ -28,37 +28,43 @@
 # 젠킨스와 Spring Boot + GitHub 연동하기 
 > [참조 사이트](https://velog.io/@hind_sight/Docker-Jenkins-%EB%8F%84%EC%BB%A4%EC%99%80-%EC%A0%A0%ED%82%A8%EC%8A%A4%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-Spring-Boot-CICD)
 
+## 코드 
+[예시 코드](https://github.com/my-sprout-code/jenkins-springboot)    
+    
 ## mac docker 다운로드  
 > 필자는 Homebrew 를 기반으로 다운을 진행할 예정이다.   
 > [참고 사이트](https://sinau.tistory.com/42)    
   
-**Homebrew 다운**
+### Docker 다운
+[docker 공식 사이트](https://www.docker.com/get-started)    
+
+### 젠킨스 다운 및 실행
 ```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```   
-  
-**docker 다운로드**
-```sh
-brew install docker
-brew install docker-machine
-brew install virtualbox
+docker pull jenkins/jenkins:lts 
+```
+```
+sudo docker run -d -p 8080:8080 -v /jenkins:/var/jenkins_home --name jenkins -u root jenkins/jenkins:lts
 ```
 
-
-**docker 다운 - ubuntu**
-```sh
-sudo apt-get update && \
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common && \
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
-sudo apt-key fingerprint 0EBFCD88 && \
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
-sudo apt-get update && \
-sudo apt-get install -y docker-ce && \
-sudo usermod -aG docker ubuntu && \
-sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
-sudo chmod +x /usr/local/bin/docker-compose && \
-sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+만약 도커를 실행하는 과정에서 아래와 같은 에러가 발생한다면    
+```sh 
+docker: Error response from daemon: Mounts denied:
+The path /jenkins is not shared from the host and is not known to Docker.
+You can configure shared paths from Docker -> Preferences... -> Resources -> File Sharing.
+See https://docs.docker.com/docker-for-mac for more info.
 ```
+   
+마운트 설정을 통해 해결해주면 된다.    
+* `Docker` -> `Preferences...` -> `Resources` -> `File Sharing.` 으로 접속   
+* `/jenkins`폴더를 마운팅 허용하도록한다.      
+
+
+
+
+
+
+
+
 
 ## Jenkins 이미지 다운 및 실행
 ```sh
