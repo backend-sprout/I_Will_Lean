@@ -86,10 +86,11 @@ This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
 ```
 그렇다면 `????????????????????????????????`부분에 영문과 숫자로 이루어진 패스워드가 있다.      
 이를 입력해주면 젠킨스에 로그인이 가능하다.      
-
-
-
-
+   
+[]() 
+  
+이후 플러그인 설정에 관한 선택지가 나오는데        
+우선은, `install suggested plugins(추천 플러그인 설치)`를 기본 전제로 진행하자         
 
 # 출처   
 [기억하기 위한 개발노트](http://jmlim.github.io/docker/2019/02/25/docker-jenkins-setup/)      
