@@ -10,7 +10,7 @@
 [[#2] ThreadLocal](#)     
 [[#3] Immutable Object vs stateless Object](#)         
 [[#4] Singleton Registry](#)          
-[[#5] CGLIB](#)           
+[[#5] CGLIB vs JDK DYNAMIC](#)           
 [[#6] 각각의 의존관계 호출 시점](#)         
 [[#7] final 클래스와 스프링 빈 등록 -> 프록시가 가능한가?](#)   
 [[#8] LogBack 로그백](#https://romeoh.tistory.com/entry/Spring-Boot-Logback-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0)               
