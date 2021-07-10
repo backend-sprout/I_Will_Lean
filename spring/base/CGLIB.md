@@ -240,8 +240,17 @@ public interface MethodInterceptor extends Callback {
      
 `MethodInterceptor`를 사용하면 **원본 객체 대신 다른 객체의 메소드를 호출 할 수 있다.**                  
 더불어, **원본 객체에 전달될 인자의 값을 변경할 수도 있다.**                  
-
-
+  
+`MethodInterceptor 인터페이스`를 구현한 클래스는 `intercept()` 메소드에서 원본 객체의 메소드를 알맞게 호출해야 한다.        
+원본 객체의 메소드를 호출하는 방법은 다음과 같은 두가지가 있다.        
+   
+```java
+    // 방법1: 자바의 리플렉션 사용
+    Object returnValue = method.invoke(object, args);
+    
+    // 방법2: CGLIB의 MethodProxy 사용
+    Object returnValue = methodProxy.invokeSuper(object, args);
+```
    
 
 
