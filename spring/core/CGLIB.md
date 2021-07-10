@@ -46,8 +46,8 @@ public class PersonService {
 }
 ```
 2가지 메서드를 가진 `PersonService`가 있다고 가정한다.      
-   
-## Enhancer 적용   
+      
+## 일반적인 CGLIB 프록시 적용   
 `sayHello()` 메소드에 대한 호출을 가로챌 간단한 프록시 클래스를 만들고자 한다.      
          
 ```java
@@ -71,8 +71,8 @@ assertEquals("Hello Tom!", res);
 새로운 값에 `CallBack`를 인터페이스 상속한 `FixedValue`로 형변환 시켜 콜백 동작을 지원하도록 만든 것이다.      
 
 프록시의 첫 번째 버전에는 프록시가 가로채야 할 메서드와 수퍼클래스에서 호출해야 하는 메서드를 결정할 수 없기 때문에 몇 가지 단점이 있습니다.   
-
-## MethodInterceptor   
+   
+## MethodInterceptor 콜백 적용  
 `MethodInterceptor`인터페이스를 이용하면       
 프록시의 모든 호출을 가로채고 특정 호출을 수행할지 또는 상위클래스의 메서드를 실행할지 결정할 수 있다.     
 
@@ -108,6 +108,17 @@ enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
 이 과정에서 `toString()` 또는 `hashCode()` 메서드는 `Object`에 속하기에 가로채지 않고       
 `lengthOfName()` 메서드 또한 반환 유형이 정수이므로 가로채지 않는다.       
    
+## Bean Generator  
+```java
+BeanGenerator beanGenerator = new BeanGenerator();
 
+beanGenerator.addProperty("name", String.class);
+Object myBean = beanGenerator.create();
+Method setter = myBean.getClass().getMethod("setName", String.class);
+setter.invoke(myBean, "some string value set by a cglib");
+
+Method getter = myBean.getClass().getMethod("getName");
+assertEquals("some string value set by a cglib", getter.invoke(myBean));
+```
 
 
