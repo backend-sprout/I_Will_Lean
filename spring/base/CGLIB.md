@@ -209,18 +209,27 @@ public class MemberServiceImpl implements MemberService {
 ```java
         Enhancer enhancer = new Enhancer();                         // 1. Enhancer 객체를 생성
         enhancer.setSuperclass(MemberServiceImpl.class);            // 2. setSuperclass() 메소드에 프록시할 클래스 지정
-        enhancer.setCallback(NoOp.INSTANCE);                        // 3. 콜백 지정 
+        enhancer.setCallback(NoOp.INSTANCE);                        // 3. 콜백 지정, 아무 작업도 수행하지 않고 곧바로 원본 객체를 호출한다.
         Object obj = enhancer.create();                             // 4. enhancer.create()로 프록시 객체 생성
         MemberServiceImpl memberService = (MemberServiceImpl) obj;  // 5. 프록시 형변환을 통해서 간접 접근 
         memberService.regist(new Member());             
         memberService.getMember("madvirus");                        
 ```
 
-## MethodInterceptor 사용하여 프록시 객체 다루기    
-MemberServiceImpl 객체를 생성해서 실행하는 것과 별반 차이가 없어보인다.    
-이는 프록시 객체가 단순히 원본 객체의 메소드를 직접적으로 호출하기 때문이다.    
-하지만, 대부분의 프록시 객체는 원본 객체에 접근하기 전에 별도의 작업을 수행하며,    
-CGLIB는 Callback을 사용해서 별도 작업을 수행할 수 있도록 하고 있다.
+## MethodInterceptor 사용하여 프록시 객체 다루기     
+`MemberServiceImpl` 객체를 생성해서 실행하는 것과 별반 차이가 없어보인다.       
+이는 프록시 객체가 단순히 원본 객체의 메소드를 직접적으로 호출하기 때문이다.(NoOp.INSTANCE)           
+    
+하지만, **대부분의 프록시 객체는 원본 객체에 접근하기 전에 별도의 작업을 수행**하며,       
+`CGLIB`는 `Callback`을 사용해서 별도 작업을 수행할 수 있도록 하고 있다.    
+        
+`CGLIB`가 제공하는 `Callback` 중 가장 많이 사용되는 것은 `net.sf.cglib.proxy.MethodInterceptor` 이다.         
+`MethodInterceptor`는 프록시와 원본 객체 사이에 위치하여 메소드 호출을 조작할 수 있도록 해 준다.        
 
-CGLIB가 제공하는 여러가지 Callback 중 앞서 코드에서도 나왔던 net.sf.cglib.proxy.NoOp 는 아무 작업도 수행하지 않고 곧바로 원본 객체를 호출하는 Callback 이다
+프록시 객체에 대한 모든 호출이 MethodInterceptor를 거친뒤에 원본 객체에 전달된다.    
+따라서, MethodInterceptor를 사용하면 원본 객체 대신 다른 객체의 메소드를 호출할 수 있도록 할 수 있으며,    
+심지어 원본 객체에 전달될 인자의 값을 변경할 수도 있다.
 
+
+
+ 
