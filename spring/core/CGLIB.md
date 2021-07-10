@@ -178,9 +178,9 @@ assertEquals("first behaviour", mixinDelegate.first());
 assertEquals("second behaviour", mixinDelegate.second());
 ```   
 `mixinDelegate` 에서 메소드를 호출하면 `Class1` 및 `Class2` 에서 구현이 호출된다.     
-
-# 깊이 있게 파보기   
-## Enhancer를 사용한 프록시 객체 생성 및 MethodInterceptor 사용하기   
+    
+# Enhancer를 사용한 프록시 객체 생성 및 MethodInterceptor 사용하기     
+## 초기 코드 사용      
 CGLIB를 사용하여 프록시를 생성할 때에는 크게 크게 두가지 작업을 필요로 한다.
    
 * **`net.sf.cglib.proxy.Enhancer` :** 클래스를 사용하여 원하는 프록시 객체 만든다.   
@@ -216,5 +216,11 @@ public class MemberServiceImpl implements MemberService {
         memberService.getMember("madvirus");                        
 ```
 
+## MethodInterceptor 사용하여 프록시 객체 다루기    
+MemberServiceImpl 객체를 생성해서 실행하는 것과 별반 차이가 없어보인다.    
+이는 프록시 객체가 단순히 원본 객체의 메소드를 직접적으로 호출하기 때문이다.    
+하지만, 대부분의 프록시 객체는 원본 객체에 접근하기 전에 별도의 작업을 수행하며,    
+CGLIB는 Callback을 사용해서 별도 작업을 수행할 수 있도록 하고 있다.
 
+CGLIB가 제공하는 여러가지 Callback 중 앞서 코드에서도 나왔던 net.sf.cglib.proxy.NoOp 는 아무 작업도 수행하지 않고 곧바로 원본 객체를 호출하는 Callback 이다
 
