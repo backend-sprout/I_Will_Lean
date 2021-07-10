@@ -108,17 +108,22 @@ enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
 이 과정에서 `toString()` 또는 `hashCode()` 메서드는 `Object`에 속하기에 가로채지 않고       
 `lengthOfName()` 메서드 또한 반환 유형이 정수이므로 가로채지 않는다.       
    
-## Bean Generator  
+## BeanGenerator    
+기존에 존재하는 객체가 아닌 완전 새로운 객체를 만들어서도 프록시를 진행할 수 있다.   
+`BeanGenerator`는 동적으로 빈을 생성하고 `setter` 및 `getter` 메서드와 함께 `필드`를 추가할 수 있다.   
+코드 생성 도구에서 간단한 POJO 개체를 생성하는 데 사용할 수 있습니다.
+
 ```java
-BeanGenerator beanGenerator = new BeanGenerator();
+BeanGenerator beanGenerator = new BeanGenerator();                      // 빈생성기 생성
+beanGenerator.addProperty("name", String.class);                        // 필드 생성(getter/setter 생성)   
+Object myBean = beanGenerator.create();                                 // 자바빈 생성 
 
-beanGenerator.addProperty("name", String.class);
-Object myBean = beanGenerator.create();
-Method setter = myBean.getClass().getMethod("setName", String.class);
-setter.invoke(myBean, "some string value set by a cglib");
+Method setter = myBean.getClass().getMethod("setName", String.class);   // 생성된 setName 메서드 리플랙션 반환 
+setter.invoke(myBean, "some string value set by a cglib");              // 새로운 값 지정 
 
-Method getter = myBean.getClass().getMethod("getName");
-assertEquals("some string value set by a cglib", getter.invoke(myBean));
+Method getter = myBean.getClass().getMethod("getName");                 // 생성된 getName 메서드 리플랙션 반환 
+String actual = getter.invoke(myBean);                                  // 값을 반환 받는다.  
+assertEquals("some string value set by a cglib", actual);               // 비교 
 ```
 
 
