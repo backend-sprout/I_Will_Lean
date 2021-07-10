@@ -127,13 +127,13 @@ assertEquals("some string value set by a cglib", actual);               // 비�
 ```
 
 ## MIXIN 만들기    
-`mixin`은 하나로 여러 객체를 결합할 수 있는 구조를 가지고 있다.          
-몇 가지 클래스의 동작을 포함하고 해당 동작을 **단일 클래스 또는 인터페이스로 노출할 수 있다.**       
-                 
+`mixin`은 하나로 여러 객체를 결합할 수 있는 구조를 가지고 있다.            
+몇 가지 클래스의 동작을 포함하고 해당 동작을 **단일 클래스 또는 인터페이스로 노출할 수 있다.**         
+                      
 `CGLIB 유지 mixin`은 하나의 객체로 여러 개체의 조합을 할 수 있다.             
 그러나 그렇게 하려면 **믹스인에 포함된 모든 객체가 인터페이스로 뒷받침되어야 한다.**     
-           
-두 인터페이스의 믹스인을 만들고 싶다고 가정해 보면 인터페이스와 해당 구현을 모두 정의해야 한다.   
+두 인터페이스의 믹스인을 만들고 싶다고 가정한다면 인터페이스와 해당 구현을 모두 정의해야 한다.      
+   
 ```java
 public interface Interface1 {
     String first();
@@ -158,6 +158,24 @@ public class Class2 implements Interface2 {
         return "second behaviour";
     }
 }
-```
+```   
+`Interface1` 및 `Interface2`의 구현을 구성하려면 둘 모두를 확장하는 인터페이스를 만들어야 한다.       
+     
+```java
+public interface MixinInterface extends Interface1, Interface2 { }
+```  
+   
+`MIXIN 클래스의create()` 메서드를 사용해서 우리의 행동을 포함 할 수 클래스 1 과 Class2의를 에 MixinInterface :
+   
+```java
+Mixin mixin = Mixin.create(
+  new Class[]{ Interface1.class, Interface2.class, MixinInterface.class },
+  new Object[]{ new Class1(), new Class2() }
+);
+MixinInterface mixinDelegate = (MixinInterface) mixin;
 
+assertEquals("first behaviour", mixinDelegate.first());
+assertEquals("second behaviour", mixinDelegate.second());
+```   
+`mixinDelegate` 에서 메소드를 호출하면 `Class1` 및 `Class2` 에서 구현이 호출된다.     
 
