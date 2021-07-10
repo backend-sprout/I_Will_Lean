@@ -32,7 +32,43 @@ CGLIB 프록시 생성과 관련된 모듈은 아래 같다.
 </dependency>
 ```
 
-# 예시   
+# 예시    
+## 초기 
+```java
+public class PersonService {
+    public String sayHello(String name) {
+        return "Hello " + name;
+    }
+
+    public Integer lengthOfName(String name) {
+        return name.length();
+    }
+}
+```
+2가지 메서드를 가진 `PersonService`가 있다고 가정한다.      
+   
+## Enhancer 적용   
+`sayHello()` 메소드에 대한 호출을 가로챌 간단한 프록시 클래스를 만들고자 한다.      
+         
+```java
+Enhancer enhancer = new Enhancer();
+enhancer.setSuperclass(PersonService.class);
+enhancer.setCallback((FixedValue) () -> "Hello Tom!");
+PersonService proxy = (PersonService) enhancer.create();
+
+String res = proxy.sayHello(null);
+
+assertEquals("Hello Tom!", res);
+```
+`Enhancer 클래스`는 동적으로 확장하여 프록시를 생성 할 수 있게 해준다.        
+`setSuperclass()`메서드에 `PersonService`를 주입하여 상위 클래스로 설정을 하고       
+`setCallback()`메서드에 새로운 값을 주입하여 실행 결과 값을 바꿀 수 있다.      
+이후, `create()`를 통해 프록시 객체를 반환해서 사용할 수 있다.      
+  
+참고로 `FixedValue`는 단순히 프록시에서 새로 설정한 값으로 반환시켜주는 콜백 인터페이스다.   
+즉, 프록시를 실행하면 ``FixedValue`릁 
+
+프록시에서 sayHello() 메서드를 실행 하면 프록시 메서드에 지정된 값이 반환되었습니다.
 
 
 
