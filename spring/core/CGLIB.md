@@ -109,9 +109,9 @@ enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
 `lengthOfName()` 메서드 또한 반환 유형이 정수이므로 가로채지 않는다.       
    
 ## BeanGenerator    
-기존에 존재하는 객체가 아닌 완전 새로운 객체를 만들어서도 프록시를 진행할 수 있다.   
-`BeanGenerator`는 동적으로 빈을 생성하고 `setter` 및 `getter` 메서드와 함께 `필드`를 추가할 수 있다.   
-코드 생성 도구에서 간단한 POJO 개체를 생성하는 데 사용할 수 있습니다.
+기존에 존재하는 객체가 아닌 완전 새로운 객체를 만들어서도 프록시를 진행할 수 있다.     
+`BeanGenerator`는 동적으로 빈을 생성하고 `setter` 및 `getter` 메서드와 함께 `필드`를 추가할 수 있다.     
+코드 생성 도구에서 간단한 POJO 개체를 생성하는 데 사용할 수 있다.     
 
 ```java
 BeanGenerator beanGenerator = new BeanGenerator();                      // 빈생성기 생성
@@ -124,6 +124,40 @@ setter.invoke(myBean, "some string value set by a cglib");              // 새�
 Method getter = myBean.getClass().getMethod("getName");                 // 생성된 getName 메서드 리플랙션 반환 
 String actual = getter.invoke(myBean);                                  // 값을 반환 받는다.  
 assertEquals("some string value set by a cglib", actual);               // 비교 
+```
+
+## MIXIN 만들기    
+`mixin`은 하나로 여러 객체를 결합할 수 있는 구조를 가지고 있다.          
+몇 가지 클래스의 동작을 포함하고 해당 동작을 **단일 클래스 또는 인터페이스로 노출할 수 있다.**       
+                 
+`CGLIB 유지 mixin`은 하나의 객체로 여러 개체의 조합을 할 수 있다.             
+그러나 그렇게 하려면 **믹스인에 포함된 모든 객체가 인터페이스로 뒷받침되어야 한다.**     
+           
+두 인터페이스의 믹스인을 만들고 싶다고 가정해 보면 인터페이스와 해당 구현을 모두 정의해야 한다.   
+```java
+public interface Interface1 {
+    String first();
+}
+
+public interface Interface2 {
+    String second();
+}
+
+// 믹스인
+public class Class1 implements Interface1 {
+    @Override
+    public String first() {
+        return "first behaviour";
+    }
+}
+
+// 믹스인 
+public class Class2 implements Interface2 {
+    @Override
+    public String second() {
+        return "second behaviour";
+    }
+}
 ```
 
 
