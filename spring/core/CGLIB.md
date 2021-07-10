@@ -69,9 +69,45 @@ assertEquals("Hello Tom!", res);
 참고로 `FixedValue`는 단순히 프록시에서 새로 설정한 값으로 반환시켜주는 콜백 인터페이스다.   
 사실, `setCallback`의 매개변수 타입으로 `CallBack`을 원하기에   
 새로운 값에 `CallBack`를 인터페이스 상속한 `FixedValue`로 형변환 시켜 콜백 동작을 지원하도록 만든 것이다.      
-    
 
+프록시의 첫 번째 버전에는 프록시가 가로채야 할 메서드와 수퍼클래스에서 호출해야 하는 메서드를 결정할 수 없기 때문에 몇 가지 단점이 있습니다.   
 
+## MethodInterceptor   
+`MethodInterceptor`인터페이스를 이용하면       
+프록시의 모든 호출을 가로채고 특정 호출을 수행할지 또는 상위클래스의 메서드를 실행할지 결정할 수 있다.     
+
+```java
+Enhancer enhancer = new Enhancer();
+enhancer.setSuperclass(PersonService.class);
+enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
+    if (method.getDeclaringClass() != Object.class && method.getReturnType() == String.class) {
+        return "Hello Tom!";
+    } else {
+        return proxy.invokeSuper(obj, args);
+    }
+});
+
+PersonService proxy = (PersonService) enhancer.create();
+
+assertEquals("Hello Tom!", proxy.sayHello(null));
+int lengthOfName = proxy.lengthOfName("Mary");
+ 
+assertEquals(4, lengthOfName);
+```
+```java
+enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
+    if (method.getDeclaringClass() != Object.class && method.getReturnType() == String.class) {
+        return "Hello Tom!";
+    } else {
+        return proxy.invokeSuper(obj, args);
+    }
+```
+`Object 클래스`가 아니며 반환형이 `String 클래스`에 대해서 새로운 값을 할당하게끔 했다.      
+나머지의 경우에는 기존 원본 클래스(상위 클래스)의 메서드 값을 그대로 사용하도록 했다.        
+         
+이 과정에서 `toString()` 또는 `hashCode()` 메서드는 `Object`에 속하기에 가로채지 않고       
+`lengthOfName()` 메서드 또한 반환 유형이 정수이므로 가로채지 않는다.       
+   
 
 
 
