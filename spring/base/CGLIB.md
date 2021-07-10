@@ -178,9 +178,9 @@ assertEquals("first behaviour", mixinDelegate.first());
 assertEquals("second behaviour", mixinDelegate.second());
 ```   
 `mixinDelegate` 에서 메소드를 호출하면 `Class1` 및 `Class2` 에서 구현이 호출된다.     
-    
-# Enhancer를 사용한 프록시 객체 생성 및 MethodInterceptor 사용하기     
-## 초기 코드 사용      
+
+# 깊게 공부하기 
+## Enhancer를 사용한 프록시 객체 생성 및 MethodInterceptor 사용하기 - 개요       
 CGLIB를 사용하여 프록시를 생성할 때에는 크게 크게 두가지 작업을 필요로 한다.
    
 * **`net.sf.cglib.proxy.Enhancer` :** 클래스를 사용하여 원하는 프록시 객체 만든다.   
@@ -219,17 +219,15 @@ public class MemberServiceImpl implements MemberService {
 ## MethodInterceptor 사용하여 프록시 객체 다루기     
 `MemberServiceImpl` 객체를 생성해서 실행하는 것과 별반 차이가 없어보인다.       
 이는 프록시 객체가 단순히 원본 객체의 메소드를 직접적으로 호출하기 때문이다.(NoOp.INSTANCE)           
-    
 하지만, **대부분의 프록시 객체는 원본 객체에 접근하기 전에 별도의 작업을 수행**하며,       
 `CGLIB`는 `Callback`을 사용해서 별도 작업을 수행할 수 있도록 하고 있다.    
-        
-`CGLIB`가 제공하는 `Callback` 중 가장 많이 사용되는 것은 `net.sf.cglib.proxy.MethodInterceptor` 이다.         
+
+`CGLIB`가 제공하는 `Callback` 중 가장 많이 사용되는 `MethodInterceptor`를 사용하면    
+원본 객체 대신 다른 객체의 메소드를 호출할 수 있도록 할 수 있으며, 심지어 원본 객체에 전달될 인자의 값을 변경할 수도 있다.    
+**프록시 객체에 대한 모든 호출이 `MethodInterceptor`를 거친뒤에 원본 객체에 전달된다.**        
+
+
 `MethodInterceptor`는 프록시와 원본 객체 사이에 위치하여 메소드 호출을 조작할 수 있도록 해 준다.        
-
-프록시 객체에 대한 모든 호출이 MethodInterceptor를 거친뒤에 원본 객체에 전달된다.    
-따라서, MethodInterceptor를 사용하면 원본 객체 대신 다른 객체의 메소드를 호출할 수 있도록 할 수 있으며,    
-심지어 원본 객체에 전달될 인자의 값을 변경할 수도 있다.
-
 
 
  
