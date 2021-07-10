@@ -216,18 +216,33 @@ public class MemberServiceImpl implements MemberService {
         memberService.getMember("madvirus");                        
 ```
 
-## MethodInterceptor 사용하여 프록시 객체 다루기     
-`MemberServiceImpl` 객체를 생성해서 실행하는 것과 별반 차이가 없어보인다.       
-이는 프록시 객체가 단순히 원본 객체의 메소드를 직접적으로 호출하기 때문이다.(NoOp.INSTANCE)           
-하지만, **대부분의 프록시 객체는 원본 객체에 접근하기 전에 별도의 작업을 수행**하며,       
-`CGLIB`는 `Callback`을 사용해서 별도 작업을 수행할 수 있도록 하고 있다.    
+## MethodInterceptor 사용하여 프록시 객체 다루기        
+앞선 예제는 단순히 원본 객체의 메소드를 직접적으로 호출하고 있다.(NoOp.INSTANCE)             
+하지만, **대부분의 프록시 객체는 원본 객체에 접근하기 전에 별도의 작업을 수행**하며,          
+`CGLIB`는 `Callback`을 사용해서 별도 작업을 수행할 수 있도록 하고 있다.               
+`Callback`을 사용해서 별도 작업을 수행하고자한다면 `MethodInterceptor`를 사용하면된다.       
 
-`CGLIB`가 제공하는 `Callback` 중 가장 많이 사용되는 `MethodInterceptor`를 사용하면    
-원본 객체 대신 다른 객체의 메소드를 호출할 수 있도록 할 수 있으며, 심지어 원본 객체에 전달될 인자의 값을 변경할 수도 있다.    
-**프록시 객체에 대한 모든 호출이 `MethodInterceptor`를 거친뒤에 원본 객체에 전달된다.**        
-
-
+[#](#) 
+  
 `MethodInterceptor`는 프록시와 원본 객체 사이에 위치하여 메소드 호출을 조작할 수 있도록 해 준다.        
+**프록시 객체에 대한 모든 호출이 `MethodInterceptor`를 거친뒤에 원본 객체에 전달**된다.          
+     
+```java
+public interface MethodInterceptor extends Callback {
+    Object intercept(Object var1, Method var2, Object[] var3, MethodProxy var4) throws Throwable;
+}
+```  
+    
+* **object :** 원본 객체
+* **method :** 원본 객체의 호출될 메소드를 나타내는 Method 객체
+* **args :** 원본 객체에 전달될 파라미터
+* **methodProxy :** CGLIB가 제공하는 원본 객체의 메소드 프록시
+     
+`MethodInterceptor`를 사용하면 **원본 객체 대신 다른 객체의 메소드를 호출 할 수 있다.**                  
+더불어, **원본 객체에 전달될 인자의 값을 변경할 수도 있다.**                  
+
+
+   
 
 
  
