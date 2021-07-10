@@ -179,3 +179,42 @@ assertEquals("second behaviour", mixinDelegate.second());
 ```   
 `mixinDelegate` 에서 메소드를 호출하면 `Class1` 및 `Class2` 에서 구현이 호출된다.     
 
+# 깊이 있게 파보기   
+## Enhancer를 사용한 프록시 객체 생성 및 MethodInterceptor 사용하기   
+CGLIB를 사용하여 프록시를 생성할 때에는 크게 크게 두가지 작업을 필요로 한다.
+   
+* **`net.sf.cglib.proxy.Enhancer` :** 클래스를 사용하여 원하는 프록시 객체 만든다.   
+* **`net.sf.cglib.proxy.Callback` :** 프록시 객체 조작하게 해준다.   
+
+```java
+public class MemberServiceImpl implements MemberService {
+    public MemberServiceImpl() {
+        System.out.println("create MemberServiceImpl");
+    }
+
+    public void regist(Member member) {
+        System.out.println("MemberServiceImpl.regist");
+    }
+
+    public Member getMember(String id) {
+        System.out.println("MemberServiceImpl.getMember:" + id);
+        return new Member();
+    }
+}
+```
+   
+## Enhancer 클래스를 사용한 프록시 객체 생성 하기  
+이제 `Enhancer 클래스`를 사용하여 `MemberServiceImpl 클래스`의 프록시 객체를 생성하면 아래와 같다.   
+
+```java
+        Enhancer enhancer = new Enhancer();                         // 1. Enhancer 객체를 생성
+        enhancer.setSuperclass(MemberServiceImpl.class);            // 2. setSuperclass() 메소드에 프록시할 클래스 지정
+        enhancer.setCallback(NoOp.INSTANCE);                        // 3. 콜백 지정 
+        Object obj = enhancer.create();                             // 4. enhancer.create()로 프록시 객체 생성
+        MemberServiceImpl memberService = (MemberServiceImpl) obj;  // 5. 프록시 형변환을 통해서 간접 접근 
+        memberService.regist(new Member());             
+        memberService.getMember("madvirus");                        
+```
+
+
+
