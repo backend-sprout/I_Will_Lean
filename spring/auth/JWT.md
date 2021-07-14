@@ -165,3 +165,14 @@ Authorization: <type> <credentials>
 탈취당했을 때 저장소에서 `Refresh Token` 정보를 삭제하면        
 `Access Token` 만료 후에 재발급이 안되게 **강제 로그아웃 처리가 가능하다**    
 **일반적으로 Redis 많이 사용한다.**         
+        
+## Refresh Token 으로 Access Token 재발급 시나리오  
+1. `access token`으로 요청을 마구 보내던 클라이언트는 유효기간이 얼마 남지 않았음을 확인    
+2. `access token`이 만료되었거나 만료가 근접한 시점에 **재발급을 위해 `access token + refresh token` 을 함께 보냄**    
+3. 서버는 `refresh token`의 만료 여부를 확인
+4. `access token`으로 유저 정보 (username 또는 userid) 를 획득하고      
+   저장소에 해당 유저 정보를 `key 값`으로 한 `value`가 `refresh token`과 일치하는지 확인   
+   `{username : refreshtoken}`  
+5. 3~4번의 검증이 끝나면 **새로운 토큰 세트 (access + refresh) 발급**     
+   `refreshtoken`도 새롭게 발급하는 것이다.        
+6. 서버는 `refresh token 저장소`의 `value` 업데이트    
