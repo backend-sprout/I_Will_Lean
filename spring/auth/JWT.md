@@ -55,7 +55,15 @@ Authorization: <type> <credentials>
 페이로드는 클레임(claims)을 포한한다.           
 클레임은 엔터티(일반적으로 사용자) 및 추가 데이터에 대한 설명이다.                
 클레임에는 `등록(register)`, `공개(public)`, `비공개(private)`라는 세 가지 유형이 있다.                  
-    
+ 
+```json
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "admin": true
+}
+```
+
 #### Register claims 
 필수는 아니지만 유용한 클레임을 제공하기 위해 권장되는 미리 정의된 클레임 집합        
 
@@ -68,16 +76,25 @@ Authorization: <type> <credentials>
 * **jti:** JWT의 고유 식별자
 * [기타 등등](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1)    
    
-#### public claims    
-JWT 사용자들이 추가할 수 있는 커스텀 클레임이다.       
-그러나 다른 클레임과의 충돌 방지를 위해 IANA JSON 웹 토큰 레지스트리에 정의하거나     
-충돌 방지 네임스페이스를 포함하는 URI로 정의해야 한다.     
+#### Public claims    
+JWT 사용자들이 마음대로 정의할 수 있는 클레임이다.       
+그러나 다른 클레임과의 충돌 방지를 위해 `IANA JSON 웹 토큰 레지스트리`에 정의하거나     
+`충돌 방지 네임스페이스`를 포함하는 URI로 정의해야 한다.       
 
-### Signature   
-서버에서 토큰이 유효한지 검증하기 위한 문자열    
-`Header + Payload + Secret Key`로 값을 생성하므로 데이터 변조 여부를 판단 가능할 수 있다.    
-`Secret Key`는 노출되지 않도록 서버에서 잘 관리할 필요가 있다.    
+#### Private claims   
+사용에 동의하고 등록된 클레임이나 공개 클레임이 아닌      
+단순히 당사자 간에 정보를 공유하기 위해 생성된 커스텀 클레임이다.      
     
+### Signature      
+서버에서 토큰이 유효한지 검증하기 위한 문자열이다.      
+`Header + Payload + Secret Key`로 값을 생성하기에 **데이터 변조 여부를 판단할 수 있다.**          
+`Secret Key`는 노출되지 않도록 서버에서 잘 관리할 필요가 있다.     
+   
+```json
+HMACSHA256(
+  base64UrlEncode(header) + "." + base64UrlEncode(payload), secret
+)
+```
 
 
 
