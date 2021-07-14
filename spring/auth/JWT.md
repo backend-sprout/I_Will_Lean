@@ -99,12 +99,11 @@ HMACSHA256(
 
 
 ## 동작 원리
-    
+**http_request_message header**
 ```http
-# http_request_message header
 Authorization: <type> <credentials> 
 ```  
-  
+     
 일반적으로 [Bearer스키마](https://gist.github.com/egoing/cac3d6c8481062a7e7de327d3709505f)를 사용하여 **Authorization 헤더에 JWT를 보낸다.**    
 `Request Header`에 담겨져 오기 때문에 `Header 값(Authorization)`을 확인해서 가져올 수 있다.       
           
@@ -119,3 +118,20 @@ JWT가 유요할 경우 사용자는 보호된 리소스에 액세스할 수 있
    예를 들어, 일반적인 OpenID Connect 호환 웹 애플리케이션은 `/oauth/authorize` 사용하여 엔드포인트를 통과한다.   
 2. 권한이 부여되면 `권한 서버`는 **애플리케이션에 액세스 토큰을 반환한다.**      
 3. 애플리케이션은 액세스 토큰을 사용하여 보호된 리소스(예: API)에 액세스합니다.    
+
+### 토큰 인증 타입  
+```http
+Authorization: <type> <credentials> 
+```  
+`<type>` 부분에 들어갈 값으로     
+엄격한 규칙이 있는건 아니고 일반적으로 많이 사용되는 형태라고 생각하면 된다.     
+        
+|토큰 인증 타입|설명|
+|--|-----|
+|Basic|사용자 아이디와 암호를 Base64 로 인코딩한 값을 토큰으로 사용|
+|Bearer|JWT 또는 OAuth 에 대한 토큰을 사용|
+|Digest|서버에서 난수 데이터 문자열을 클라이언트에 보냄<br>클라이언트는 사용자 정보와 nonce 를 포함하는 해시값을 사용하여 응답|
+|HOBA|전자 서명 기반 인증|
+|Mutual|암호를 이용한 클라이언트-서버 상호 인증|
+|AWS4-HMAC-SHA256|AWS 전자 서명 기반 인증|
+  
