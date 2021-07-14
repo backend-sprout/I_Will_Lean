@@ -13,7 +13,7 @@ JWT는 `Header`, `Payload`, `Signature` 3 개의 부분으로 구성되어져 �
 쿠키나 세션을 이용한 인증보다 안전하고 효율적이다.(이 부분은 상황마다 다르다.)     
     
 ```http
-# http request message header
+# http_request_message header
 Authorization: <type> <credentials> 
 ```
 
