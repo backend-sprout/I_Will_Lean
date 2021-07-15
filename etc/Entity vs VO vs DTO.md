@@ -66,9 +66,9 @@ public ResponseEntity<User> showArticle(@PathVariable long id) {
 `DTO`는 `View`와 `Controller`간의 데이터 통신에서 사용되고       
 `Domain`은 도메인 로직을 수행하는 어느 곳에서 사용되어야 한다.       
 **그렇다면 DTO 에서 Domain 으로 변환하는 과정은 어느 레이어에서 진행해야할지에 대한 의문은 남아있다.🤔**         
-       
-객체의 생성과 관리는 해당 객체가 필요한 지점에서 진행이 되는 것이 좋다.               
-즉, `DTO`는 `View`와 `Controller`간의 데이터 통신에서 사용되기에 `Controller`에 위치되는 것이 좋다.         
+         
+객체의 생성과 관리는 해당 객체가 필요한 시점에서 진행이 되는 것이 좋다.                 
+즉, `DTO`는 `View`와 `Controller`간의 데이터 통신에서 사용되기에 `Controller`에 위치되는 것이 좋다.          
 
 
 
