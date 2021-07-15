@@ -14,10 +14,11 @@ Entity vs VO vs DTO
 ![mvc](https://user-images.githubusercontent.com/50267433/125761569-8ac8b212-4a22-4fb2-8fe2-20bf05017525.png)
 
 이를 알기 위해서, 현재 웹 아키텍처에서 가장 많이 사용되고 있는 `MVC 패턴`에 대해서 알아보자      
-`MVC 패턴`은 구성 요소를 `Model`과 `View` 그리고 `Controller`라는 **세 가지 역할로 구분하는 디자인 패턴**이다.     
-여기서 눈여겨 볼 점은 비즈니스 처리 결과인 `Model`과 UI영역인 `View`는 서로의 존재를 인지하지 못하고         
-`Controller`가 중간 매개체가 되어 `Model`과 `View`를 연결해준다.     
-
+MVC 패턴은 구성 요소를 `Model`과 `View` 그리고 `Controller`라는 **세 가지 역할로 구분하는 디자인 패턴**이다.     
+          
+          
+`비즈니스 처리 결과인 Model`과 `UI 영역인 View`는 서로를 인지하지 못하고 `Controller`가 `Model`과 `View`를 연결해주며           
+즉, 실제 비즈니스 로직과 Model 
 
 
 
