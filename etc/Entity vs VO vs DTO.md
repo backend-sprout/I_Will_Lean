@@ -13,7 +13,7 @@ Entity vs VO vs DTO
 
 ![mvc](https://user-images.githubusercontent.com/50267433/125761569-8ac8b212-4a22-4fb2-8fe2-20bf05017525.png)
 
-이를 알기 위해서, 현재 웹 아키텍처에서 가장 많이 사용되고 있는 `MVC 패턴`에 대해서 알아보자      
+`DTO 의 핵심 가치`를 알기 위해서, 현재 웹 아키텍처에서 가장 많이 사용되고 있는 `MVC 패턴`에 대해서 알아보자      
 MVC 패턴은 구성 요소를 `Model`과 `View` 그리고 `Controller`라는 **세 가지 역할로 구분하는 디자인 패턴**이다.     
           
           
