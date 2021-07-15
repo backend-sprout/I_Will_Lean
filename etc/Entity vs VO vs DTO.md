@@ -63,6 +63,9 @@ public ResponseEntity<User> showArticle(@PathVariable long id) {
   * 또한 User의 속성이 변경되면, View가 전달받을 JSON 및 Js 코드에도 변경을 유발하기에 상호간 강하게 결합된다.     
 
 ## MVC Pattern과 Layered Architecture     
+기능을 차츰 구현하거나 서비스가 점점 확장되면서 `Controller`에서 모든 작업을 처리하는 것은 힘들어졌다.    
+
+
 
 
 ## DTO 변환 위치           
