@@ -61,7 +61,10 @@ public ResponseEntity<User> showArticle(@PathVariable long id) {
 * **UI 계층에서 Model의 메서드를 호출하거나 상태를 변경시킬 위험이 존재한다.**    
   * Model과 View가 강하게 결합되어, View의 요구사항 변화가 Model에 영향을 끼치기 쉽다.     
   * 또한 User의 속성이 변경되면, View가 전달받을 JSON 및 Js 코드에도 변경을 유발하기에 상호간 강하게 결합된다.     
-        
+
+## MVC Pattern과 Layered Architecture     
+
+
 ## DTO 변환 위치           
 `DTO`는 `View`와 `Controller`간의 데이터 통신에서 사용되고       
 `Domain`은 도메인 로직을 수행하는 어느 곳에서 사용되어야 한다.       
