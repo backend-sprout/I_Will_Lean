@@ -95,5 +95,8 @@ public ResponseEntity<User> showArticle(@PathVariable long id) {
 
 
 # 참고 
-[#](https://www.slipp.net/questions/93)
-[#](https://xlffm3.github.io/spring%20&%20spring%20boot/DTOLayer/)
+[#](https://www.slipp.net/questions/93)    
+[#](https://xlffm3.github.io/spring%20&%20spring%20boot/DTOLayer/)   
+[#](https://github.com/HomoEfficio/dev-tips/blob/master/DTO-DomainObject-Converter.md)       
+[#](https://woowacourse.github.io/tecoble/post/2021-05-16-dto-vs-vo-vs-entity/)          
+[#](https://dev-splin.github.io/spring/Spring-Entity-DTO-VO/)    
