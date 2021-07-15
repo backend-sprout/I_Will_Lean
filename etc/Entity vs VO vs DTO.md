@@ -9,7 +9,7 @@ Entity vs VO vs DTO
 > DTO = Domain Information + View Information      
 
 `DTO`는 `데이터 전송 객체`로 흔히 **레이어간의 전송에 사용된다고 알려져있는데 반은 이는 `잘못된 개념`이다.❌**         
-사실 `DTO 의 핵심 가치`는 **도메인 로직과 비즈니스 로직을 분리**하는 것이다.           
+사실 `DTO 의 핵심 가치`는 **비즈니스 로직과 UI로직을 분리**하는 것이다.           
 
 ![mvc](https://user-images.githubusercontent.com/50267433/125761569-8ac8b212-4a22-4fb2-8fe2-20bf05017525.png)
 
