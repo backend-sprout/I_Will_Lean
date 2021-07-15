@@ -14,54 +14,67 @@ Entity vs VO vs DTO
 ![mvc](https://user-images.githubusercontent.com/50267433/125761569-8ac8b212-4a22-4fb2-8fe2-20bf05017525.png)
 
 `DTO 의 핵심 가치`를 알기 위해서, 현재 웹 아키텍처에서 가장 많이 사용되고 있는 `MVC 패턴`에 대해서 알아보자      
-MVC 패턴은 구성 요소를 `Model`과 `View` 그리고 `Controller`라는 **세 가지 역할로 구분하는 디자인 패턴**이다.     
-                    
-`비즈니스 처리 결과인 Model`과 `UI 영역인 View`가 서로를 인지하지 못하게 `Controller`가 연결해주고 있으며          
-`Controller`는 `View`로부터 들어온 사용자 요청을 해석하여        
-`Model`을 업데이트하거나 `Model`로부터 데이터를 받아 `View`로 전달하는 작업 등을 수행한다.            
-즉, `MVC 패턴`은 `Model`과 `View`를 분리함으로써 **서로의 의존성을 낮추고 독립적인 개발을 가능하게 한다.**       
-(모델을 교체하거나 뷰를 교체하더라도 강한 결합이 아니기에 유연한 대처가 가능하다는 뜻이기도 하다.)            
-      
+MVC 패턴은 구성 요소를 `Model`과 `View` 그리고 `Controller`라는 **세 가지 역할로 구분하는 디자인 패턴**이다.      
+       
+       
+`비즈니스 처리 결과인 Model`과 `UI 영역인 View`가 `Controller`와 연결되어 있으며               
+`Controller`는 View로 부터 들어온 클라이언트 요청을 해석하여        
+Model을 업데이트하거나 Model로부터 데이터를 받아 View로 전달하는 작업 등을 수행한다.            
+즉, `MVC 패턴`은 `Model`과 `View`를 분리함으로써 **서로의 의존성을 낮추고 독립적인 개발을 가능하게 해준다.**       
+이러한 MVC 패턴에서 `DTO`는 **View와 Controller 간의 데이터 통신시에 사용되는 데이터를 저장하는 역할을 맡고있다.**  
+     
 ![dto](https://user-images.githubusercontent.com/50267433/125815067-c61ce567-dbe8-4bb3-b42d-22bb328cccb8.png)
-        
-`DTO`는 **클라이언트 요청에 포함된 데이터를 담아 서버 측에 전달**하고,        
-또 **서버 측의 결과 데이터를 담아 클라이언트에 전달하는 역할**을 한다.         
-즉, **`View`와 `Controller`가 데이터를 서로 주고 받는 통신을 할 때 사용하는 객체다.**      
-      
-`DTO`가 `View 영역`에서 화면을 구성시키는 `View Information`을 포함하고 `View`와 맞닿아 의사소통하는 덕분에,             
-**Domain 객체는 `View`에 구애받지 않고, 순수하게 도메인 로직만을 담당할 수 있게 되었다.**                  
-물론, `도메인` 자체를 이용할 수도 있겠지만 불필요한 도메인 데이터 및 로직을 노출 시키며     
+    
+
+**DTO의 역할** 
+* 클라이언트 요청에 포함된 데이터를 담아 서버 측에 전달 
+* 서버 측의 결과 데이터를 담아 클라이언트에 전달    
+            
+결과적으로, `DTO`가 View와 맞닿아 의사소통하고 화면을 구성하는 `View Information`을 포함하는 덕분에,                
+**Domain 객체는 View와 관련된 로직을 신경쓰지 않고 순수하게 도메인 로직만을 담당할 수 있게 되었다.**                    
+                  
+물론, `View Information`이 별로 필요하지 않다면 Domain 객체를 이용할 수도 있다.                
+다만, 불필요한 도메인 데이터 및 로직을 노출 시키는지, 이로 인한 사이드 이펙트는 없는지는 고려해야할 사항이다.         
+더불어, JPA 사용시 `Entity`의 값이 바뀌면 DB에도 반영시키는 `Dirty Checking`이 발생하기에 `Entity`를 노출시키는 것은 매우 위험하다.
+
+**불필요한 데이터 로직을 포함한 경우**
+```java
+public class User {
+    private Long id;
+    private String name;
+    private String email;
+    private String password; //외부에 노출되서는 안 될 정보
+    public DetailInformation detailInformation; //외부에 노출되서는 안 될 정보
+}
+```
+```java
+@GetMapping
+public ResponseEntity<User> showArticle(@PathVariable long id) {
+    User user = userService.findById(id);
+    return ResponseEntity.ok().body(user);
+}
+```
+       
+
+도메인 Model의 모든 속성이 외부에 노출됩니다.
+UI 화면마다 사용하는 Model의 정보는 상이하지만, Model 객체는 UI에서 사용하지 않을 불필요한 데이터까지 보유하고 있습니다.
+비즈니스 로직 등 User의 민감한 정보가 외부에 노출되는 보안 문제와도 직결됩니다.
+UI 계층에서 Model의 메서드를 호출하거나 상태를 변경시킬 위험이 존재합니다.
+Model과 View가 강하게 결합되어, View의 요구사항 변화가 Model에 영향을 끼치기 쉽습니다.
+또한 User Entity의 속성이 변경되면, View가 전달받을 JSON 및 프론트엔드 Js 코드에도 변경을 유발하기 때문에 상호간 강하게 결합됩니다.
 
 
-
-
-
-
-
-
-
-   
-DTO가 View Information을 포함하고 View와 맞닿아 의사소통하는 덕분에,        
-Domain 객체는 View에 구애받지 않고, 순수하게 도메인 로직만을 담당하는 객체로 살아갈 수 있다.    
-하지만 View Information이 별로 필요하지 않다면,        
-굳이 DTO을 일부러 따로 만들 필요 없이 Domain 객체만 사용해도 괜찮다.        
-어차피 View는 DTO인지 Domain 객체인지 알지도 못하고 알 필요도 없다. 그저 View를 그리는데 필요한 정보만 모두 담겨있다면 무엇이든 상관없다.       
-   
-   
-Domain 객체만으로 모두 커버할 수 있다면 가장 단순하고 우아한 해법일 것이다. 하지만 View는 기대만큼 단순하지 않기 마련이다. 그래서 View Information이 필요하고 결국 DTO가 필요한 경우가 많다.
 
  
+
+
+
+
+
+
+
  
-   
-그렇기에 DTO에 대해서 다시 정의 내리자면 아래와 같다.    
-`DTO`는 **클라이언트 요청에 포함된 데이터를 담아 서버 측에 전달**하고, 또 **서버 측의 결과 데이터를 담아 클라이언트에 전달하는 역할**을 한다.       
 
-
-
-
- 
-
-# En
 
 
 # 참고 
