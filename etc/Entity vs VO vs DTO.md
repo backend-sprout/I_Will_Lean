@@ -3,7 +3,7 @@ Entity vs VO vs DTO
    
 자바 프로그래밍 공부를 접한 사람들은 누구나 접해봤을 구성 요소들이다.       
 하지만, 흔히 `Entity == VO` 또는 `VO == DTO` 또는 `Entity == DTO`라는 잘못된 정보가 너무 많다.  
-이러한 잘못된 정보를 최대한 교정하고자 이 게시글을 작성하고자 한다.   
+이러한 잘못된 정보를 최대한 교정하고자 내 자신도 개념을 확립하고자 이 게시글을 작성하려 한다.   
 
 # DTO(Data Transfer Object)  
 > DTO = Domain Information + View Information      
