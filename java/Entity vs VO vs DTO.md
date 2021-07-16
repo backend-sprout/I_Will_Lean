@@ -28,8 +28,8 @@ VO는 객체 자체로 **하나의 값 단위**이다.
     
 자바에서는 `==` 비교는 '메모리 주소'값이 동일한지 비교를 한다.             
 더불어, `equals()`도 기본 세팅은 주소값이 동일한지 비교를 한다.          
-더 나아가, Hash 관련 컬렉션프레임워크를 이용한다면 `hashcode` 가 동일한지도 비교를 한다. ([이유](https://github.com/springframework-sprout/spring-expert/blob/main/java/Hash%20Conflict.md))
-
+더 나아가, Hash 관련 컬렉션프레임워크를 이용한다면 `hashcode` 가 동일한지도 비교를 한다. ([해시충돌 방지](https://github.com/springframework-sprout/spring-expert/blob/main/java/Hash%20Conflict.md))   
+  
 하지만, VO는 `하나의 값 단위`이기에 값을 기준으로 비교를 하도록 Override를 해줘야한다.      
     
 ```java
