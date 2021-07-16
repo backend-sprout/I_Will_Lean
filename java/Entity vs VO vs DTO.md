@@ -24,51 +24,212 @@ VO는 도메인 객체의 일종이고 보통 기본 키로 식별 값을 갖는
 ## equals & hash code 재정의하기   
 VO는 객체 자체로 **하나의 값 단위**이다.      
 그렇기에, **객체에 속한 속성들이 하나라도 다를 경우 이는 다른 값으로 취급을 한다.**         
-반대로, **객체에 속한 속성들이 모두 같을 경우 이는 동일한 값으로 취급을 한다.**                
+**객체에 속한 속성들이 모두 같을 경우 이는 동일한 값으로 취급을 한다.**                
+         
+예를 들자면, **도시/지번/우편번호가 같더라도 동호수가 다르면 다른 집이다.**               
+이처럼 **모든 속성들에 대한 하나의 표현이 `값`이고 이를 객체로 나타낸것이 `VO`다.**          
+
+```java
+public class Address {
     
-자바에서는 `==` 비교는 '메모리 주소'값이 동일한지 비교를 한다.             
-더불어, `equals()`도 기본 세팅은 주소값이 동일한지 비교를 한다.          
+    private String city;         // 도시 
+    private String street;       // 지번/도로명주소 
+    private String zipcode;      // 우편 번호
+    private String roomNumber;   // 동호수 
+    
+    ... // 생략
+}
+```
+
+    
+자바에서는 `==` 비교는 '메모리 주소값'이 동일한지 비교를 한다.             
+더불어, `equals()`도 기본 세팅은 '메모리 주소값'이 동일한지 비교를 한다.          
 더 나아가, Hash 관련 컬렉션프레임워크를 이용한다면 `hashcode` 가 동일한지도 비교를 한다. ([해시충돌 방지](https://github.com/springframework-sprout/spring-expert/blob/main/java/Hash%20Conflict.md))        
-   
+
 하지만, **VO는 `하나의 값 단위`이기에 값을 기준으로 비교를 하도록 Override를 해줘야한다.**          
     
 ```java
-public class Point {
-    private int x;
-    private int y;
+public class Address {
 
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-  
+    private String city;         // 도시 
+    private String street;       // 지번/도로명주소 
+    private String zipcode;      // 우편 번호
+    private String roomNumber;   // 동호수 
+
+    ... // 생성자 생략  
+    ... // getter 생략       
+    
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final Point point = (Point) o;
-        return x == point.x && y == point.y;
+        Address address = (Address) o;
+        return Objects.equals(getCity(), address.getCity()) && 
+               Objects.equals(getStreet(), address.getStreet()) && 
+               Objects.equals(getZipcode(), address.getZipcode()) && 
+               Objects.equals(getRoomNumber(), address.getRoomNumber());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(getCity(), getStreet(), getZipcode(), getRoomNumber());
     }
     
 }
-```    
-이로써 VO의 주소값이 다르더라도 값이 동일하면 같은 객체로 인식하게 만들었다.         
-     
+```
+
+이로써 VO의 '메모리 주소값'이 다르더라도 모든 속성 값이 동일하면 같은 객체로 인식하게 만들었다.              
+            
 ## 수정자(setter)가 없는 불변 객체여야 한다.     
 VO는 객체 자체로 **하나의 값 단위**이다.              
-**그런데 만약 내부에 존재하는 값을 외부에서 막 이리저리 수정할 수 있다면? 🤔**         
-이는 `값`이라고는 볼 수 없으며 이로 인해 **추적이 불가하고, 복사될 때는 의도치 않은 객체들이 함께 변경되는 문제를 유발한다.**        
-      
+    
 **값은 불변하다**          
 숫자 `1, 2, 3, 4, ...` 와 알파벳 `a, b, c, d, ...` 같은 **값들은 항상 고정(불변)되어 있다.**            
 이는 VO도 마찬가지이며 되도록 **VO의 값은 변하지 않으며 값 하나당 하나의 메모리를 가지도록 하는 것이 좋은 전략이다.**          
-        
-**그렇다면 어떻게 값을 변하지 않게 만들 수 있을까? 🤔**      
+         
+```java
+public class Address {
+
+    private String city;         // 도시 
+    private String street;       // 지번/도로명주소 
+    private String zipcode;      // 우편 번호
+    private String roomNumber;   // 동호수 
+    
+    ... // 생성자 생략 
+    ... // getter 생략 
+    
+    public void setCity(String city) { 
+        this.city = city; 
+    }
+    public void setStreet(String street) { 
+        this.street = street; 
+    }
+    public void setZipcode(String zipcode) { 
+        this.zipcode = zipcode;
+    }
+    public void setRoomNumber(String roomNumber) {   
+        this.roomNumber = roomNumber;   
+    }
+    
+    ... // hash & equals 생략 
+}
+```
+
+**그런데 만약 내부에 존재하는 값을 외부에서 막 이리저리 수정할 수 있다면? 🤔**         
+이는 `값`이라고는 볼 수 없으며 이로 인해 **추적이 불가하고, 복사될 때는 의도치 않은 객체들이 함께 변경되는 문제를 유발한다.**        
+            
+**그렇다면 어떻게 값을 변하지 않게 만들 수 있을까? 🤔**               
+가장 쉬운 방법으로 처음 생성을 하고 값을 변하지 못하게 하도록 `setter` 를 제거하면 된다.        
+    
+```java
+public class Address {
+
+    private String city;         // 도시 
+    private String street;       // 지번/도로명주소 
+    private String zipcode;      // 우편 번호
+    private String roomNumber;   // 동호수 
+    
+    public Address(String city, String street, String zipcode, String roomNumber) {
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
+        this.roomNumber = roomNumber;
+    }
+    ... // getter 생략 
+    ... // hash & equals 생략 
+}
+```   
+인스턴스 필드들이 private 이기에 외부에서는 더이상 setter를 통해 값을 변경하지 못하게 되었다.         
+그런데 아직까지도 **내부에서 로직을 잘못 작성하면 값을 변경할 수 있는 가능성이 남아있다.**      
+   
+```java
+public class Address {
+
+    private final String city;         // 도시 
+    private final String street;       // 지번/도로명주소 
+    private final String zipcode;      // 우편 번호
+    private final String roomNumber;   // 동호수 
+    
+    public Address(String city, String street, String zipcode, String roomNumber) {
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
+        this.roomNumber = roomNumber;
+    } 
+    ... // getter 생략 
+    ... // hash & equals 생략 
+}
+```   
+이로써 완전한 불변객체가 되었다고 말을 할 수 있을 것 같다.      
+이전에 언급했던 `hash & equals 를 재정의`한다면 다른 '메모리 주소값'이라도 같은 객체로 인식을 할 것이다.         
+
+### 캐시 적용 
+```java
+public final class LottoNumber implements Comparable<LottoNumber> {
+
+    private static final Map<Integer, LottoNumber> CACHE;
+    private static final int MINIMUM = 1;
+    private static final int MAXIMUM = 45;
+
+    private final int lottoNumber;
+
+    static {
+        CACHE = new TreeMap<>();
+        for (int i = MINIMUM; i <= MAXIMUM; i++) {
+            CACHE.put(i, new LottoNumber(i));
+        }
+    }
+
+    private LottoNumber(int lottoNumber) {
+        validateRange(lottoNumber);
+        this.lottoNumber = lottoNumber;
+    }
+
+    public static final LottoNumber valueOf(String lottoNumber) {
+        return valueOf(Integer.valueOf(lottoNumber));
+    }
+
+    public static final LottoNumber valueOf(int lottoNumber) {
+        validateRange(lottoNumber);
+        return CACHE.get(lottoNumber);
+    }
+
+    private static final void validateRange(int lottoNumber) {
+        if (lottoNumber < MINIMUM || lottoNumber > MAXIMUM) {
+            throw new LottoNumberOutOfRangeException();
+        }
+    }
+    
+    ... // 생략
+}    
+```
+만약, 같은 메모리 주소를 반환하고자 한다면 캐시를 만들어 미리 저장했다가 반환하는 방식을 고려해도 좋을 것같다.    
+  
+### JPA에서의 VO
+JPA에서의 VO는 주로 Entity 클래스에 속한 인스턴스 필드로 사용된다.             
+즉, Entity와 매핑된 테이블의 하나의 **컬럼 역할**을 맡고 있다고 생각해도 좋다.          
+  
+```  
+@Embeddable  
+public class Address {
+                                 // @Column()을 입력해야하지만, 생략시 기본 전략으로 세팅된다.   
+    private String city;         // 도시 
+    private String street;       // 지번/도로명주소 
+    private String zipcode;      // 우편 번호
+    private String roomNumber;   // 동호수 
+    
+    public Address(String city, String street, String zipcode, String roomNumber) {
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipcode;
+        this.roomNumber = roomNumber;
+    }
+    
+    ... // getter 생략 
+    ... // hash & equals 생략 
+}
+```   
+
 
 
 
