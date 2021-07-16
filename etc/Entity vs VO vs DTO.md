@@ -92,22 +92,74 @@ public class QuestionController {
     }
     
     @PostMapping("/questions")
-    public ResponseEntity<?> save(HttpSession httpSession, @RequestBody QuestionSaveRequestDto questionSaveRequestDto) {
-        SocialUser loginUser = httpSession.getAttribute("loginUser");
+    public ResponseEntity<?> save(@RequestBody QuestionSaveRequestDto questionSaveRequestDto) {
         QuestionResponseDto questionResponseDto = new QuestionResponseDto(questionService.save(questionSaveRequestDto.entity()));
+        return ResponseEntity.ok().body(questionResponseDto);
+    }
+
+}
+```
+```java
+@Service
+public class QuestionService {
+    public Question save(SocialUser loginUser, Question newQuestion) {
+        Set<Tag> tags = tagService.processTags(newQuestion.getPlainTags());
+        Question savedQuestion = questionRepository.save(newQuestion);
+        return savedQuestion;
+    }
+}
+```    
+   
+그런데 만약, **`DTO`에서 `Entity`로 변환할 때 DB에서 데이터를 조회할 필요가 있다면 어떻게 될까?**           
+이 때는 컨트롤러에서 처리할 수가 없기에 **서비스에서 `DTO`에서 `Entity` 객체 변환을 담당하게 해야할 것이다.**      
+
+```java
+@RestController
+public class QuestionController {
+    
+    private final QuestionService questionService;
+    
+    public QuestionController(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+    
+    @PostMapping("/questions")
+    public ResponseEntity<?> save(@RequestBody QuestionSaveRequestDto questionSaveRequestDto) {
+        QuestionResponseDto questionResponseDto = new QuestionResponseDto(questionService.save(questionSaveRequestDto));
         return ResponseEntity.ok().body(questionResponseDto);
     }
 }
 ```
 ```java
+@Service
 public class QuestionService {
-  public Question save(SocialUser loginUser, Question newQuestion) {
-    Set<Tag> tags = tagService.processTags(questionDto.getPlainTags());
-    Question savedQuestion = questionRepository.save(newQuestion);
-    return savedQuestion;
-  }
+    public Question save(QuestionSaveRequestDto questionSaveRequestDto) {
+        Set<Tag> tags = tagService.processTags(questionSaveRequestDto.getPlainTags());
+        Question savedQuestion = questionRepository.save(questionSaveRequestDto.entity());
+        return savedQuestion;
+    }
+}
+``` 
+하지만, Service layer에서 `DTO`를 `DTO`에서 `Entity` 객체 변환을 담당하게 될 경우           
+해당 **Service를 사용하는 여러 Controller에서는 DTO 타입에 맞춰서 코드를 작성해야한다**는 문제가 발생한다.          
+     
+```java
+@RestController
+public class OtherController {
+    
+    ...// 생략
+    
+    @PostMapping("/others")
+    public ResponseEntity<?> save(HttpSession httpSession, @RequestBody QuestionSaveRequestDto questionSaveRequestDto) {
+        SocialUser loginUser = httpSession.getAttribute("loginUser");
+        QuestionResponseDto questionResponseDto = new QuestionResponseDto(questionService.save(questionSaveRequestDto));
+        return ResponseEntity.ok().body(questionResponseDto);
+    }
 }
 ```
+
+
+
 
 ### View -> Controller -> Service  
 
