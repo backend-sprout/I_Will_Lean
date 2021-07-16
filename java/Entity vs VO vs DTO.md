@@ -204,12 +204,15 @@ public final class LottoNumber implements Comparable<LottoNumber> {
 }    
 ```
 만약, 같은 메모리 주소를 반환하고자 한다면 캐시를 만들어 미리 저장했다가 반환하는 방식을 고려해도 좋을 것같다.    
-  
-### JPA에서의 VO
-JPA에서의 VO는 주로 Entity 클래스에 속한 인스턴스 필드로 사용된다.             
-즉, Entity와 매핑된 테이블의 하나의 **컬럼 역할**을 맡고 있다고 생각해도 좋다.          
-  
-```  
+     
+### JPA에서의 VO   
+JPA에서의 VO는 주로 Entity 클래스에 속한 인스턴스 필드로 사용된다.                   
+즉, Entity와 매핑된 테이블의 하나의 **컬럼 역할**을 맡고 있다고 생각해도 좋다.              
+그런데 **JPA에서의 VO는 문법상 파라미터가 없는 기본 생성자를 정의해야한다는 규칙때문에 final을 사용하지 못한다.**          
+왜냐하면 **final은 생성자 호출시 무조건 초기화가 되어야하는데 기본 생성자로 인해 초기화가 되지 않기 때문이다.**           
+(생성원리는 리플랙션을 이용한 강제 생성인데, 리플랙션에서 기본 생성자를 기반으로 강제 생성을 하기 때문이다.)        
+   
+```java  
 @Embeddable  
 public class Address {
                                  // @Column()을 입력해야하지만, 생략시 기본 전략으로 세팅된다.   
@@ -217,6 +220,9 @@ public class Address {
     private String street;       // 지번/도로명주소 
     private String zipcode;      // 우편 번호
     private String roomNumber;   // 동호수 
+      
+    private Address(){}    
+    // protected Address(){} , 둘중 하나 선택  
     
     public Address(String city, String street, String zipcode, String roomNumber) {
         this.city = city;
@@ -229,9 +235,8 @@ public class Address {
     ... // hash & equals 생략 
 }
 ```   
-
-
-
+그렇기에 위와 같이 `기본 생성자` + `private 인스턴스 필드` 사용을 기본적으로 하되         
+`final`을 사용하지 못하기에 값 변경에 대해서 주의해서 코드를 작성해야한다.           
 
 ## VO 정리  
 
