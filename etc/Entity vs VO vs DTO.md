@@ -262,7 +262,8 @@ public class OtherController {
 
 
 # 참고 
-[#](https://www.slipp.net/questions/93)    
+[VO(Value Object)란 무엇일까?](https://woowacourse.github.io/tecoble/post/2020-06-11-value-object/)      
+[#](https://www.slipp.net/questions/93)       
 [#](https://xlffm3.github.io/spring%20&%20spring%20boot/DTOLayer/)   
 [#](https://github.com/HomoEfficio/dev-tips/blob/master/DTO-DomainObject-Converter.md)       
 [#](https://woowacourse.github.io/tecoble/post/2021-05-16-dto-vs-vo-vs-entity/)          
