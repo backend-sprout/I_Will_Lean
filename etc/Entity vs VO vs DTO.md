@@ -81,7 +81,25 @@ public ResponseEntity<User> showArticle(@PathVariable long id) {
 객체의 생성과 관리는 해당 객체가 필요한 시점에서 진행이 되는 것이 좋다.                 
 즉, `DTO`는 `View`와 `Controller`간의 데이터 통신에서 사용되기에 `Controller`에 위치되는 것이 일반적이었다.         
 
-
+```java
+@RestController
+public class QuestionController {
+    
+    @GetMapping("/questions")
+    public void questions() {
+        
+    }
+}
+```
+```java
+public class QuestionService {
+  public Question createQuestion(SocialUser loginUser, Question newQuestion) {
+    Set<Tag> tags = tagService.processTags(questionDto.getPlainTags());
+    Question savedQuestion = questionRepository.save(newQuestion);
+    return savedQuestion;
+  }
+}
+```
 
 ### View -> Controller -> Service  
 
