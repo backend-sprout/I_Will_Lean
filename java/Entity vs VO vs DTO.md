@@ -20,17 +20,17 @@ VO는 도메인에서 한 개 또는 그 이상의 속성들을 묶어서 **특�
 물론, 자바에서는 메서드를 활용할 수 있기에 **값을 제공함에 있어서 더 많은 기능을 지원해줄 수 있다.**                  
        
 VO는 도메인 객체의 일종이고 보통 기본 키로 식별 값을 갖는 Entity와 구별해서 사용한다.        
-
-## equals & hash code  
+  
+## equals & hash code 재정의하기   
 VO는 객체 자체로 **하나의 값 단위**이다.      
 그렇기에, **객체에 속한 속성들이 하나라도 다를 경우 이는 다른 값으로 취급을 한다.**         
 반대로, **객체에 속한 속성들이 모두 같을 경우 이는 동일한 값으로 취급을 한다.**                
     
 자바에서는 `==` 비교는 '메모리 주소'값이 동일한지 비교를 한다.             
 더불어, `equals()`도 기본 세팅은 주소값이 동일한지 비교를 한다.          
-더 나아가, Hash 관련 컬렉션프레임워크를 이용한다면 `hashcode` 가 동일한지도 비교를 한다. ([해시충돌 방지](https://github.com/springframework-sprout/spring-expert/blob/main/java/Hash%20Conflict.md))   
-  
-하지만, VO는 `하나의 값 단위`이기에 값을 기준으로 비교를 하도록 Override를 해줘야한다.      
+더 나아가, Hash 관련 컬렉션프레임워크를 이용한다면 `hashcode` 가 동일한지도 비교를 한다. ([해시충돌 방지](https://github.com/springframework-sprout/spring-expert/blob/main/java/Hash%20Conflict.md))        
+   
+하지만, **VO는 `하나의 값 단위`이기에 값을 기준으로 비교를 하도록 Override를 해줘야한다.**          
     
 ```java
 public class Point {
@@ -56,13 +56,30 @@ public class Point {
     }
     
 }
-```
+```    
+이로써 VO의 주소값이 다르더라도 값이 동일하면 같은 객체로 인식하게 만들었다.         
+     
+## 수정자(setter)가 없는 불변 객체여야 한다.     
+VO는 객체 자체로 **하나의 값 단위**이다.              
+**그런데 만약 내부에 존재하는 값을 외부에서 막 이리저리 수정할 수 있다면? 🤔**         
+이는 `값`이라고는 볼 수 없으며 이로 인해 **추적이 불가하고, 복사될 때는 의도치 않은 객체들이 함께 변경되는 문제를 유발한다.**        
+      
+**값은 불변하다**          
+숫자 `1, 2, 3, 4, ...` 와 알파벳 `a, b, c, d, ...` 같은 **값들은 항상 고정(불변)되어 있다.**            
+이는 VO도 마찬가지이며 되도록 **VO의 값은 변하지 않으며 값 하나당 하나의 메모리를 가지도록 하는 것이 좋은 전략이다.**          
+        
+**그렇다면 어떻게 값을 변하지 않게 만들 수 있을까? 🤔**      
+
+
+
+## VO 정리  
 
 **참고**   
 VO와 비슷한 클래스가 있는데 바로 `String`이다.             
 `String`은 내부적으로 `equals()`를 `@Override`하여 값을 기준으로 비교를 한다.        
 그리고 `불변 객체`로서 최대한 특정 값에 대하여 동일한 메모리 주소를 반환하려고 한다.(`new`사용만 안하면 된다.)       
    
+
 # DTO(Data Transfer Object)  
 > DTO = Domain Information + View Information      
                 
@@ -313,6 +330,7 @@ public class OtherController {
 * 여러 Domain 객체로부터 조합되는 DTO의 경우 컨트롤러 계층에서 조합해야 하며 결국 응용 로직이 컨트롤러에 스며든다.       
 * 여러 Domain 객체를 조회하는 서비스를 각각 호출해야 하므로 의존하는 서비스의 갯수가 늘어날 수 있다.
 
+## DTO 정리   
 
 # 참고 
 [VO(Value Object)란 무엇일까?](https://woowacourse.github.io/tecoble/post/2020-06-11-value-object/)      
