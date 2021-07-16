@@ -62,11 +62,15 @@ public ResponseEntity<User> showArticle(@PathVariable long id) {
   * Model과 View가 강하게 결합되어, View의 요구사항 변화가 Model에 영향을 끼치기 쉽다.     
   * 또한 User의 속성이 변경되면, View가 전달받을 JSON 및 Js 코드에도 변경을 유발하기에 상호간 강하게 결합된다.     
 
-## MVC Pattern과 Layered Architecture     
-기능을 차츰 구현하거나 서비스가 점점 확장되면서 `Controller`에서 모든 작업을 처리하는 것은 힘들어졌다.    
-
-
-
+## MVC Pattern과 Layered Architecture        
+기능을 차츰 구현하거나 서비스가 점점 확장되면서 `Controller`에서 모든 작업을 처리하는 것은 힘들어졌다.          
+즉, `Controller`내의 중복된 코드가 많아지고 가독성이 떨어지게되면서 유지 보수하기 힘들어지게 되었다.           
+이를 해결하기 위해, **`유사한 관심사`들을 레이어로 나누고 추상화하여 수직적으로 배열하는 `Layered Architecture`가 등장했다.**      
+          
+`Layered Architecture`는 **유사한 관심사들을 레이어로 나누고 추상화하여 수직적으로 배열하는 아키텍처다.**         
+하나의 레이어는 **자신에게 주어진 고유한 역할을 수행**하고, **인접한 다른 레이어와 상호작용**한다.         
+이렇게 시스템을 레이어로 나누면 **시스템 전체를 수정하지 않고도 특정 레이어를 수정 및 개선할 수 있어 재사용성과 유지보수에 유리하다.**           
+  
 
 ## DTO 변환 위치           
 `DTO`는 `View`와 `Controller`간의 데이터 통신에서 사용되고       
