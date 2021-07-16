@@ -85,15 +85,23 @@ public ResponseEntity<User> showArticle(@PathVariable long id) {
 @RestController
 public class QuestionController {
     
-    @GetMapping("/questions")
-    public void questions() {
-        
+    private final QuestionService questionService;
+    
+    public QuestionController(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+    
+    @PostMapping("/questions")
+    public ResponseEntity<?> save(HttpSession httpSession, @RequestBody QuestionSaveRequestDto questionSaveRequestDto) {
+        SocialUser loginUser = httpSession.getAttribute("loginUser");
+        QuestionResponseDto questionResponseDto = new QuestionResponseDto(questionService.save(questionSaveRequestDto.entity()));
+        return ResponseEntity.ok().body(questionResponseDto);
     }
 }
 ```
 ```java
 public class QuestionService {
-  public Question createQuestion(SocialUser loginUser, Question newQuestion) {
+  public Question save(SocialUser loginUser, Question newQuestion) {
     Set<Tag> tags = tagService.processTags(questionDto.getPlainTags());
     Question savedQuestion = questionRepository.save(newQuestion);
     return savedQuestion;
