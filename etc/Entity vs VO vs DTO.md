@@ -5,13 +5,65 @@ Entity vs VO vs DTO
 하지만, 흔히 `Entity == VO` 또는 `VO == DTO` 또는 `Entity == DTO`라는 잘못된 정보가 너무 많다.  
 이러한 잘못된 정보를 최대한 교정하고자 그리고 내 자신도 개념을 확립하고자 이 게시글을 작성하게 되었다.   
 
-# Entity 
+# Entity
+
+
 # VO 
 
 # DTO(Data Transfer Object)  
 > DTO = Domain Information + View Information      
-> 레이어간의 전송에 사용되는 자료구조     
- 
+                
+DTO는 레이어간의 데이터 전송을 위해 사용되는 자료구조다.(데이터를 담는 바구니)         
+여러 레이어 사이에서 DTO를 사용할 수 있지만, 주로 View와 Controller 사이에서 데이터를 주고 받을 때 활용한다.    
+DTO는 getter/setter 메소드를 포함할 수 있으며 **이 외의 비즈니스 로직은 포함하지 않는다.**            
+
+```java
+public class MemberDto {
+    private String name;
+    private int age;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+```
+단순히 데이터를 넣고 빼는 역할밖에 하지 않기에 [객체라는 말 대신, 자료구조](https://github.com/kwj1270/TIL_CleanCode/blob/master/06%20%EA%B0%9D%EC%B2%B4%EC%99%80%20%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0.md)라는 말을 사용했다.         
+
+```java
+public class MemberDto {
+    private final String name;
+    private final int age;
+
+    public MemberDto(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+```
+한편, `setter`가 아닌 생성자를 이용해서 초기화하는 경우 불변 객체로 활용할 수 있다.            
+불변 객체로 만들면 데이터를 전달하는 과정에서 데이터가 변조되지 않음을 보장할 수 있다.            
+          
+## DTO 의 본질 
 `DTO`는 `데이터 전송 객체`로 흔히 **레이어간의 전송에 사용된다고 알려져있는데 반은 맞고✔ 반은 틀린 생각이다.❌**         
 사실 `DTO 의 핵심 가치`는 **Domain 로직과 UI 로직의 의존성을 낮추는 역할**을 하는 것이다.             
   
@@ -19,8 +71,7 @@ Entity vs VO vs DTO
 
 `DTO 의 핵심 가치`를 알기 위해서, 현재 웹 아키텍처에서 가장 많이 사용되고 있는 `MVC 패턴`에 대해서 알아보자      
 MVC 패턴은 구성 요소를 `Model`과 `View` 그리고 `Controller`라는 **세 가지 역할로 구분하는 디자인 패턴**이다.      
-       
-       
+         
 `비즈니스 처리 결과인 Model`과 `UI 영역인 View`가 `Controller`와 연결되어 있으며               
 `Controller`는 View로 부터 들어온 클라이언트 요청을 해석하여        
 Model을 업데이트하거나 Model로부터 데이터를 받아 View로 전달하는 작업 등을 수행한다.            
