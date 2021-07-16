@@ -7,8 +7,9 @@ Entity vs VO vs DTO
 
 # DTO(Data Transfer Object)  
 > DTO = Domain Information + View Information      
-  
-`DTO`는 `데이터 전송 객체`로 흔히 **레이어간의 전송에 사용된다고 알려져있는데 이는 `잘못된 개념`이다.❌**         
+> 레이어간의 전송에 사용되는 자료구조     
+ 
+`DTO`는 `데이터 전송 객체`로 흔히 **레이어간의 전송에 사용된다고 알려져있는데 반은 맞고✔ 반은 틀린 생각이다.❌**         
 사실 `DTO 의 핵심 가치`는 **Domain 로직과 UI 로직의 의존성을 낮추는 역할**을 하는 것이다.             
   
 ![mvc](https://user-images.githubusercontent.com/50267433/125761569-8ac8b212-4a22-4fb2-8fe2-20bf05017525.png)
@@ -71,7 +72,7 @@ public ResponseEntity<User> showArticle(@PathVariable long id) {
      
 `Layered Architecture`는 **유사한 관심사들을 레이어로 나누고 추상화하여 수직적으로 배열하는 아키텍처다.**         
 하나의 레이어는 **자신에게 주어진 고유한 역할을 수행**하고, **인접한 다른 레이어와 상호작용**한다.         
-이렇게 시스템을 레이어로 나누면 **시스템 전체를 수정하지 않고도 특정 레이어를 수정 및 개선할 수 있어 재사용성과 유지보수에 유리하다.**           
+이렇게 레이어로 나누면 **시스템 전체를 수정하지 않고도 특정 레이어를 수정 및 개선할 수 있어 재사용성과 유지보수에 유리하다.**           
    
 ## DTO 변환 위치           
 `DTO`는 `View`와 `Controller`간의 데이터 통신에서 사용되고       
@@ -157,12 +158,18 @@ public class OtherController {
     }
 }
 ```
-
-
-
-
-
+위 케이스 같은 경우는 `DTO`에서 `DTO`의 변환이 가능한 경우로 볼 수 있는데         
+만약, 알맞는 값이 없어서 해당 서비스에 맞는 DTO로 변환하지 못하는 경우에는 아에 그 서비스를 이용하기 힘들 것이다.          
+     
+**그렇다면 어떻게 해야할까? 🤔**         
+과거 개발자님들께서는 `transform tier`라는 별도의 **Converter 계층**을 두고 변환 로직을 모두 Converter에 담고,             
+각 Converter를 서비스에 주입해서 서비스가 `DTO`에서 `Entity` 객체간 변환을 Converter에게 위임해서 처리하게 했다.                 
+물론, 좋은 선택이었지만 한편으로 **불필요한 계층 생성 및 코드의 복잡성을 증가시키는건 아닐까?** 하는 의문점은 남아있다.     
+       
+이러한 의문에 [HomoEfficio 님](https://github.com/HomoEfficio)께서는 방향마다 다르게 보는 것이 낫다고 말씀해 주셨다.        
+       
 ### View -> Controller -> Service  
+
 
 ### View <- Controller <- Service
 
