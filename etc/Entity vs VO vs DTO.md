@@ -102,7 +102,7 @@ public class QuestionController {
 ```java
 @Service
 public class QuestionService {
-    public Question save(SocialUser loginUser, Question newQuestion) {
+    public Question save(Question newQuestion) {
         Set<Tag> tags = tagService.processTags(newQuestion.getPlainTags());
         Question savedQuestion = questionRepository.save(newQuestion);
         return savedQuestion;
@@ -150,13 +150,14 @@ public class OtherController {
     ...// 생략
     
     @PostMapping("/others")
-    public ResponseEntity<?> save(HttpSession httpSession, @RequestBody QuestionSaveRequestDto questionSaveRequestDto) {
-        SocialUser loginUser = httpSession.getAttribute("loginUser");
+    public ResponseEntity<?> save(@RequestBody OtherRequestDto otherRequestDto) {
+        QuestionSaveRequestDto = new QuestionSaveRequestDto(otherRequestDto.title(), otherRequestDto.content(), otherRequestDto.writer()); 
         QuestionResponseDto questionResponseDto = new QuestionResponseDto(questionService.save(questionSaveRequestDto));
         return ResponseEntity.ok().body(questionResponseDto);
     }
 }
 ```
+
 
 
 
