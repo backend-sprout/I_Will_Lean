@@ -621,9 +621,11 @@ public class OtherController {
 |로직 포함 여부|로직을 포함할 수 없다.|로직을 포함할 수 있다.|로직을 포함할 수 있다.|
 
 # 참고 
-[VO(Value Object)란 무엇일까?](https://woowacourse.github.io/tecoble/post/2020-06-11-value-object/)      
-[#](https://www.slipp.net/questions/93)       
-[#](https://xlffm3.github.io/spring%20&%20spring%20boot/DTOLayer/)   
-[#](https://github.com/HomoEfficio/dev-tips/blob/master/DTO-DomainObject-Converter.md)       
-[#](https://woowacourse.github.io/tecoble/post/2021-05-16-dto-vs-vo-vs-entity/)          
-[#](https://dev-splin.github.io/spring/Spring-Entity-DTO-VO/)    
+[자바 ORM 표준 JPA 프로그래밍](https://www.inflearn.com/course/ORM-JPA-Basic)   
+[DDD Start!](http://www.yes24.com/Product/Goods/27750871)     
+[VO(Value Object)란 무엇일까?](https://woowacourse.github.io/tecoble/post/2020-06-11-value-object/)        
+[DTO는 어느 레이어까지 사용하는 것이 맞을까?](https://www.slipp.net/questions/93)         
+[DTO의 사용 범위에 대하여](https://xlffm3.github.io/spring%20&%20spring%20boot/DTOLayer/)      
+[DTO, Domain Object, Converter](https://github.com/HomoEfficio/dev-tips/blob/master/DTO-DomainObject-Converter.md)         
+[DTO vs VO vs Entity](https://woowacourse.github.io/tecoble/post/2021-05-16-dto-vs-vo-vs-entity/)            
+[Spring : Entity, VO, DTO의 차이](https://dev-splin.github.io/spring/Spring-Entity-DTO-VO/)      
