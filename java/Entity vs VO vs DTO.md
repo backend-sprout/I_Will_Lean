@@ -24,7 +24,7 @@ Entity vs VO vs DTO
 3. ID(식별자)를 변경하지 않는 한, 내부 값을 변경해도 식별자를 통해 찾을 수 있다.                 
 4. Domain Logic(비즈니스 로직)을 포함하는 것이 좋고 Presentation Logic은 되도록 구현하면 안 된다.(getter)      
    
-## JPA에서의 Entity   
+## 📖 JPA에서의 Entity   
 
 
 
@@ -43,7 +43,7 @@ VO는 도메인에서 한 개 또는 그 이상의 속성들을 묶어서 **특�
        
 VO는 도메인 객체의 일종이고 보통 기본 키로 식별 값을 갖는 Entity와 구별해서 사용한다.        
   
-## equals & hash code 재정의하기   
+## 📖 equals & hash code 재정의하기   
 VO는 객체 자체로 **하나의 값 단위**이다.      
 그렇기에, **객체에 속한 속성들이 하나라도 다를 경우 이는 다른 값으로 취급을 한다.**         
 **객체에 속한 속성들이 모두 같을 경우 이는 동일한 값으로 취급을 한다.**                
@@ -102,7 +102,7 @@ public class Address {
 
 이로써 VO의 '메모리 주소값'이 다르더라도 모든 속성 값이 동일하면 같은 객체로 인식하게 만들었다.              
             
-## 수정자(setter)가 없는 불변 객체여야 한다.     
+## 📖 수정자(setter)가 없는 불변 객체여야 한다.     
 VO는 객체 자체로 **하나의 값 단위**이다.              
     
 **값은 불변하다**          
@@ -185,7 +185,7 @@ public class Address {
 이로써 완전한 불변객체가 되었다고 말을 할 수 있을 것 같다.      
 이전에 언급했던 `hash & equals 를 재정의`한다면 다른 '메모리 주소값'이라도 같은 객체로 인식을 할 것이다.         
 
-### 캐시 적용 
+### 📄 캐시 적용 
 ```java
 public final class LottoNumber implements Comparable<LottoNumber> {
 
@@ -227,7 +227,7 @@ public final class LottoNumber implements Comparable<LottoNumber> {
 ```
 만약, 같은 메모리 주소를 반환하고자 한다면 캐시를 만들어 미리 저장했다가 반환하는 방식을 고려해도 좋을 것같다.    
      
-### JPA에서의 VO   
+### 📄 JPA에서의 VO   
 JPA에서의 VO는 주로 Entity 클래스에 속한 인스턴스 필드로 사용된다.                   
 즉, Entity와 매핑된 테이블의 하나의 **컬럼 역할**을 맡고 있다고 생각해도 좋다.              
 그런데 **JPA에서의 VO는 문법상 파라미터가 없는 기본 생성자를 정의해야한다는 규칙때문에 final을 사용하지 못한다.**          
@@ -260,7 +260,7 @@ public class Address {
 그렇기에 위와 같이 `기본 생성자` + `private 인스턴스 필드` 사용을 기본적으로 하되         
 `final`을 사용하지 못하기에 값 변경에 대해서 주의해서 코드를 작성해야한다.           
 
-## VO 의 장점   
+## 📖 VO 의 장점   
 VO의 장점은 많지만 필자가 생각하는 장점은 아래와 같다.   
                                      
 1. 엔티티의 크기가 줄어들어 가독성이 높아진다.                            
@@ -269,7 +269,7 @@ VO의 장점은 많지만 필자가 생각하는 장점은 아래와 같다.
 4. 생성될 인스턴스가 정해져 있는 경우 미리 인스턴스를 생성해놓고 캐싱하여 성능을 높일 수 있다.       
 5. pubilc 한 메서드를 만들어 사용할 수 있기에 테스트 케이스가 많아진다.         
     
-## VO 정리  
+## 📖 VO 정리  
 VO는 객체 자체로 하나의 값 단위이다.      
 값 단위이기에 '메모리 주소값'이 아닌 모든 값들을 기준으로 동등하다 판단하고 불변해야한다는 특징을 가진다.            
 갑들을 기준으로 동등 판단을 위해 equals와 hash 를 재정의하고             
@@ -334,7 +334,7 @@ public class MemberDto {
 한편, `setter`가 아닌 생성자를 이용해서 초기화하는 경우 불변 객체로 활용할 수 있다.            
 불변 객체로 만들면 데이터를 전달하는 과정에서 데이터가 변조되지 않음을 보장할 수 있다.            
           
-## DTO 의 본질 
+## 📖 DTO 의 본질 
 흔히 `DTO의 핵심 가치`를 **레이어간의 전송에 사용된다고 알려져있는데 반은 맞고✔ 반은 틀린 생각이다.❌**         
 진짜 `DTO의 핵심 가치`는 **Domain 로직과 UI 로직의 의존성을 낮추는 역할**을 하는 것이다.               
    
@@ -388,7 +388,7 @@ public ResponseEntity<User> showArticle(@PathVariable long id) {
   * Model과 View가 강하게 결합되어, View의 요구사항 변화가 Model에 영향을 끼치기 쉽다.     
   * 또한 User의 속성이 변경되면, View가 전달받을 JSON 및 Js 코드에도 변경을 유발하기에 상호간 강하게 결합된다.     
 
-## MVC Pattern과 Layered Architecture        
+## 📖 MVC Pattern과 Layered Architecture        
 기능을 차츰 구현하거나 서비스가 점점 확장되면서 `Controller`에서 모든 작업을 처리하는 것은 힘들어졌다.          
 즉, `Controller`내의 중복된 코드가 많아지고 가독성이 떨어지게되면서 유지 보수하기 힘들어지게 되었다.           
 이를 해결하기 위해, **`유사한 관심사`들을 레이어로 나누고 추상화하여 수직적으로 배열하는 `Layered Architecture`가 등장했다.**      
@@ -399,7 +399,7 @@ public ResponseEntity<User> showArticle(@PathVariable long id) {
 하나의 레이어는 **자신에게 주어진 고유한 역할을 수행**하고, **인접한 다른 레이어와 상호작용**한다.         
 이렇게 레이어로 나누면 **시스템 전체를 수정하지 않고도 특정 레이어를 수정 및 개선할 수 있어 재사용성과 유지보수에 유리하다.**           
    
-## DTO 변환 위치           
+## 📖 DTO 변환 위치           
 `DTO`는 `View`와 `Controller`간의 데이터 통신에서 사용되고       
 `Domain`은 도메인 로직을 수행하는 어느 곳에서 사용되어야 한다.       
 **그렇다면 DTO 에서 Domain 으로 변환하는 과정은 어느 레이어에서 진행해야할지에 대한 의문은 남아있다.🤔**         
@@ -493,7 +493,7 @@ public class OtherController {
        
 이러한 의문에 [HomoEfficio 님](https://github.com/HomoEfficio)께서는 방향마다 다르게 보는 것이 낫다고 말씀해 주셨다.        
        
-### View -> DTO -> Domain  
+### 📄 View -> DTO -> Domain  
 `View -> DTO -> Domain` 객체 방향의 흐름에서는 **View에서 전달받은 정보만으로 Domain 객체를 구성할 수가 없다.**       
 예를 들면, **View에서는 ID만 전달하기도 하는데 ID만으로는 Domain 객체를 구성할 수 없다.**                     
 즉, **Repository를 통해 조회한 후에나 Domain 객체를 구성할 수 있다는 상황이 발생한다.**                         
@@ -517,7 +517,7 @@ public class OtherController {
 * Service는 Entity를 파라미터 타입으로 원할 경우 다양한 Controller에서 사용하기 편해진다.   
 * 마찬가지로 ID만 넘겨주는 것도 다양한 Controller에서 사용하기 편해진다.    
   
-### View <- DTO <- Domain
+### 📄 View <- DTO <- Domain
 필요한 모든 Domain 객체의 데이터는 서비스의 Repository를 통해 얻어올 수 있다.          
 또한 DTO에 전달할 데이터를 서비스단의 Domain 객체가 모두 가지고 있으므로                
 **서비스에서 Domain -> DTO 변환은 적극적으로 찬성하는 바이다.**           
@@ -531,7 +531,7 @@ public class OtherController {
 * 여러 Domain 객체로부터 조합되는 DTO의 경우 컨트롤러 계층에서 조합해야 하며 결국 응용 로직이 컨트롤러에 스며든다.       
 * 여러 Domain 객체를 조회하는 서비스를 각각 호출해야 하므로 의존하는 서비스의 갯수가 늘어날 수 있다.
 
-## DTO 정리   
+## 📖 DTO 정리   
 
 # 참고 
 [VO(Value Object)란 무엇일까?](https://woowacourse.github.io/tecoble/post/2020-06-11-value-object/)      
