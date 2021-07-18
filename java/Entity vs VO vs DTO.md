@@ -24,6 +24,7 @@ Entity vs VO vs DTO
 4. Domain Logic(비즈니스 로직)을 포함하는 것이 좋고 Presentation Logic은 되도록 구현하면 안 된다.(getter)     
 
 
+ 
 
 ## 
 
