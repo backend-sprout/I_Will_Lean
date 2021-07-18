@@ -582,6 +582,13 @@ public class OtherController {
 
 ## 📖 DTO 정리   
 
+# 총정리 
+|분류|DTO|VO|ENTITY|
+|----|---|--|------|
+|정의|레이어간 데이터 전송용 객체|값 표현용 객체|DB 테이블 매핑용 객체|
+|상태 변경 여부|가변 또는 불변 객체|불변 객체|가변 또는 불변 객체|
+|로직 포함 여부|로직을 포함할 수 없다.|로직을 포함할 수 있다.|로직을 포함할 수 있다.|
+
 # 참고 
 [VO(Value Object)란 무엇일까?](https://woowacourse.github.io/tecoble/post/2020-06-11-value-object/)      
 [#](https://www.slipp.net/questions/93)       
