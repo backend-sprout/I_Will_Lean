@@ -78,24 +78,45 @@ JPA에서 Entity를 만들때는 아래와 같은 제약사항이 있다.
 1. `@ID`어노테이션을 붙어 ID(식별자)용 필드를 지정해야한다.(대체 방법도 존재)             
 2. Reflection API 기반으로 동작하기에 **기본 생성자(파라미터가 없는 생성자)를 만들어야 한다.**        
 3. final 클래스, enum, interface, inner 클래스에는 사용할 수 없다.(final 클래스는 가능하나 프록시가 불가능해진다.)    
-                
-JPA에서의 Entity는 **`기본 생성자`를 필수로 가지기 때문에 필드에 final을 사용할 수 없다.**                  
-그리고 생각해보면 `테이블과 매핑된 객체`이므로 컬럼 값을 변경할 수 있어야 할 것이다.             
-허나, 여기서 주의해야할 점은 **값을 변경할 수 있기 위해서 setter를 정의하라는 말은 아니다.**        
-         
-여기에는 여러 이유가 있는데 필자의 지식으로 정리해보자면           
-`setter`를 사용함으로서 내부적으로 어떤 데이터(필드)들이 있는지 외부에서 추측할 수 있고          
-이름이 `set필드()`이기에 어떤 로직을 수행하는지 어떤 기능인지 알기 힘들어진다.      
-그리고 무분별한 setter는 변경하지 말아야할 데이터의 값을 변경할 수 있도록 노출하기도 한다.   
-      
-그렇기 때문에 꼭 데이터(필드 값)가 변해야하는 하는 경우에만 사용하고     
-`set필드()`이 아닌 `changeDelivertState()`와 같은 기능의 맥락을 이해할 수 있는 이름을 지정하자.    
-        
-더불어, `기본 생성자`는 객체의 필드를 모두 null로 설정하고 객체를 만드는 것이다.     
-이 또한, `NullPointerException`을 유발할 수 있고 자칫 잘못하면 DB 테이블의 값을 null로 바꿀 수 있다.   
+   
+참고로, `기본 생성자`는 객체의 필드를 모두 null로 설정하고 객체를 만드는 것이다.     
+이는 `NullPointerException`을 유발할 수 있고 자칫 잘못하면 DB 테이블의 값을 null로 바꿀 수 있다.   
 그러므로 `기본 생성자`는 `protected`로 설정하는 것을 권장한다.       
 (private로 도 가능하지만 private로 설정할시 JPA 프록시 기능을 사용하지 못한다는 큰 단점이 있다.)      
-       
+          
+## Entity와 Setter  
+JPA에서의 Entity는 **`기본 생성자`를 필수로 가지기 때문에 필드에 final을 사용할 수 없다.**                     
+그리고 생각해보면 `테이블과 매핑된 객체`이므로 컬럼 값을 변경할 수 있어야 할 것이다.                
+
+```java
+public class Order {
+    private ShippingInfo shippingInfo;
+    
+    public void setShippingInfo(ShippingInfo newShippingInfo) {
+        verifyNotYetShipped();    
+        this.ShippingInfo = newShippingInfo;    
+    } 
+}
+```
+
+허나, 주의해야할 점은 **값을 변경할 수 있기 위해서 setter를 정의하라는 말은 아니다.**                  
+setter를 사용하게 되면 **내부적으로 어떤 데이터(필드)들이 있는지 외부에서 노출(추측)되고**                  
+네이밍 규칙이 `set필드()`이기에 **어떤 로직을 수행하는지 기능의 문맥을 파악하기 힘들어진다.**            
+그리고 무분별한 setter는 **변경하지 말아야할 데이터의 값을 변경할 수 있는 가능성을 제기한다.**    
+
+```java
+public class Order {
+    private ShippingInfo shippingInfo;
+    
+    public void changeShippingInfo(ShippingInfo newShippingInfo) {
+        verifyNotYetShipped();    
+        this.ShippingInfo = newShippingInfo;    
+    } 
+}
+```   
+그렇기 때문에 **꼭 데이터(필드 값)가 변해야하는 하는 경우에만 변경 로직을 구현하고**         
+네이밍을 **`set필드()`이 아닌 `changeShippingInfo()`와 같은 맥락을 이해할 수 있는 이름을 지정하자.**    
+            
 ## 📖 Entity도 불변스럽게 작성해야할까?         
 **그런데, 엔티티도 불변스럽게 작성해야할까?🤔**     
 Entity 는 **테이블과 1:1로 매핑된 객체**이다.              
