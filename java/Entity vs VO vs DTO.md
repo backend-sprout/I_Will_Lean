@@ -5,7 +5,7 @@ Entity vs VO vs DTO
 하지만, 흔히 `Entity == VO` 또는 `VO == DTO` 또는 `Entity == DTO`라는 잘못된 정보가 너무 많다.  
 이러한 잘못된 정보를 최대한 교정하고자 그리고 내 자신도 개념을 확립하고자 이 게시글을 작성하게 되었다.   
 
-# Entity
+# 📗 Entity
 > Entity = DB Table Mapping Object   
         
 **Entity는 DB 테이블과 직접적으로 매핑된 객체이다.**                     
@@ -30,7 +30,7 @@ Entity vs VO vs DTO
 
 
 
-# VO (Value Object)     
+# 📕 VO (Value Object)     
 > VO = Value + Business Logic   
      
 마틴 파울러가 언급한 `VO`의 개요를 보면 다음과 같다.  
@@ -281,7 +281,7 @@ VO와 비슷한 클래스가 있는데 바로 `String`이다.
 그리고 `불변 객체`로서 최대한 특정 값에 대하여 동일한 메모리 주소를 반환하려고 한다.(`new`사용만 안하면 된다.)       
    
 
-# DTO(Data Transfer Object)  
+# 📘 DTO(Data Transfer Object)  
 > DTO = Domain Information + View Information      
                 
 DTO는 레이어간의 데이터 전송을 위해 사용되는 자료구조다.(데이터를 담는 바구니)         
