@@ -28,8 +28,53 @@ Entity vs VO vs DTO
 JPA에서 Entity 클래스를 지정하는 방법은 `@Entity` 어노테이션을 붙이는 것이다.   
 
 ```java
+@Getter
+@Entity
+public class User extends BaseTimeEntity {
 
-```
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column
+    private String picture;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    protected User(){ }
+    
+    @Builder
+    public User(String name, String email, String picture, Role role){
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+        this.role = role;
+    }
+
+    public User update(String name, String picture){
+        this.name = name;
+        this.picture = picture;
+        return this;
+    }
+
+    public String getRoleKey(){
+        return this.role.getKey();
+    }
+}
+```        
+JPA에서 Entity를 만들때는 아래와 같은 제약사항이 있다.    
+         
+1. `@ID`어노테이션을 붙어 ID(식별자)용 필드를 지정해야한다.(대체 방법도 존재)           
+2. Reflection API 기반으로 동작하기에 **기본 생성자(파라미터가 없는 생성자)를 만들어야 한다.**       
+
 
 
 
