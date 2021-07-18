@@ -1,6 +1,5 @@
-IoC 컨테이너 
-==================
-   
+IoC 컨테이너와 빈      
+========================  
 # 📗 IoC
 `IoC(inversion of control)`란, 이름 그대로 `제어의 역전`을 의미한다.    
                
@@ -30,6 +29,7 @@ IoC 컨테이너
 * **객체 생성을 컨테이너(빈 컨테이너)가 대신 처리한다.**    
 * **객체와 객체 사이의 의존관계 역시 컨테이너가 처리한다.**        
 * **소스에 `의존 관계`가 명시되지 않으므로 결합도가 떨어져서 유지보수가 편리해진다.**      
+     
      
 # 📘 DI(Dependency injection)    
 > 의존성 주입  
@@ -178,17 +178,18 @@ public class StudyTest {
 이제는 **`생성`을 제외한 `사용` 부분만 수정을 해주면 된다.**                    
               
 보다 자세한 내용은 필자가 정리한 [클린코드 11장 시스템_제작과 사용을 분리하라](https://github.com/kwj1270/TIL_CleanCode/blob/master/11%20%EC%8B%9C%EC%8A%A4%ED%85%9C.md#%EC%A0%9C%EC%9E%91%EA%B3%BC-%EC%82%AC%EC%9A%A9%EC%9D%84-%EB%B6%84%EB%A6%AC%ED%95%98%EB%9D%BC)
-을 참고하자.   
+을 참고하자.       
    
-     
-# 📕 스프링 IoC 컨테이너     
-Spring에서 말하는 `Spring IoC`는 `DI`와 동일하다고 말한다.(Spring 레퍼런스에서 직접 언급)            
-즉, **어떤 객체가 사용하는 의존 객체를 직접 만들어 사용하는게 아니라, 주입 받아 사용하는 방법을 의미한다.**   
-                           
-## 📖 스프링 IoC(DI)는 어디에서 빈(Bean)을 가져와 주입해주는 것일까?          
-Spring은 '스프링 설정 및 '애플리케이션 구현'과 관련된 `빈(Bean)`들을 `Spring Container`에 저장한다.           
-(`Spring Container` 는 'Servlet 컨테이너'와 비슷하다.)     
-           
+# 📕 스프링 IoC 컨테이너
+Spring에서 말하는 **Spring IoC는 DI와 동일하다고 말한다.(Spring 레퍼런스에서 직접 언급)**      
+즉, **어떤 객체가 사용하는 의존 객체를 직접 만들어 사용하는게 아니라, 주입 받아 사용하는 방법을 의미한다.**  
+    
+스프링 IoC 컨테이너는 **✔BeanFactory**를 기반으로 구현된 구현체이다.         
+애플리케이션 컴포넌트의 중앙 저장소의 역할을 맡고 있으며            
+**✔빈 설정 소스**로 부터 **✔빈 정의**를 읽어들이고, 빈을 구성하고 제공한다.           
+                    
+## 📖 스프링 IoC(DI) 컨테이너 상세              
+Spring은 '스프링 설정 및 '애플리케이션 구현'과 관련된 `빈(Bean)`들을 `Spring Container`에 저장한다.                      
 그리고 이러한 `Spring Container`의 종류는 크게 2가지가 있다.    
        
 1. BeanFactory    
@@ -211,18 +212,16 @@ Spring은 '스프링 설정 및 '애플리케이션 구현'과 관련된 `빈(Be
 한국에서 들어오면 한국어로, 영어권에서 들어오면 영어로         
 출력 파일을 여러 개로 분리해서 들어온 IP에 따라 알맞는 언어로 처리한다.        
    
-**환경변수**     
-로컬, 개발, 운영등을 구분해서 처리   
-
-**애플리케이션 이벤트**         
-이벤트를 발행하고 구독하는 모델을 편리하게 지원  
-
-**편리한 리소스 조회**         
-파일, 클래스패스, 외부 등에서 리소스를 편리하게 조회    
-                  
+* **환경변수**     
+  로컬, 개발, 운영등을 구분해서 처리   
+* **애플리케이션 이벤트**          
+  이벤트를 발행하고 구독하는 모델을 편리하게 지원  
+* **편리한 리소스 조회**         
+  파일, 클래스패스, 외부 등에서 리소스를 편리하게 조회    
+                     
 `BeanFactory` 같은 경우, 빈을 관리하는 기본적인 역할만 수행하기에               
 **대부분의 스프링 프로젝트는 `ApplicationContext` 유형의 `Spring Container`를 이용한다.**                   
-  
+
 ## 📖 스프링 컨테이너 생성 과정   
 스프링 컨테이너 생성 과정은 아래 코드를 기준으로 한다.   
    
@@ -254,46 +253,47 @@ public class AppConfig {
 ```
 
 ### 📄 스프링 컨테이너 생성
-```java
-new AnnotaionConfigApplicationContext(AppConfig.class)
-```
-스프링 컨테이너는 생성되면서 내부적으로 `스프링 빈 저장소`를 갖는다.        
-이때, 생성자에 인자값으로 넘긴 클래스를 기준으로 `스프링 빈 저장소`를 채워넣을 예정이다.         
-`스프링 빈 저장소`는 이름 그대로 빈을 저장하는 용도로 사용되는 저장소이다.       
-       
-### 📄 스프링 빈 등록   
-스프링 컨테이너에서 생성자에 인자값으로 넘긴 클래스에 존재하는 메서드를 모두 호출한다.      
-호출하면서 반환된 객체들을 `스프링 빈 저장소`에 저장하게 된다.    
-이때, 별 다른 설정을 주지 않으면 `메서드의 이름을 key 값`으로 저장한다.   
-`@Bean(name="다른 이름")`으로 사용자가 특정 이름으로 지정해줄 수 있다.    
-
-**주의 :** 
-빈 이름은 **항상 다른 이름을 부여**해야 한다.   
-같은 이름을 부여하면 다른 빈이 무시되거나, 기존 빈을 덮어버리거나, 설정에 따라 오류가 발생한다.  
-
-### 📄 스프링 의존관계 설정 - 준비
-### 📄 스프링 의존관계 설정 - 완료    
+1. 스프링 컨테이너 생성 
+2. 스프링 빈 등록     
+3. 스프링 의존관계 설정 - 준비  
+4. 스프링 의존관계 설정 - 완료
+ 
+### 1. 스프링 컨테이너 생성   
+![image](../images/1.PNG)
+  
+* **`new AnnotaionConfigApplicationContext(AppConfig.class)` 을 입력하면 위와 같은 스프링 컨테이너가 생성된다.**
+* 스프링 컨테이너는 생성되면서 내부적으로 `스프링 빈 저장소`를 갖는다.     
+* 이때, 생성자에 인자값으로 넘긴 **설정 클래스를 기준으로 `스프링 빈 저장소`를 채워넣을 예정이다.**
      
-* 스프링 컨테이너는 **설정 정보를 참고**해서 의존관계를 `주입(DI)`한다.        
-* 단순히 메서드를 호출하고 반환된 객체로 의존관계를 `주입(DI)`하는 것은 아니다.     
-* 단순히 자바 코드를 호출하는 것 같지만, 싱글톤 컨테이너에 대해서 설명하면서 함께 알아보자     
-      
-스프링은 사실 `빈을 생성`하고, `의존 관계를 주입`하는 단계가 나누어져있다.  
-그렇지만, `AppConfig` 처럼 **자바 코드를 통해 스프링 컨테이너에 빈을 등록하면**      
-**빈의 생성자를 호출하면서 의존관계 주입도 한번에 처리한다.**           
-중요한 점은, 빈을 생성하고, 의존관계를 주입하는 단계가 나누어져있다는 사실을 기억하자       
+### 2. 스프링 빈 등록     
+![image](../images/2.PNG)
+    
+* 스프링 컨테이너에서 생성자에 인자값으로 넘긴 클래스에 존재하는 메서드를 모두 호출한다.   
+* 호출하면서 반환된 객체들을 `스프링 빈 저장소`에 저장하게 된다.  
+* 이때, 별 다른 설정을 주지 않으면 `메서드의 이름을 key 값`으로 저장한다.
+* `@Bean(name="다른 이름")`으로 사용자가 특정 이름으로 지정해줄 수 있다.  
+* **주의 :** 
+    빈 이름은 **항상 다른 이름을 부여**해야 한다.   
+    같은 이름을 부여하면 다른 빈이 무시되거나, 기존 빈을 덮어버리거나, 설정에 따라 오류가 발생한다.  
+### 3. 스프링 의존관계 설정 - 준비  
+![image](../images/3.PNG)    
 
-## 📖 스프링 IoC(DI) 컨테이너 직접 사용
-스프링 컨테이너는          
-`XML 기반`의 XML 설정 파일을 통해 만들 수 있고,           
-`어노테이션 기반`의 자바 설정 클래스를 통해 만들 수 있다.         
-      
-* ClassPathXmlApplicationContext (XML)
-* AnnotationConfigApplicationContext (Java)
+### 4. 스프링 의존관계 설정 - 완료    
+![image](../images/4.PNG)     
+  
+* 스프링 컨테이너는 **설정 정보를 참고**해서 의존관계를 `주입(DI)`한다.     
+* 단순히 메서드를 호출하고 반환된 객체로 의존관계를 `주입(DI)`하는 것은 아니다.  
+* 단순히 자바 코드를 호출하는 것 같지만, 싱글톤 컨테이너에 대해서 설명하면서 함께 알아보자    
 
-### 📄 ClassPathXmlApplicationContext (XML)    
-     
-**설정 xml파일, `src/main/resources/appConfig.xml`에 있다**    
+**참고**   
+스프링은 **빈을 생성**하고, **의존관계를 주입**하는 단계가 나누어져있다.     
+그런데 이렇게 `자바 코드로 스프링 빈을 등록`하면     
+**생성자를 호출하면서 의존관계 주입도 한번에 처리한다.**       
+자세한 내용은 의존관계 자동 주입에서 다시 설명할 예정이다.         
+중요한 점은, 기본적으로는 **빈을 생성**하고, **의존관계를 주입**하는 단계가 나누어져있다.     
+   
+## 📖 빈 설정 소스
+### 📄 XML 기반
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -306,36 +306,184 @@ new AnnotaionConfigApplicationContext(AppConfig.class)
 
     <bean id="memberRepository" class="hello.core.member.MemoryMemberRepository"/>
 
-    <bean id="orderService" class="hello.core.order.OrderServiceImpl">
-        <constructor-arg name="memberRepository" ref="memberRepository"/>
-        <constructor-arg name="discountPolicy" ref="discountPolicy"/>
+    <bean id="orderService" class="hello.core.order.OrderServiceImpl">    <!--빈 등록-->
+        <constructor-arg name="memberRepository" ref="memberRepository"/> <!--필요한 연관 빈 생성자 주입 받겠다고 선언-->
+        <constructor-arg name="discountPolicy" ref="discountPolicy"/>     <!--필요한 연관 빈 생성자 주입 받겠다고 선언-->
     </bean>
 
-    <bean id="discountPolicy" class="hello.core.discount.RateDiscountPolicy"/>
+    <bean id="discountPolicy" class="hello.core.discount.RateDiscountPolicy"/> 
 </beans>
 ```
-```java
-        ApplicationContext ac = new GenericXmlApplicationContext("appConfig.xml");
-        MemberService memberService = ac.getBean("memberService", MemberService.class);
-```
 
-### 📄 ApplicationContext   
-
+### 📄 자바 @Configuration 기반  
 ```java
-@Configuration
-public class DiscountPolicyConfig {
- 
-    @Bean
-    public DiscountPolicy rateDiscountPolicy() {
-        return new RateDiscountPolicy();
+@Configuration // 1. AppConfig를 빈 등록한다. 
+public class AppConfig {
+
+    @Bean // 2. IoC Container에서 @Bean이 붙은 메서드를 찾아 호출하고 결과값을 빈으로 등록한다.  
+    public MemberService memberService() {
+        System.out.println("call AppConfig.memberService");
+        return new MemberServiceImpl(memberRepository());
     }
-    @Bean
-    public DiscountPolicy fixDiscountPolicy() {
-        return new FixDiscountPolicy();
+```   
+
+### 📄 자바 @Component 기반
+* @Controller
+* @RestController
+* @Service
+* @Repository
+* 등등..  
+
+```java
+@Component
+public @interface Controller {
+}
+
+@Component
+public @interface Service {
+}
+
+@Component
+public @interface Configuration {
+}
+```
+   
+빈 등록이 가능한 이유는 내부에 `@Component`이 존재하기 때문이다.         
+`@ComponentScan`이 `클래스 패스`를 기준으로 `@Component`이 붙은 클래스를 찾아 자동으로 빈 등록을한다.     
+참고로 이렇게, 내부에서 `어노테이션을 보조하는 어노테이션`을 **메타 어노테이션**이라고도한다.       
+        
+## 📖 빈 정의(스프링 빈 설정 메타 정보 - BeanDefinition)      
+**스프링은 `BeanDefinition`을 통해 XML, JAVA와 같은 다양한 설정 형식을 지원한다.**      
+
+![image](../images/8.PNG)     
+
+
+**`BeanDefinition`을 빈 메타 정보라고 말한다.**         
+* **`@Bean`, `<bean>`당 각각 하나씩 메타 정보가 생성된다.**         
+* `XML`을 읽어서 `BeanDefinition`구현체를 만들면 된다.   
+* 자바 코드를 읽어서 `BeanDefinition`구현체를 만들면 된다.   
+* 스프링 컨테이너는 이 메타 정보를 기반으로 스프링 빈을 생성한다.         
+    * **스프링 컨테이너는 자바 코드인지, XML인지 몰라도 오로지 `BeanDefinition`구현체만 알면 된다.**      
+
+|Property|Explained in…|
+|---|---|
+|Class|Instantiating Beans|
+|Name|Naming Beans|
+|Scope|Bean Scopes|
+|Constructor arguments|Dependency Injection|
+|Properties|Dependency Injection|   
+|Autowiring mode|Autowiring Collaborators|  
+|Lazy initialization mode|Lazy-initialized Beans|  
+|Initialization method|Initialization Callbacks|   
+|Destruction method|Destruction Callbacks|      
+     
+* **BeanClassName:** 생성할 빈의 클래스 명(자바 설정 처럼 팩토리 역할의 빈을 사용하면 없음)
+* **factoryBeanName:** 팩토리 역할의 빈을 사용할 경우 이름, 예) appConfig
+* **factoryMethodName:** 빈을 생성할 팩토리 메서드 지정, 예) memberService
+* **Scope:** 싱글톤(기본값)
+* **lazyInit:** 스프링 컨테이너를 생성할 때 빈을 생성하는 것이 아니라, 실제 빈을 사용할 때 까지 최대한 생성을 지연처리 하는지 여부  
+* **InitMethodName:** 빈을 생성하고, 의존관계를 적용한 뒤에 호출되는 초기화 메서드 명    
+* **DestroyMethodName:** 빈의 생명주기가 끝나서 제거하기 직전에 호출되는 메서드 명    
+* **Constructor arguments, Properties:** 의존관계 주입에서 사용한다. (자바 설정 처럼 팩토리 역할의 빈을 사용하면 없음)     
+  
+`빈 설정`은 이름 그대로 **빈을 어떠한 설정을 가지고 만들것이냐**에 대한 명세이다.          
+그러니 너무 어렵게 생각하지 말고 **빈 설정**이라고만 이해를 하자      
+   
+그렇다면, `자바`와 `XML`에서 빈을 생성할 때 어떻게 설정 값을 주는지 않아보자    
+   
+### 📄 XML 기반
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- A simple bean definition -->
+   <bean id="..." class="...">
+   </bean>
+
+   <!-- A bean definition with lazy init set on -->
+   <bean id="..." class="..." lazy-init="true">
+   </bean>
+
+   <!-- A bean definition with initialization method -->
+   <bean id="..." class="..." init-method="...">
+   </bean>
+
+   <!-- A bean definition with destruction method -->
+   <bean id="..." class="..." destroy-method="...">
+   </bean>
+
+</beans>
+```
+`<bean> 태그`의 프로퍼티 값으로 `알맞는 definition 과 값`을 넣어주면 된다.     
+   
+### 📄 자바 기반  
+**Bean 어노테이션 내부**
+```java
+@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface Bean {
+
+	@AliasFor("name")
+	String[] value() default {};
+
+	@AliasFor("value")
+	String[] name() default {};
+  
+	@Deprecated
+	Autowire autowire() default Autowire.NO;
+  
+	boolean autowireCandidate() default true;
+	String initMethod() default "";
+	String destroyMethod() default AbstractBeanDefinition.INFER_METHOD;
+}
+```
+어노테이션 내부는 위와 같다.   
+어노테이션 메서드처럼 정의하는 부분이 바로 프로퍼티(속성)을 정의하는 부분이다.  
+이를 실제 코드를 보면 아래와 같다.  
+
+```java
+class Foo {
+    public void init() {
+        // initialization logic
+    }
+}
+@Configuration
+public class AppConfig {
+    @Bean(initMethodName="init")
+    public Foo foo() {
+        return new Foo();
     }
 }
 ```
-```java
-    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(DiscountPolicyConfig.class);    
-    DiscountPolicy rateDiscountPolicy = ac.getBean(DiscountPolicy.class);
+
+### 📄 BeanDefinitionReader
+`BeanDefinition` 인터페이스를 구현한 클래스들은        
+`BeanDefinitionReader`인터페이스를 구현한 구현체를 의존하고 있다.                    
+
+![image](../images/9.PNG)          
+           
+`BeanDefinitionReader` 인터페이스는 설정파일(자바,xml,..등등)에서 정보를 읽는 역할을 한다.            
+즉, **설정파일을 기반으로 `BeanDefinition`을 생성하는 역할을 한다.(`Bean`의 메타정보 읽기)**        
+    
+* `AnnotationConfigApplicationContext`는 `AnnotatedBeanDefinitionReader`를 사용해서     
+  `AppConfig.class`를 읽고, `BeanDefinition`을 생성한다.      
+* `GenericXmlConfigApplicationContext`는 `XmlBeanDefinitionReader`를 사용해서     
+  `AppConfig.xml`을 읽고, `BeanDefinition`을 생성한다.       
+* 새로운 형식의 설정 정보가 추가되면, `XxxBeanDefinitionReader`를 만들어서 `BeanDefinition`을 생성하면 된다.  
+
+
+
+**정리**
 ```
+BeanDefinitionReader 구현체가 해당 클래스를 통해 정보를 읽어들어와          
+BeanDefinition이라는 메타데이터를 만들고, 이를 통해 다시 객체를 새로 생성한다.
+```
+* `BeanDefinition`에 대해서는 너무 깊이있게 이해하기 보다는,     
+  스프링이 다양한 형태의 설정 정보를 `BeanDefinition`으로 추상화해서 사용하는 것 정도만 이해하자      
+* 가끔 `BeanDefinition` 이라는 것이 보일 때가 있다.    
+  이때 이러한 메커니즘을 떠올리면 된다.   
