@@ -98,15 +98,11 @@ enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
 `MethodInterceptor`를 변환한 람다를 통해서 아래와 같은 작업을 수행했다.     
        
 * **Object가 아니며 반환형이 String인 메서드 :** 기존 값을 `"Hello Tom!"` 변환한다.             
-* **나머지 :** 기존 원본 클래스(상위 클래스)의 메서드 값을 그대로 사용한다.                
-
-
-
+* **나머지 :** 기존 원본 클래스(상위 클래스)의 메서드 값을 그대로 사용한다.                      
+                       
+참고로 이 과정에서 `Object`에 속하는 메서드는 가로채는 대상이 되지 않는다.               
+즉, `toString()` 또는 `hashCode()`와 같은 메서드는 가로채는 대상이 아니다.             
       
-         
-이 과정에서 `toString()` 또는 `hashCode()` 메서드는 `Object`에 속하기에 가로채지 않고       
-`lengthOfName()` 메서드 또한 반환 유형이 정수이므로 가로채지 않는다.       
-
 **전체 코드**
 ```java
 Enhancer enhancer = new Enhancer();
@@ -120,18 +116,16 @@ enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
 });
 PersonService proxy = (PersonService) enhancer.create();
 int lengthOfName = proxy.lengthOfName("Mary");
-
 assertEquals("Hello Tom!", proxy.sayHello(null));
 assertEquals(4, lengthOfName);
 ```
-
-
-## BeanGenerator    
-기존에 존재하는 객체가 아닌 완전 새로운 객체를 만들어서도 프록시를 진행할 수 있다.     
-`BeanGenerator`는 동적으로 빈을 생성하고 `setter` 및 `getter` 메서드와 함께 `필드`를 추가할 수 있다.     
-코드 생성 도구에서 간단한 POJO 개체를 생성하는 데 사용할 수 있다.     
-
-```java
+          
+## 동적으로 객체 생성하기 - BeanGenerator          
+기존에 존재하는 객체가 아닌 새로운 객체를 만들어서도 프록시를 진행할 수 있다.                 
+`BeanGenerator`는 동적으로 빈을 생성하고 `setter` 및 `getter` 메서드와 함께 `필드`를 추가할 수 있다.             
+코드 생성 도구에서 간단한 POJO 객체를 생성하는 데 사용할 수 있다.          
+      
+```java 
 BeanGenerator beanGenerator = new BeanGenerator();                      // 빈생성기 생성
 beanGenerator.addProperty("name", String.class);                        // 필드 생성(getter/setter 생성)   
 Object myBean = beanGenerator.create();                                 // 자바빈 생성 
@@ -143,10 +137,10 @@ Method getter = myBean.getClass().getMethod("getName");                 // 생�
 String actual = getter.invoke(myBean);                                  // 값을 반환 받는다.  
 assertEquals("some string value set by a cglib", actual);               // 비교 
 ```
-
-## MIXIN 만들기    
-`mixin`은 하나로 여러 객체를 결합할 수 있는 구조를 가지고 있다.            
-몇 가지 클래스의 동작을 포함하고 해당 동작을 **단일 클래스 또는 인터페이스로 노출할 수 있다.**         
+         
+## MIXIN 만들기             
+`mixin`은 하나로 여러 객체를 결합할 수 있는 구조를 가지고 있다.                 
+몇 가지 클래스의 동작을 포함하고 해당 동작을 **단일 클래스 또는 인터페이스로 노출할 수 있다.**          
                       
 `CGLIB 유지 mixin`은 하나의 객체로 여러 개체의 조합을 할 수 있다.             
 그러나 그렇게 하려면 **믹스인에 포함된 모든 객체가 인터페이스로 뒷받침되어야 한다.**     
