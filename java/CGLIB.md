@@ -123,12 +123,12 @@ public interface MethodInterceptor extends Callback {
 원본 객체의 메소드를 호출하는 방법은 다음과 같은 2가지가 있다.         
      
 ```java
-    // 방법1: 자바의 리플렉션 사용
-    Object returnValue = method.invoke(object, args);
+// 방법1: 자바의 리플렉션 사용
+Object returnValue = method.invoke(object, args);
 ```
 ```java
-    // 방법2: CGLIB의 MethodProxy 사용
-    Object returnValue = methodProxy.invokeSuper(object, args);
+// 방법2: CGLIB의 MethodProxy 사용
+Object returnValue = methodProxy.invokeSuper(object, args);
 ```
    
 **실제 예제**        
