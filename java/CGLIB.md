@@ -4,26 +4,29 @@ CGLIB(Code Generator Library)
 `CGLIB`는 코드 생성 라이브러리로서 **런타임에 동적으로 자바 클래스의 프록시를 생성해주는 기능을 제공한다.**         
 `CGLIB`를 사용하면 매우 쉽게 **프록시 객체를 생성할 수 있으며, 성능 또한 우수하다.**           
 인터페이스가 아닌 **클래스의 상속을 이용하여 동적 프록시를 생성을 하기에 다양한 프로젝트에서 널리 사용되고 있다.**             
-
-* `Hibernate`는 **엔티티 객체에 대한 프록시(지연로딩)를 생성할 때 CGLIB를 사용**       
-* `Spring`은 프록시 기반의 **AOP**를 구현할 때 CGLIB를 사용   
-* `Mockito`는 모의 메서드에 cglib를 사용하여 프록시 객체를 만든다.    
      
+* `Hibernate`는 **엔티티 객체에 대한 프록시(지연로딩)를 생성할 때 CGLIB를 사용**            
+* `Spring`은 프록시 기반의 **AOP를 구현할 때 CGLIB를 사용**        
+* `Mockito`는 **모의 메서드에 cglib를 사용하여 프록시 객체를 만든다.**          
+           
 Java의 클래스는 런타임에 동적으로 로드된다.(Dynamic Loading)               
 CGLIB는 이러한 특징을 활용하여 이미 실행 중인 Java 프로그램에 **프록시 클래스를 추가한다.**                      
-              
+                 
 # JDK Proxy vs CGLIB  
    
 ![jaehun2841님의 프록시 이미지](https://user-images.githubusercontent.com/50267433/126331779-3967b050-0500-4fd9-903f-7b3f2a1d5a63.png)   
-        
+
+// 나중에 자료 찾아서 정리  
+         
 # CGLIB의 주요 구성 요소  
-CGLIB 프록시 생성과 관련된 모듈은 아래 같다.    
-      
+  
+CGLIB 프록시 생성과 관련 모듈은 아래와 같다.             
+  
 * Enhancer 클래스    
 * Callback 인터페이스     
 * CallbackFilter 인터페이스    
-     
-이 3가지만 있으면 아주 손쉽게 원하는 프록시 객체를 생성할 수 있게 된다.     
+         
+이 3가지만 있으면 아주 손쉽게 프록시 객체를 생성할 수 있다.      
  
 # 의존성 주입 
 ```xml
@@ -35,7 +38,6 @@ CGLIB 프록시 생성과 관련된 모듈은 아래 같다.
 ```
 
 # 예시    
-## 초기 
 ```java
 public class PersonService {
     public String sayHello(String name) {
@@ -48,36 +50,66 @@ public class PersonService {
 }
 ```
 2가지 메서드를 가진 `PersonService`가 있다고 가정한다.      
-      
-## 일반적인 CGLIB 프록시 적용   
-`sayHello()` 메소드에 대한 호출을 가로챌 간단한 프록시 클래스를 만들고자 한다.      
-         
+            
+## 일반적인 CGLIB 프록시 방법             
+타겟 클래스의 메서드 호출을 가로챌 간단한 프록시 클래스를 만들어본다.                  
+
+```java
+Enhancer enhancer = new Enhancer();
+enhancer.setSuperclass(타겟_클래스.class);
+enhancer.setCallback((FixedValue) () -> 변경할 값);
+PersonService proxy = (타겟_클래스) enhancer.create();
+proxy.타겟메서드();  
+```                
+* `Enhancer 클래스`는 동적으로 확장하여 프록시를 생성 할 수 있게 만들어주는 클래스다.                    
+* `enhancer.setSuperclass()`에 **타겟 클래스 타입**을 입력하여 프록시 타켓을 설정한다.                    
+* `enhancer.setCallback()`에 새로운 값을 주입하여 실행 결과 값을 바꿀 수 있다.       
+* `enhancer.create()`를 통해 프록시 객체를 반환해서 사용할 수 있으며 `instanceOf` 관계이기에 타겟 타입으로 변환도 가능하다.              
+* 프록시 객체에서 타겟 클래스의 메서드를 호출하면 그제서야 타켓 클래스를 불러와 원본 메서드를 호출한다.    
+
+`FixedValue`는 프록시에서 새로 설정한 값으로 변환시켜주는 콜백 인터페이스다.   
+`setCallback()`는 매개변수 타입으로 `CallBack`타입을 원하는데   
+`CallBack`을 상속한 `FixedValue`로 형변환 시켜 콜백 동작을 지원하도록 만든 것이다.    
+     
 ```java
 Enhancer enhancer = new Enhancer();
 enhancer.setSuperclass(PersonService.class);
 enhancer.setCallback((FixedValue) () -> "Hello Tom!");
 PersonService proxy = (PersonService) enhancer.create();
-
 String res = proxy.sayHello(null);
-
-assertEquals("Hello Tom!", res);
+assertEquals("Hello Tom!", res); // true  
+``` 
+실제 예시 코드와 테스트를 통해 '프록시' 기능이 잘 동작하는지 확인을 해보았다.       
+하지만, 위 예시에서는 **특정 메서드**를 타겟으로 새로운 로직으로 변환하는 과정을 거치지 않는다.      
+이렇듯 프록시를 통해 특정 메서드에 한 하여 로직을 바꾸고 싶다면 `MethodInterceptor`를 사용하면 된다.     
+    
+## 특정 메서드 로직 변환 - MethodInterceptor 콜백  
+`MethodInterceptor`인터페이스를 적용하면 프록시의 모든 호출을 가로채어   
+프록시 클래스의 메서드에 적용할지 또는 타겟(상위)클래스의 메서드를 호출할지 결정할 수 있다.       
+       
+```java
+enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
+    if (method.getDeclaringClass() != Object.class && method.getReturnType() == String.class) {
+        return "Hello Tom!";
+    } else {
+        return proxy.invokeSuper(obj, args);
+    }
 ```
-`Enhancer 클래스`는 동적으로 확장하여 프록시를 생성 할 수 있게 해준다.        
-`setSuperclass()`메서드에 `PersonService`를 주입하여 상위 클래스로 설정을 하고       
-`setCallback()`메서드에 새로운 값을 주입하여 실행 결과 값을 바꿀 수 있다.      
-이후, `create()`를 통해 프록시 객체를 반환해서 사용할 수 있다.        
-**이제 프록시에서 `sayHello()` 메서드를 실행하면 프록시 메서드에 지정된 값이 반환된다.**         
+`MethodInterceptor`를 변환한 람다식을 통해서 아래와 같은 작업을 수행했다.   
 
-참고로 `FixedValue`는 단순히 프록시에서 새로 설정한 값으로 반환시켜주는 콜백 인터페이스다.   
-사실, `setCallback`의 매개변수 타입으로 `CallBack`을 원하기에   
-새로운 값에 `CallBack`를 인터페이스 상속한 `FixedValue`로 형변환 시켜 콜백 동작을 지원하도록 만든 것이다.      
+* `Object 클래스`가 아니며 반환형이 `String`이 아닌 메서드 
+  *   
+* 나머지 
+  * 기존 원본 클래스(상위 클래스)의 메서드 값을 그대로 사용하도록 했다.        
 
-프록시의 첫 번째 버전에는 프록시가 가로채야 할 메서드와 수퍼클래스에서 호출해야 하는 메서드를 결정할 수 없기 때문에 몇 가지 단점이 있습니다.   
-   
-## MethodInterceptor 콜백 적용  
-`MethodInterceptor`인터페이스를 이용하면       
-프록시의 모든 호출을 가로채고 특정 호출을 수행할지 또는 상위클래스의 메서드를 실행할지 결정할 수 있다.     
 
+
+      
+         
+이 과정에서 `toString()` 또는 `hashCode()` 메서드는 `Object`에 속하기에 가로채지 않고       
+`lengthOfName()` 메서드 또한 반환 유형이 정수이므로 가로채지 않는다.       
+
+**전체 코드**
 ```java
 Enhancer enhancer = new Enhancer();
 enhancer.setSuperclass(PersonService.class);
@@ -88,28 +120,14 @@ enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
         return proxy.invokeSuper(obj, args);
     }
 });
-
 PersonService proxy = (PersonService) enhancer.create();
+int lengthOfName = proxy.lengthOfName("Mary");
 
 assertEquals("Hello Tom!", proxy.sayHello(null));
-int lengthOfName = proxy.lengthOfName("Mary");
- 
 assertEquals(4, lengthOfName);
 ```
-```java
-enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
-    if (method.getDeclaringClass() != Object.class && method.getReturnType() == String.class) {
-        return "Hello Tom!";
-    } else {
-        return proxy.invokeSuper(obj, args);
-    }
-```
-`Object 클래스`가 아니며 반환형이 `String 클래스`에 대해서 새로운 값을 할당하게끔 했다.      
-나머지의 경우에는 기존 원본 클래스(상위 클래스)의 메서드 값을 그대로 사용하도록 했다.        
-         
-이 과정에서 `toString()` 또는 `hashCode()` 메서드는 `Object`에 속하기에 가로채지 않고       
-`lengthOfName()` 메서드 또한 반환 유형이 정수이므로 가로채지 않는다.       
-   
+
+
 ## BeanGenerator    
 기존에 존재하는 객체가 아닌 완전 새로운 객체를 만들어서도 프록시를 진행할 수 있다.     
 `BeanGenerator`는 동적으로 빈을 생성하고 `setter` 및 `getter` 메서드와 함께 `필드`를 추가할 수 있다.     
