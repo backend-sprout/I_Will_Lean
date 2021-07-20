@@ -96,9 +96,9 @@ enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
     }
 ```
 `MethodInterceptor`를 변환한 람다를 통해서 아래와 같은 작업을 수행했다.     
-     
-* **Object가 아니며 반환형이 String인 메서드 :**   
-* **나머지 :** 기존 원본 클래스(상위 클래스)의 메서드 값을 그대로 사용하도록 했다.        
+       
+* **Object가 아니며 반환형이 String인 메서드 :** 기존 값을 `"Hello Tom!"` 변환한다.             
+* **나머지 :** 기존 원본 클래스(상위 클래스)의 메서드 값을 그대로 사용한다.                
 
 
 
