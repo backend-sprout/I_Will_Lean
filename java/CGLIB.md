@@ -73,20 +73,7 @@ proxy.타겟메서드();
 `FixedValue`는 프록시에서 새로 설정한 값으로 변환시켜주는 콜백 인터페이스다.   
 `setCallback()`는 매개변수 타입으로 `CallBack`타입을 원하는데   
 `CallBack`을 상속한 `FixedValue`로 형변환 시켜 콜백 동작을 지원하도록 만든 것이다.    
-     
-```java
-Enhancer enhancer = new Enhancer();                         // 1. Enhancer 객체를 생성
-enhancer.setSuperclass(MemberServiceImpl.class);            // 2. setSuperclass() 메소드에 프록시할 클래스 지정
-enhancer.setCallback(NoOp.INSTANCE);                        // 3. 콜백 지정, 아무 작업도 수행하지 않고 곧바로 원본 객체를 호출한다.
-Object obj = enhancer.create();                             // 4. enhancer.create()로 프록시 객체 생성
-MemberServiceImpl memberService = (MemberServiceImpl) obj;  // 5. 프록시 형변환을 통해서 간접 접근 
-memberService.regist(new Member());             
-memberService.getMember("madvirus");                        
-```    
-앞선 예제는 단순히 원본 객체의 메소드를 직접적으로 호출하고 있다.                                      
-하지만, **대부분의 프록시 객체는 원본 객체에 접근하기 전에 별도의 작업을 수행하며**                  
-`CGLIB`는 `Callback`을 사용해서 별도 작업을 수행할 수 있도록 하고 있다.                             
-        
+             
 ```java  
 Enhancer enhancer = new Enhancer();   
 enhancer.setSuperclass(PersonService.class);     
@@ -94,10 +81,14 @@ enhancer.setCallback((FixedValue) () -> "Hello Tom!");
 PersonService proxy = (PersonService) enhancer.create();    
 String res = proxy.sayHello(null);
 assertEquals("Hello Tom!", res); // true  
-```    
-더불어, `FixedValue`를 통해 기존 로직을 원하는대로 변경하는 작업을 거쳤다.     
-그러나 아직도, **특정 메서드**를 타겟으로 새로운 로직으로 변환하는 과정을 거치지 않는다.         
-만약, 특정 메서드에 한 하여 로직을 바꾸고 싶다면 `MethodInterceptor`를 사용하면 된다.      
+```     
+  
+`FixedValue`를 통해 기존 로직을 원하는대로 변경하는 작업을 거쳤다.     
+이렇듯 **대부분의 프록시 객체는 원본 객체에 접근하기 전에 별도의 작업을 수행하며**                  
+`CGLIB`는 `Callback`을 사용해서 별도 작업을 수행할 수 있도록 하고 있다.                               
+      
+그러나 아직도, **특정 메서드**를 타겟으로 새로운 로직으로 변환하는 과정을 거치지 않는다는 문제가 있다.             
+만약, 이를 해결하기 위해 특정 메서드에 한 하여 로직을 바꾸고 싶다면 `MethodInterceptor`를 사용하면 된다.        
     
 ## 특정 메서드 로직 변환 - MethodInterceptor 콜백  
 `MethodInterceptor`는 프록시와 원본 객체 사이에 위치하여 메소드 호출을 조작할 수 있도록 해 준다.         
@@ -113,8 +104,7 @@ public interface MethodInterceptor extends Callback {
 * **args :** 원본 객체에 전달될 파라미터
 * **methodProxy :** CGLIB가 제공하는 원본 객체의 메소드 프록시
          
-`MethodInterceptor`를 사용하면 아래와 같은 동작을 할 수 있다.   
-    
+**MethodInterceptor를 사용하면 아래와 같은 동작을 할 수 있다.**   
 * **원본 객체 대신 다른 객체의 메소드를 호출 할 수 있다.**                  
 * **원본 객체에 전달될 인자의 값을 변경할 수도 있다.**                  
     
@@ -139,6 +129,7 @@ enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
     } else {
         return proxy.invokeSuper(obj, args);
     }
+}    
 ```
 `MethodInterceptor`를 변환한 람다를 통해서 아래와 같은 작업을 수행했다.     
        
@@ -183,13 +174,11 @@ String actual = getter.invoke(myBean);                                  // 값�
 assertEquals("some string value set by a cglib", actual);               // 비교 
 ```
               
-   
-   
-   
 ## MIXIN 만들기   
-`mixin`은 하나로 여러 객체를 결합할 수 있는 구조를 가지고 있다.                   
-몇 가지 클래스의 동작을 포함하고 해당 동작을 **단일 클래스 또는 인터페이스로 노출할 수 있다.**          
-                          
+`mixin`은 여러 객체를 결합할 수 있는 구조를 가지고 있다.                   
+몇 가지 클래스의 동작을 포함하고 해당 동작을     
+**단일 클래스 또는 인터페이스로 노출할 수 있다.**            
+                            
 `CGLIB 유지 mixin`은 하나의 객체로 여러 개체의 조합을 할 수 있다.             
 그러나 그렇게 하려면 **믹스인에 포함된 모든 객체가 인터페이스로 뒷받침되어야 한다.**     
 두 인터페이스의 믹스인을 만들고 싶다고 가정한다면 인터페이스와 해당 구현을 모두 정의해야 한다.      
@@ -223,10 +212,7 @@ public class Class2 implements Interface2 {
      
 ```java
 public interface MixinInterface extends Interface1, Interface2 { }
-```  
-   
-`MIXIN 클래스의create()` 메서드를 사용해서 우리의 행동을 포함 할 수 클래스 1 과 Class2의를 에 MixinInterface :
-   
+```        
 ```java
 Mixin mixin = Mixin.create(
   new Class[]{ Interface1.class, Interface2.class, MixinInterface.class },
@@ -239,6 +225,3 @@ assertEquals("second behaviour", mixinDelegate.second());
 ```   
 `mixinDelegate` 에서 메소드를 호출하면 `Class1` 및 `Class2` 에서 구현이 호출된다.     
    
-
-
- 
