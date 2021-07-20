@@ -54,6 +54,9 @@ public class PersonService {
 ## 일반적인 CGLIB 프록시 방법             
 타겟 클래스의 메서드 호출을 가로챌 간단한 프록시 클래스를 만들어본다.                  
 
+* **`net.sf.cglib.proxy.Enhancer` :** 클래스를 사용하여 원하는 프록시 객체 만든다.   
+* **`net.sf.cglib.proxy.Callback` :** 프록시 객체 조작하게 해준다.   
+
 ```java
 Enhancer enhancer = new Enhancer();
 enhancer.setSuperclass(타겟_클래스.class);
@@ -72,16 +75,29 @@ proxy.타겟메서드();
 `CallBack`을 상속한 `FixedValue`로 형변환 시켜 콜백 동작을 지원하도록 만든 것이다.    
      
 ```java
-Enhancer enhancer = new Enhancer();
-enhancer.setSuperclass(PersonService.class);
-enhancer.setCallback((FixedValue) () -> "Hello Tom!");
-PersonService proxy = (PersonService) enhancer.create();
+Enhancer enhancer = new Enhancer();                         // 1. Enhancer 객체를 생성
+enhancer.setSuperclass(MemberServiceImpl.class);            // 2. setSuperclass() 메소드에 프록시할 클래스 지정
+enhancer.setCallback(NoOp.INSTANCE);                        // 3. 콜백 지정, 아무 작업도 수행하지 않고 곧바로 원본 객체를 호출한다.
+Object obj = enhancer.create();                             // 4. enhancer.create()로 프록시 객체 생성
+MemberServiceImpl memberService = (MemberServiceImpl) obj;  // 5. 프록시 형변환을 통해서 간접 접근 
+memberService.regist(new Member());             
+memberService.getMember("madvirus");                        
+```    
+앞선 예제는 단순히 원본 객체의 메소드를 직접적으로 호출하고 있다.                                      
+하지만, **대부분의 프록시 객체는 원본 객체에 접근하기 전에 별도의 작업을 수행하며**                  
+`CGLIB`는 `Callback`을 사용해서 별도 작업을 수행할 수 있도록 하고 있다.                             
+        
+```java  
+Enhancer enhancer = new Enhancer();   
+enhancer.setSuperclass(PersonService.class);     
+enhancer.setCallback((FixedValue) () -> "Hello Tom!");    
+PersonService proxy = (PersonService) enhancer.create();    
 String res = proxy.sayHello(null);
 assertEquals("Hello Tom!", res); // true  
-``` 
-실제 예시 코드와 테스트를 통해 '프록시' 기능이 잘 동작하는지 확인을 해보았다.       
-하지만, 위 예시에서는 **특정 메서드**를 타겟으로 새로운 로직으로 변환하는 과정을 거치지 않는다.      
-이렇듯 프록시를 통해 특정 메서드에 한 하여 로직을 바꾸고 싶다면 `MethodInterceptor`를 사용하면 된다.     
+```    
+더불어, `FixedValue`를 통해 기존 로직을 원하는대로 변경하는 작업을 거쳤다.     
+그러나 아직도, **특정 메서드**를 타겟으로 새로운 로직으로 변환하는 과정을 거치지 않는다.         
+만약, 특정 메서드에 한 하여 로직을 바꾸고 싶다면 `MethodInterceptor`를 사용하면 된다.      
     
 ## 특정 메서드 로직 변환 - MethodInterceptor 콜백  
 `MethodInterceptor`인터페이스를 적용하면 프록시의 모든 호출을 가로채어   
@@ -138,42 +154,6 @@ String actual = getter.invoke(myBean);                                  // 값�
 assertEquals("some string value set by a cglib", actual);               // 비교 
 ```
            
-
-## Enhancer를 사용한 프록시 객체 생성 및 MethodInterceptor 사용하기 - 개요       
-CGLIB를 사용하여 프록시를 생성할 때에는 크게 크게 두가지 작업을 필요로 한다.
-   
-* **`net.sf.cglib.proxy.Enhancer` :** 클래스를 사용하여 원하는 프록시 객체 만든다.   
-* **`net.sf.cglib.proxy.Callback` :** 프록시 객체 조작하게 해준다.   
-
-```java
-public class MemberServiceImpl implements MemberService {
-    public MemberServiceImpl() {
-        System.out.println("create MemberServiceImpl");
-    }
-
-    public void regist(Member member) {
-        System.out.println("MemberServiceImpl.regist");
-    }
-
-    public Member getMember(String id) {
-        System.out.println("MemberServiceImpl.getMember:" + id);
-        return new Member();
-    }
-}
-```
-   
-## Enhancer 클래스를 사용한 프록시 객체 생성 하기  
-이제 `Enhancer 클래스`를 사용하여 `MemberServiceImpl 클래스`의 프록시 객체를 생성하면 아래와 같다.   
-
-```java
-        Enhancer enhancer = new Enhancer();                         // 1. Enhancer 객체를 생성
-        enhancer.setSuperclass(MemberServiceImpl.class);            // 2. setSuperclass() 메소드에 프록시할 클래스 지정
-        enhancer.setCallback(NoOp.INSTANCE);                        // 3. 콜백 지정, 아무 작업도 수행하지 않고 곧바로 원본 객체를 호출한다.
-        Object obj = enhancer.create();                             // 4. enhancer.create()로 프록시 객체 생성
-        MemberServiceImpl memberService = (MemberServiceImpl) obj;  // 5. 프록시 형변환을 통해서 간접 접근 
-        memberService.regist(new Member());             
-        memberService.getMember("madvirus");                        
-```
 
 ## MethodInterceptor 사용하여 프록시 객체 다루기        
 앞선 예제는 단순히 원본 객체의 메소드를 직접적으로 호출하고 있다.(NoOp.INSTANCE)             
