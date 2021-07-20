@@ -8,23 +8,17 @@ CGLIB(Code Generator Library)
 * `Hibernate`는 **엔티티 객체에 대한 프록시(지연로딩)를 생성할 때 CGLIB를 사용**       
 * `Spring`은 프록시 기반의 **AOP**를 구현할 때 CGLIB를 사용   
 * `Mockito`는 모의 메서드에 cglib를 사용하여 프록시 객체를 만든다.    
- 
-Java의 클래스는 런타임에 동적으로 로드된다.(Dynamic Loading)             
+     
+Java의 클래스는 런타임에 동적으로 로드된다.(Dynamic Loading)               
 CGLIB는 이러한 특징을 활용하여 이미 실행 중인 Java 프로그램에 **프록시 클래스를 추가한다.**                      
-         
+              
 # JDK Proxy vs CGLIB  
    
 ![jaehun2841님의 프록시 이미지](https://user-images.githubusercontent.com/50267433/126331779-3967b050-0500-4fd9-903f-7b3f2a1d5a63.png)   
-
-
-
-                       
-               
-         
-      
+        
 # CGLIB의 주요 구성 요소  
 CGLIB 프록시 생성과 관련된 모듈은 아래 같다.    
-    
+      
 * Enhancer 클래스    
 * Callback 인터페이스     
 * CallbackFilter 인터페이스    
