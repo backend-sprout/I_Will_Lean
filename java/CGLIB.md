@@ -95,12 +95,10 @@ enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
         return proxy.invokeSuper(obj, args);
     }
 ```
-`MethodInterceptor`를 변환한 람다식을 통해서 아래와 같은 작업을 수행했다.   
-
-* `Object 클래스`가 아니며 반환형이 `String`이 아닌 메서드 
-  *   
-* 나머지 
-  * 기존 원본 클래스(상위 클래스)의 메서드 값을 그대로 사용하도록 했다.        
+`MethodInterceptor`를 변환한 람다를 통해서 아래와 같은 작업을 수행했다.     
+     
+* **Object가 아니며 반환형이 String인 메서드 :**   
+* **나머지 :** 기존 원본 클래스(상위 클래스)의 메서드 값을 그대로 사용하도록 했다.        
 
 
 
