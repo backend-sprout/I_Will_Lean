@@ -100,9 +100,38 @@ assertEquals("Hello Tom!", res); // true
 만약, 특정 메서드에 한 하여 로직을 바꾸고 싶다면 `MethodInterceptor`를 사용하면 된다.      
     
 ## 특정 메서드 로직 변환 - MethodInterceptor 콜백  
-`MethodInterceptor`인터페이스를 적용하면 프록시의 모든 호출을 가로채어   
-프록시 클래스의 메서드에 적용할지 또는 타겟(상위)클래스의 메서드를 호출할지 결정할 수 있다.       
-       
+`MethodInterceptor`는 프록시와 원본 객체 사이에 위치하여 메소드 호출을 조작할 수 있도록 해 준다.         
+**프록시 객체에 대한 모든 호출이 `MethodInterceptor`를 거친뒤에 원본 객체에 전달**된다.           
+     
+```java
+public interface MethodInterceptor extends Callback {
+    Object intercept(Object var1, Method var2, Object[] var3, MethodProxy var4) throws Throwable;
+}
+```      
+* **object :** 원본 객체
+* **method :** 원본 객체의 호출될 메소드를 나타내는 Method 객체
+* **args :** 원본 객체에 전달될 파라미터
+* **methodProxy :** CGLIB가 제공하는 원본 객체의 메소드 프록시
+         
+`MethodInterceptor`를 사용하면 아래와 같은 동작을 할 수 있다.   
+    
+* **원본 객체 대신 다른 객체의 메소드를 호출 할 수 있다.**                  
+* **원본 객체에 전달될 인자의 값을 변경할 수도 있다.**                  
+    
+`MethodInterceptor 인터페이스`를 구현한 클래스는     
+`intercept()`에서 원본 객체의 메소드를 호출해야 한다.         
+원본 객체의 메소드를 호출하는 방법은 다음과 같은 2가지가 있다.         
+     
+```java
+    // 방법1: 자바의 리플렉션 사용
+    Object returnValue = method.invoke(object, args);
+```
+```java
+    // 방법2: CGLIB의 MethodProxy 사용
+    Object returnValue = methodProxy.invokeSuper(object, args);
+```
+   
+**실제 예제**        
 ```java
 enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> {
     if (method.getDeclaringClass() != Object.class && method.getReturnType() == String.class) {
@@ -153,43 +182,7 @@ Method getter = myBean.getClass().getMethod("getName");                 // 생�
 String actual = getter.invoke(myBean);                                  // 값을 반환 받는다.  
 assertEquals("some string value set by a cglib", actual);               // 비교 
 ```
-           
-
-## MethodInterceptor 사용하여 프록시 객체 다루기        
-앞선 예제는 단순히 원본 객체의 메소드를 직접적으로 호출하고 있다.(NoOp.INSTANCE)             
-하지만, **대부분의 프록시 객체는 원본 객체에 접근하기 전에 별도의 작업을 수행**하며,          
-`CGLIB`는 `Callback`을 사용해서 별도 작업을 수행할 수 있도록 하고 있다.               
-`Callback`을 사용해서 별도 작업을 수행하고자한다면 `MethodInterceptor`를 사용하면된다.       
-
-[#](#) 
-  
-`MethodInterceptor`는 프록시와 원본 객체 사이에 위치하여 메소드 호출을 조작할 수 있도록 해 준다.        
-**프록시 객체에 대한 모든 호출이 `MethodInterceptor`를 거친뒤에 원본 객체에 전달**된다.          
-     
-```java
-public interface MethodInterceptor extends Callback {
-    Object intercept(Object var1, Method var2, Object[] var3, MethodProxy var4) throws Throwable;
-}
-```  
-    
-* **object :** 원본 객체
-* **method :** 원본 객체의 호출될 메소드를 나타내는 Method 객체
-* **args :** 원본 객체에 전달될 파라미터
-* **methodProxy :** CGLIB가 제공하는 원본 객체의 메소드 프록시
-     
-`MethodInterceptor`를 사용하면 **원본 객체 대신 다른 객체의 메소드를 호출 할 수 있다.**                  
-더불어, **원본 객체에 전달될 인자의 값을 변경할 수도 있다.**                  
-  
-`MethodInterceptor 인터페이스`를 구현한 클래스는 `intercept()` 메소드에서 원본 객체의 메소드를 알맞게 호출해야 한다.        
-원본 객체의 메소드를 호출하는 방법은 다음과 같은 두가지가 있다.        
-   
-```java
-    // 방법1: 자바의 리플렉션 사용
-    Object returnValue = method.invoke(object, args);
-    
-    // 방법2: CGLIB의 MethodProxy 사용
-    Object returnValue = methodProxy.invokeSuper(object, args);
-```
+              
    
    
    
