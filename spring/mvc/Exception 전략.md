@@ -3,7 +3,10 @@ Exception 전략
 스프링은 `예외처리`에 대한 막강한 어노테이션들을 제공하고 있다.     
 하지만, 해당 어노테이션을 언제 어떻게 사용할지 무엇을 위해 사용할지 그 감을 잡기 힘들다.        
 필자 또한 처음 공부해보기에 나름대로 정리를 해서 문서화시키고자 한다.      
-     
+
+# 📙 @ExceptionHandler
+ 
+
 # Error Response 객체       
 만약, **Error Response의 형태가 각양각색이면 어떨까? 🤔**              
 클라이언트/서버 모두 **Error Response에 대한 별도의 처리 로직을 구현해야한다.**              
@@ -21,5 +24,4 @@ protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(Me
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 }
 ```
-[ExceptionHandler 에 대한 사용법](https://jeong-pro.tistory.com/195)
 
