@@ -187,10 +187,16 @@ Authorization: <type> <credentials>
 당연한 얘기지만, Payload가 무겁거나 담아서 안 될 정보를 담으면 안된다.
 
 set-contained한 속성을 가지고 있다.  
-stateless(백엔드 서버가 바뀌어도 가능-스케일 아웃해도 대응 가능, 비밀번호 다시 입력 필요 x) 
-모바일 환경에서 다시 로그인 할 필요가 없다.   
+stateless(백엔드 서버가 바뀌어도 가능-스케일 아웃해도 대응 가능, 비밀번호 다시 입력 필요 x, 추가 검증 거의 안함 -> 하긴 함)    
+모바일 환경에서 다시 로그인 할 필요가 없다.     
 
-
+* AccessToken/RefreshToken
+* AccessToken 12~24/ 2주~1달
+* 서버로 요청할 때 AccessToken 사용, 만료시 RefreshToken 이용하여 다시 반환   
+  
+JWT를 사용하는 경우 반드시 SSL 사용해야한다.      
+REDIS에 주로 저장한다.    
+ 
 
 
 
