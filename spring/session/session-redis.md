@@ -23,5 +23,4 @@ docker exec -it some-redis redis-cli\n
 위와 같은 명령어로 컨테이너의 `redis-cli`에 바로 접근 가능하다.    
 
 # 정리 
-https://thecodinglog.github.io/spring-session/2020/08/07/filter-chain.html
-
+https://www.javainuse.com/spring/springboot_session_redis
