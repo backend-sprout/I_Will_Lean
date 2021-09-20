@@ -28,9 +28,46 @@
 * **Spring Session Data Redis :** Redis 및 구성 지원이 지원하는 SessionRepository 및 ReactiveSessionRepository 구현을 제공     
 * **Spring Session JDBC :** 관계형 데이터베이스 및 구성 지원에 의해 지원되는 SessionRepository 구현을 제공 
 * **Spring Session Hazelcast :** Hazelcast 및 구성 지원이 지원하는 SessionRepository 구현을 제공    
-
+   
+이중에 우리는 Spring Session Data Redis 를 사용할 것이다.      
 
 ## 애플리케이션
+
+```gradle
+plugins {
+    id 'org.springframework.boot' version '2.5.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'me.kwj1270.study'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.session:spring-session-data-redis'
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+```
+
+**application.properties**
+```properties
+spring.session.store-type=redis
+spring.redis.host=localhost
+spring.redis.password=
+spring.redis.port=6379
+```
 
 
 ## Redis 설치
