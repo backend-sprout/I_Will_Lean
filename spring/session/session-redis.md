@@ -69,6 +69,60 @@ spring.redis.password=
 spring.redis.port=6379
 ```
 
+**LabApplication**
+```java
+@SpringBootApplication
+@EnableRedisHttpSession
+public class LabApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(LabApplication.class, args);
+    }
+
+}
+```
+
+**HelloController**
+```java
+@RestController
+public class HelloController {
+
+    @GetMapping("hello")
+    public String hello(HttpSession session) {
+        session.setAttribute("hello", "woozi");
+        return "hello woozi!";
+    }
+
+}
+```
+   
+**RedisConfig**  
+```java  
+@Configuration
+public class RedisConfig {
+
+    @Value("${spring.redis.password}")
+    private String redisPwd;
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.registerModules(new JavaTimeModule(), new Jdk8Module());
+        return mapper;
+    }
+
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory() {
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setPassword(redisPwd);
+        LettuceConnectionFactory lettuceConnectionFactory =
+                new LettuceConnectionFactory(redisStandaloneConfiguration);
+        return lettuceConnectionFactory;
+    }
+}
+```
+
 
 ## Redis 설치
 ```
