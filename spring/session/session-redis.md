@@ -1,6 +1,8 @@
 # Redis
 > 다양한 참고 자료를 확인했는데 [에릭님의 블로그](https://deveric.tistory.com/76)가 가장 이해하기 쉽고 적용도 정리도 잘 되었다.  
 
+![image](https://user-images.githubusercontent.com/50267433/133992674-91925337-07b7-473a-a6c5-6de497c8ce3f.png)   
+![image](https://user-images.githubusercontent.com/50267433/133992692-90c426cc-0f48-4034-b410-63289d4f6a1d.png)  
 
 
 ## 애플리케이션
