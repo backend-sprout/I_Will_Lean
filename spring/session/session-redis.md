@@ -1,16 +1,34 @@
 # Redis
 > 다양한 참고 자료를 확인했는데 [에릭님의 블로그](https://deveric.tistory.com/76)가 가장 이해하기 쉽고 적용도 정리도 잘 되었다.  
-           
-**HTTP는 stateless 한 프로토콜이다.**          
-각각의 요청과 응답은 독립적으로 동작하며 서버는 신규 방문자와 재방문자를 구별할 수 없다.            
-그러나 때로는 여러 요청에서 클라이언트의 활동을 추적해야 하는 경우가 있다.      
-이는 세션 관리를 통해 수행되지만 세션 또한 애플리케이션
+   
+![image](https://user-images.githubusercontent.com/50267433/133992674-91925337-07b7-473a-a6c5-6de497c8ce3f.png)      
 
-특정 사용자에 대한 세션 정보를 저장하기 위해 웹 컨테이너에서 사용하는 메커니즘입니다.
+**HTTP는 stateless 한 프로토콜이다.**                         
+각각의 `요청과 응답`은 독립적으로 동작하며 서버는 이전에 있던 `요청/응답` 정보에 대해서 알지 못한다.        
+그러나 때로는 여러 `요청/응답`에 대해서 클라이언트의 활동을 추적해야 하는 경우가 있다.        
+주로 이 같은 경우 `세션`을 사용해 관리하지만 **세션 또한 애플리케이션 서버에 종속되어 있다.**       
+
+예시로 `로그인한 유저의 정보를 세션을 통해서 관리한다.`라고 가정해보겠다.           
+**만약, 어떠한 이유로 인해 기존 서버에서 다른 서버로 요청 흐름을 바꿔야한다면?🤔**                
+앞서 언급했듯이 세션은 서버에 종속적이기 때문에 기존 정보는 더 이상 사용하지 못하게 되는 문제가 발생한다.                
+                    
+특히 클라우드 환경에서의 `오토 스케일 아웃`, 로드 밸런서와 같은 `부하 분산 시스템`에서는 이 같은 문제는 더욱 부각된다.           
+        
+![image](https://user-images.githubusercontent.com/50267433/133992692-90c426cc-0f48-4034-b410-63289d4f6a1d.png)      
+            
+스프링 세션은 이 같은 문제를 해결하기 위해 등장한 라이브러리로          
+기존 `HttpSession`에 저장된 데이터를 더 나아가 DB와 같은 저장소에 저장하는 매컴니즘으로 동작한다.            
+별도의 데이터 저장소에 저장됨으로써 각각의 서버는 해당 저장소를 통해 세션을 관리하면 된다.       
+단, 기존 메모리가 아닌 별도의 데이터 저장소를 이용하므로 비교적 시간이 걸린다는 단점이 있다.    
+          
+최근에는 `Stateless`한 JWT를 많이 사용하는 추세이긴 하지만 서버에서 관리하지 못하고 주의해야 할 포인트가 많다.   
 
 
-![image](https://user-images.githubusercontent.com/50267433/133992674-91925337-07b7-473a-a6c5-6de497c8ce3f.png)   
-![image](https://user-images.githubusercontent.com/50267433/133992692-90c426cc-0f48-4034-b410-63289d4f6a1d.png)  
+* **Spring Session Core :** 핵심 Spring Session 기능 및 API 제공
+* **Spring Session Data Redis :** Redis 및 구성 지원이 지원하는 SessionRepository 및 ReactiveSessionRepository 구현을 제공합니다.
+* **Spring Session JDBC :** 관계형 데이터베이스 및 구성 지원에 의해 지원되는 SessionRepository 구현을 제공합니다.
+* **Spring Session Hazelcast :** Hazelcast 및 구성 지원이 지원하는 SessionRepository 구현을 제공합니다.
+
 
 
 ## 애플리케이션
