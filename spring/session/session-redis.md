@@ -142,3 +142,4 @@ docker exec -it some-redis redis-cli\n
 
 # 
 https://programmer.ink/think/session-problem-of-front-end-and-back-end-separation.html
+https://programmer.help/blogs/vuejs-front-end-and-back-end-separation-session-problem.html
