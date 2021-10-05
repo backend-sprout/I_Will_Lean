@@ -28,3 +28,5 @@ https://medium.com/storyblocks-engineering/web-architecture-101-a3224e126947
 [[#비동기]](https://brunch.co.kr/@springboot/267)   
 [[#JNI]]()
 [[#스프링 이벤트]]()
+[[#포트 분리시, session값 미스매치 문제]]    
+[[#gRpc vs REST API vs GrapgQL]]      
