@@ -1,10 +1,15 @@
 # 나만의 질문 리스트 
 
 
-* B TREE VS B+ TREE
-* B+ TREE VS HASH -> 부등호 
-*
-*
+* 인덱싱 설명 -> 
+    * 논 클러스터드
+    * 클러스터드 인덱스 
+    * 둘의 차이
+    * 어느 상황에 적절한가  
+* B TREE VS B+ TREE  
+* B+ TREE VS HASH -> 부등호   
+* B+ TREE 로 인한 인덱싱 동작 설명    
+* 
 *
 **
 *
