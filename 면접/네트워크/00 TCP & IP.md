@@ -30,3 +30,12 @@
 
 * 애플리케이션 계층 : 
     * 서버와 클라이언트를 만드는 과정에서 프로그램 성격에 따라 데이터 송수신에 대한 약속들이 정해지는데, 이것이 바로 애플리케이션 계층이다
+
+# TCP/IP 3way HandShake
+
+# TCP/IP 4way HandShake
+
+# Poll 
+# Long Poll 
+# Socket
+# Stream
