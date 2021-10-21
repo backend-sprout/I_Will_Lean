@@ -14,5 +14,4 @@
 * DB 트랜잭션 : https://github.com/gyoogle/tech-interview-for-developer/blob/master/Computer%20Science/Database/Transaction.md   
     * UNDO -> 이런것도 있을 듯
 * 트랜잭션 isolation : https://github.com/gyoogle/tech-interview-for-developer/blob/master/Computer%20Science/Database/Transaction%20Isolation%20Level.md  
-*
-*
+* 
