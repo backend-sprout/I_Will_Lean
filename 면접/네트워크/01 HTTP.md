@@ -1,0 +1,14 @@
+# GET
+# POST
+# PUT
+# DELETE
+# PATCH
+
+# GET VS POST
+# PUT VS PATCH
+# HTTP 0.9
+# HTTP 1.0
+# HTTP 1.1
+# HTTP 2.0
+# HTTP 3.0
+# QBIC 
