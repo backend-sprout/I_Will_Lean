@@ -64,13 +64,13 @@ HTTP 1.1에는 keep-alive라는 지속 커넥션을 이용하여 TCP Connection 
 ## Multiple Connections    
 ![multiple](https://user-images.githubusercontent.com/50267433/138416897-44c0b985-d60e-4465-a019-cdb2ab313109.jpg)   
        
-head of line blocking 을 해결하기 위해서 Multiple Connections이 도입되었다.
-애초에 TCP 커넥션을 여러개 생성해서 Request 요청을 병렬로 처리한다는 것이다  
+head of line blocking 을 해결하기 위해서 Multiple Connections이 도입되었다.    
+애초에 TCP 커넥션을 여러개 생성해서 Request 요청을 병렬로 처리한다는 것이다    
 
 * A Conncetion: 1번 요청
 * B Conncetion: 2번 요청
 
-그러나 네트워크에도 통신되는 데이터 허용치 즉, 대역폭이 존재하는데       
+그러나 네트워크에도 통신되는 데이터 허용치 즉, 대역폭이 존재하는데          
 대역폭을 너무 많이 차지하면서 오히려 Latency가 증가할 수 있다.            
 즉, 많은 데이터를 한번에 보내니까 부하를 발생시킬 수 있는 것이고 이로 인해 Latency가 증가될 수 있다.        
    
