@@ -55,6 +55,12 @@ HTTPS 의 SSL 에서는 **공통키 암호화 방식**과 **공개키 암호화 
 
 # SSL
 # TLS 
+> SSL == TLS 같은 말. 
+
+네스케이프에 의해서 SSL이 발명되었고,   
+이것이 점차 폭넓게 사용되다가 표준화 기구인 IETF의 관리로 변경되면서 TLS라는 이름으로 바뀌었다.   
+TLS 1.0은 SSL 3.0을 계승한다.   
+하지만 TLS라는 이름보다 SSL이라는 이름이 훨씬 많이 사용되고 있다.  
 
 # 대칭키
    
@@ -85,3 +91,4 @@ HTTPS 의 SSL 에서는 **공통키 암호화 방식**과 **공개키 암호화 
   
 https://cheese10yun.github.io/https/
 https://12bme.tistory.com/80
+https://velog.io/@moonyoung/HTTPS%EC%9D%98-%EC%9B%90%EB%A6%AC
