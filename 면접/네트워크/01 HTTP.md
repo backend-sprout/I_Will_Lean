@@ -60,15 +60,15 @@ HTTP 1.1에는 keep-alive라는 지속 커넥션을 이용하여 TCP Connection 
 ## pipelining 과 HOL 블록킹
 **서버 쪽으로 Queue를 넘겨 FIFO로 처리하면 안되나? 라는 생각에 도입**    
 
-![pipeling](https://user-images.githubusercontent.com/50267433/138408971-f389698d-8b70-4c7c-8707-60c646c1d452.jpg)
-       
+![pipelining](https://user-images.githubusercontent.com/50267433/138417589-8e0ae007-74c4-4941-ab6b-391d53735381.jpg)
+
 파이프라이닝은 한번에 여러 Reqeust를 한번에 보내고 한번에 여러 response를 받는 것을 말한다.       
 하지만, 여전히 처음 요청이 처음 응답으로 와야 되듯이 요청/응답에 순서를 보장해야한다는 문제가 있었다.     
 만약, 처음 요청에 대해서 서버가 처리하지 못한다면?       
 나머지는 요청들에 대해서 blocking이 이루어지는 **HOL 블록킹(head of line blocking) 발생**           
       
 ## Multiple Connections    
-![multiple](https://user-images.githubusercontent.com/50267433/138408969-603ffda0-b3da-4108-8030-5014729db21b.jpg)
+![multiple](https://user-images.githubusercontent.com/50267433/138416897-44c0b985-d60e-4465-a019-cdb2ab313109.jpg)   
        
 head of line blocking 을 해결하기 위해서 Multiple Connections이 도입되었다.
 애초에 TCP 커넥션을 여러개 생성해서 Request 요청을 병렬로 처리한다는 것이다  
