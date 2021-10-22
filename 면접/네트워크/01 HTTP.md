@@ -1,11 +1,5 @@
-# GET
-# POST
-# PUT
-# DELETE
-# PATCH
+# GET VS POST 
 
-# GET VS POST
-# PUT VS PATCH
 
 # TCP와 HTTP 
 현시점에서 HTTP를 사용한다라는 의미는 보통은 TCP 기반의 HTTP를 사용한다는 것을 의미             
@@ -83,11 +77,26 @@ head of line blocking 을 해결하기 위해서 Multiple Connections이 도입�
 # HTTP 2.0  
 HTTP 1.1을 해결하고자 나온게 바로 HTTP 2.0   
   
-![HTTP2](https://user-images.githubusercontent.com/50267433/138404216-2ebecce2-f15c-4783-b0b3-cb0e885b2862.png)
+![슬라이드1](https://user-images.githubusercontent.com/50267433/138418948-144409d4-6eb0-4e31-8660-e904fda12806.PNG)
 
+* Steam은 여러 message들로 구성 되어있다.
+* message는 header/data등의 frame으로 구성 되어있다.
+* stream에는 식별자를 붙인다.
+* 요청 응답 순서에 상관없이 전달 받더라도 서버 응답이 비동기 방식으로 처리된다
+  
 
+쉽게 설명하자면, HttpMessage에 존재하는 header 와 body를 header frame 과 data frame이라는 형태로 래핑을 한다.   
+그리고 헤더/데이터 프레임을 메시지라 부르고 이 여러 메시지들이 스트림으로 구성되어 있다.       
 
+![image (2)](https://user-images.githubusercontent.com/50267433/138419294-2cfec1b6-f8c8-4f40-b9ed-75f5ecb130e5.png)
+    
+각각의 스트림들은 식별자를 가지고 있으므로 병렬 생성하여 사용할 수 있다.      
+즉, 식별자로 각각의 스트림 찾아서 로직 결과를 담으면 되니까 응답 순서에 상관이 없다.           
+이는 곧, 하나의 TCP 연결을 통해 다수의 클라이언트 요청 처리가 가능해졌다는 것을 의미한다.     
 
+## Multiplexing 
 
-# HTTP 3.0
-# QBIC 
+![Comparison-of-HTTP-versions](https://user-images.githubusercontent.com/50267433/138419777-7506a97c-287c-4be8-9f60-fb5cdb51767d.png)
+   
+응답에 관하여 논블락킹으로 처리할 수 있으므로 응답 순서에 상관이 없다.        
+
