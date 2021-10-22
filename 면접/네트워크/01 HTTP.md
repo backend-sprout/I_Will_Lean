@@ -43,9 +43,9 @@ Http 1.0 같은 경우 매 요청시 새로 커넥션을 생성하기에 **매�
 이외에도 여러 다른 이유들도 있겠지만 Http1.0의 문제를 해결하기 위해 HTTP 1.1이 등장한다.     
    
 # HTTP 1.1
-
-![image](https://user-images.githubusercontent.com/50267433/138401350-0673a9b2-eaec-422d-96f4-04ff46e86ac4.png)
-
+     
+![2638A3415828845026](https://user-images.githubusercontent.com/50267433/138406967-4371f9ab-0b06-483f-b79f-4aac5f3f2b27.png)   
+ 
 HTTP 1.1에는 keep-alive라는 지속 커넥션을 이용하여 TCP Connection 비용을 대폭 줄이 수 있다.    
              
 **keep-alive**           
@@ -54,11 +54,38 @@ HTTP 1.1에는 keep-alive라는 지속 커넥션을 이용하여 TCP Connection 
     2. 응답을 받지 못하면 인터벌 타임 이후 다시 요청을 보내본다.(요청 횟수는 서버에서 설정 가능하다.)         
         1. 만약 여기서도 응답이 없다면 소켓을 닫아버린다.      
 2. 소켓은 양층의 포트를 열고 통신하는 파이프라인 같은 것              
-   여기서 중요한 것은 **소켓 연결 == 포트를 여는 것이기에 리소스 고갈 == 포트 없음**             
+   여기서 중요한 것은 **소켓 연결 == 포트를 여는 것 == 포트 없음 == 리소스 고갈**             
    즉, 웹 애플리케이션에서 설정된 기간까지 최대한 연결을 유지하려고 한다.          
       
-# HTTP 2.0
-   
+**pipelining**  
+**서버 쪽으로 Queue를 넘겨 FIFO로 처리하면 안되나? 라는 생각에 도입**    
+
+![pipeling](https://user-images.githubusercontent.com/50267433/138408971-f389698d-8b70-4c7c-8707-60c646c1d452.jpg)
+       
+파이프라이닝은 한번에 여러 Reqeust를 한번에 보내고 한번에 여러 response를 받는 것을 말한다.       
+하지만, 여전히 처음 요청이 처음 응답으로 와야 되듯이 요청/응답에 순서를 보장해야한다는 문제가 있었다.     
+만약, 처음 요청에 대해서 서버가 처리하지 못한다면?       
+나머지는 요청들에 대해서 blocking이 이루어지는 **HOL 블록킹(head of line blocking) 발생**           
+      
+**Multiple Connections**    
+![multiple](https://user-images.githubusercontent.com/50267433/138408969-603ffda0-b3da-4108-8030-5014729db21b.jpg)
+       
+head of line blocking 을 해결하기 위해서 Multiple Connections이 도입되었다.
+애초에 TCP 커넥션을 여러개 생성해서 Request 요청을 병렬로 처리한다는 것이다  
+
+* A Conncetion: 1번 요청
+* B Conncetion: 2번 요청
+
+그러나 네트워크에도 통신되는 데이터 허용치 즉, 대역폭이 존재하는데       
+대역폭을 너무 많이 차지하면서 오히려 Latency가 증가할 수 있다.            
+즉, 많은 데이터를 한번에 보내니까 부하를 발생시킬 수 있는 것이고 이로 인해 Latency가 증가될 수 있다.     
+
+TCP Connection을 여러개 생성하여 병렬 연결하면서   
+대역폭을 많이 차지해 Latency가 증가할 수 있어요
+
+# HTTP 2.0  
+HTTP 1.1을 해결하고자 나온게 바로 HTTP 2.0   
+  
 ![HTTP2](https://user-images.githubusercontent.com/50267433/138404216-2ebecce2-f15c-4783-b0b3-cb0e885b2862.png)
 
 
