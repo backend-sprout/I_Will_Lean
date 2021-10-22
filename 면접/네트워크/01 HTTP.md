@@ -28,7 +28,7 @@ TCP는 이 신뢰성이 높게끔 만들기 위한 여러 장치들이 있다.
 즉, 패킷의 양을 점점 늘리면서 최대한 패킷을 많이 보내려 하다가 문제 생기면 적정 수치부터 다시 진행  
 그리고 이러한 슬로우 스타터는 TCP 커넥션을 시작할 때 마다 새로 시작한다.    
            
-# 📄 HTTP 1.0 그리고 문제점 
+# 📄 HTTP 1.0 
 
 HTTP 1.0은 단순하게 open/operation/close의 방식을 취하고 있어서 단순하다.    
 TCP connection당 하나의 URL만 fetch하며 매번의 request/response가 끝나면 연결이 끊긴다.       
@@ -36,14 +36,15 @@ TCP connection당 하나의 URL만 fetch하며 매번의 request/response가 끝
 ![image](https://user-images.githubusercontent.com/50267433/138400458-93c5d283-7dbe-459c-81a5-71f777a2ec6c.png)
 
          
-Http1.0은 필요할 때 마다 커넥션을 해야 하므로 속도가 떨어지며 Slow Starter와 상성은 정말 최악이다.           
-슬로우 스타터는 커넥션이 생성될때 시작되며 초기에는 매우 낮은량의 패킷을 보낸다.                      
-Http 1.0 같은 경우 매 요청시 새로 커넥션을 생성하기에 매번 낮은량의 패킷을 보내게 되면서 성능상 이슈가 있다.                   
+**Http1.0은 필요할 때 마다 커넥션을 해야 하므로 속도가 떨어지며 TCP Slow Starter와 상성은 정말 최악이다.**           
+슬로우 스타터는 커넥션이 생성될때 시작되며 초기에는 매우 낮은량의 패킷을 보낸다.                        
+Http 1.0 같은 경우 매 요청시 새로 커넥션을 생성하기에 **매번 낮은량의 패킷을 보내게 되면서 성능상 이슈가 있다.**                      
          
 이외에도 여러 다른 이유들도 있겠지만 Http1.0의 문제를 해결하기 위해 HTTP 1.1이 등장한다.     
    
 # HTTP 1.1
 
+![image](https://user-images.githubusercontent.com/50267433/138401350-0673a9b2-eaec-422d-96f4-04ff46e86ac4.png)
 
 
 # HTTP 2.0
