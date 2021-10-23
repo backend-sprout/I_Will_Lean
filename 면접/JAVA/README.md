@@ -83,3 +83,14 @@ https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=ws6263&logNo
 
 # G1GC 종류  
 
+# 추상 클래스와 인터페이스 설명 
+
+# 추상 클래스와 인터페이스 장단점 
+
+# 추상 클래스와 인터페이스는 어디서 사용하느냐   
+   
+추상클래스는 디자인 패턴에서 주로 사용하는 것 같다.       
+템플릿 메서드 패턴이나, 상태 패턴에서 주로 사용한다.    
+
+
+# 상속 VS 구현 어느것을 원하는지  
