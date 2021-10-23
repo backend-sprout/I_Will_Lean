@@ -28,31 +28,29 @@
 7. 실행 과정 속에서 JVM은 필요에 따라 Thread Synchronization과 GC같은 관리작업을 수행한다.           
 
 **JVM 구성 요소**
-* Java source : 사용자가 정의한 자바 파일    
-* Compiler : 자바를 클래스 파일로 변환   
-* ByteCode : 클래스 파일들   
-* ClassLoader : 클래스 파일들을 JVM으로 로드 및 링크하여 RuntimeDataArea에 배치    
-* ExecutionEngine : 로딩된 클래스 파일들의 바이트코드를 해석하여 JVM에서 실행가능하도록 한다.   
-* RuntimeDataArea : JVM이라는 프로세스가 프로그램을 수행하기 위하여 OS로부터 받은 메모리 공간   
-* Interpreter : 자바 바이트코드를 명령어 단위로 읽고 해석하는 역할      
-* JIT Compiler : 자바 바이트코드를 기계어로 변환시키는 역할     
-* Garbage Collect : 더 이상 사용되지 않는 메모리를 해제해주는 역할   
-       
+* Java source : 사용자가 정의한 자바 파일      
+* Compiler : 자바를 클래스 파일로 변환      
+* ByteCode : 클래스 파일들     
+* ClassLoader : 클래스 파일들을 JVM으로 로드 및 링크하여 RuntimeDataArea에 배치      
+* ExecutionEngine : 로딩된 클래스 파일들의 바이트코드를 해석하여 JVM에서 실행가능하도록 한다.     
+* **RuntimeDataArea : JVM이라는 프로세스가 프로그램을 수행하기 위하여 OS로부터 받은 메모리 공간**      
+* Interpreter : 자바 바이트코드를 명령어 단위로 읽고 해석하는 역할       
+* **JIT Compiler : 자바 바이트코드를 기계어로 변환시키는 역할**           
+* Garbage Collect : 더 이상 사용되지 않는 메모리를 해제해주는 역할     
+          
 ## 📖 Class Loader(클래스 로더)         
-* JVM내로 클래스`(.class)`를 로드하고, 링크를 통해 배치 작업을 수행하는 모듈.            
-* Runtime 시에 동적으로 클래스를 로드한다. (지연 로딩)          
-* 쉽게 말하면, 클래스를 처음으로 참조할 때 해당 클래스를 로드하고 링크한다.   
-* jar파일 내 저장된 클래스들을 JVM내의 런타임 데이터 영역에 배치한다.    
-* 사용 안 하는 클래스는 메모리에서 해제한다.              
-       
+* JVM내로 `(.class)`인, 바이트코드를 로드하고, 링크를 통해 배치 작업을 수행하는 모듈.            
+* Runtime 시에 동적으로 클래스를 로드한다. (지연 로딩)               
+* jar파일 내 저장된 클래스들을 JVM내의 RuntimeDataArea에 배치한다.         
+               
 ## 📖 Execution Engine (실행 엔진)      
 * 로드된 클래스 파일의 바이트코드를 실행하는 런타임 모듈         
 * 바이트코드를 실제로 JVM내에서 실행할 수 있는 형태로 변경한다.          
-   
-### 📄 Interpreter          
-바이트코드를 명령어 단위로 읽어서 실행한다.     
-하지만, 한 번에 한 줄씩 수행하기 때문에 느리다는 단점이 있다.     
-  
+         
+### 📄 Interpreter            
+* 바이트코드를 명령어 단위로 읽어서 실행한다.      
+* 하지만, 한 번에 한 줄씩 수행하기 때문에 느리다는 단점이 있다.       
+    
 ### 📄 JIT Compiler (Just - in - time)   
   
 런타임시에 필요에 따라 바이트코드를 기계코드로 번역해 주는 컴파일러로 Dynamic Translation이라고도 부른다.               
@@ -70,23 +68,15 @@ JIT Compiler가 컴파일하는 과정은 바이트코드를 인터프리팅하�
 일정 기준을 넘는다면 `JIT Compiler`가 `ByteCode`를 기계어로 변환하고 **Caching 해놓는다.**            
 이후, 같은 코드가 나온다면 **Caching을 사용하여 다시 번역할 필요 없이 해당 기계어를 가져와 사용한다.**           
 참고로, `Caching`의 위치는 `JVM`안의 `CodeCache`에 들어간다.           
-    
-### 📄 Compiler 기술들    
+       
+### 📄 JIT Compiler 기술들    
 #### 🔖 Hot Spot Detection     
-JIT 컴파일러를 동작시키는 기술로,             
-JVM이 ByteCode를 해석하다가 중복이 발생한다고 판단되면 Byte코드를 기계어로 컴파일하는 방식이다.        
-
-**만약 중복된 코드가 아닌 모든 코드를 컴파일하면 안되는 걸까? 🤔**        
-모든 코드를 컴파일하는 방식의 수행 시간 자체는 빠르지만                  
-프로그램 크기가 커지고 기기별 이식성이 떨어진다는 문제점이 있다.           
-그렇기에 JVM에서는 기본으로 `Interpreter` 방식을 사용하지만,       
-여러 번의 중복이 발생하는 경우에만 `Hot Spot Detection` 방식을 사용한다.    
-      
+JIT 컴파일러를 동작시키는 기술로, ByteCode를 해석하다가 중복이 발생한다고 판단되면 기계어로 컴파일하는 방식이다.          
+   
 #### 🔖 Method inlining
 `Method inlining`은 JIT 컴파일러에서 수행하는 최적화 방법으로            
-자주 실행되는 메서드의 호출을 본문으로 대체하여             
-**런타임시에 컴파일된 소스 코드를 최적화**하는 방법이다.               
-      
+자주 실행되는 메서드의 호출을 본문으로 대체하여 **런타임시에 컴파일된 소스 코드를 최적화**하는 방법이다.               
+       
 ```java
 public void testAddPlusOne() {
   int v1 = addPlusOne(2, 5);
@@ -104,7 +94,7 @@ public void testAddPlusOne() {
 }
 ```
 JIT 컴파일러는 `Method inlining`를 통해 메서드 호출의 [오버헤드](https://ko.wikipedia.org/wiki/%EC%98%A4%EB%B2%84%ED%97%A4%EB%93%9C)를 피할 수 있다.       
-
+    
 ### 📄 Garbage collector      
 메모리가 부족할 때 사용되지 않는 메모리를 해제해주며 메모리가 부족하거나 JVM이 한가할 때 동작한다.       
 즉, GC의 동작 시간은 일정하게 정해져 있지 않기 때문에 언제 객체를 정리하는지는 알 수 없다.         
