@@ -16,59 +16,7 @@
 * **메모리 관리**, **Garbage collection**을 수행한다.       
 * 스택 기반의 가상 머신으로 LIFO 원칙으로 동작한다.           
     
-## 📖 Write once, run anywhere         
-![WORA.png](./images/JVM/WORA.png)
-
-**플랫폼 종속성**   
-1. 기계어가 CPU마다 다르다.  
-2. 운영체제 API가 서로 다르다.
-3. 운영체제마다 실행 파일 형식이 다르다.   
-   
-JVM이 등장하기 이전에는 **플랫폼 종속성으로 인해 OS마다 명령어를 해석하는 방법이 달랐다.**   
-즉, 같은 소스 코드라도 **OS마다 명령어를 해석하는 방법이 달라 이에 따른 추가 작업을 진행해줘야 했다.**  
-     
-하지만, JVM이 등장하면서 소스 코드와 기계어의 중간 단계인 **`ByteCode`를 생성하고**            
-**컴퓨터의 OS를 파악해 바이트코드를 알맞는 기계어로 변환하는 작업을 진행한다.**           
-즉, `ByteCode`만 존재한다면 우리는 어떠한 OS 환경에서도 프로그램을 구동시킬 수 있다.      
-      
-이러한 JVM의 특징을 `WriteOnce,RunAnywhere(WORA)` 또는 `WriteOnce,RunEverywhere(WORE)`이라 부른다.    
-     
-추가로, `Kotlin`과 `Java` 소스 코드가 상호 운용이 가능한 이유도        
-`Kotlin`으로 작성한 내용이 결국에 JVM에 의해 `ByteCode`로 변환되기 때문이다.          
-즉, 이전 소스코드가 무엇이었든간에 JVM에서 `ByteCode`를 해석해서 명령을 내리기 때문이다.           
-     
-## 📖 ByteCode
-> 특정 하드웨어가 아닌 VM에서 돌아가는 실행 프로그램을 위한 이진법으로 표현된 코드    
-     
-하나의 명령어의 크기가 1Byte(8bit)라서 ByteCode라고 부른다.        
-하드웨어가 아닌 소프트웨어(VM)에 의해 처리되기 때문에, 기계어보다 추상적이며       
-주로, 특정 하드웨어의 기계 코드를 만드는 컴파일러의 입력으로 사용되거나, 가상 컴퓨터에서 명령어를 바로 실행한다.    
-    
-결과적으로 특정 하드웨어에 대한 기계어를 사용하지 않아도 되므로 의존성을 줄인다.     
-   
-___
-
-Java에서의 `ByteCode`는 JVM이 이해할 수 있는 언어로 변환된 `.class` 파일을 의미한다.       
- 
-이러한 `.class` 파일들은 `.java` 파일로 **역컴파일**할 수 있으며 이를 통해           
-개발자들은 컴파일 타임에서 발생하는 여러 작업과 변경사항을 눈으로 확인할 수 있다.           
-      
-* CLI 기준 :  `javap -c FQCN_(.class 파일)`    
-         
-![ByteCodeCLI.png](./images/JVM/ByteCodeCLI.png)	    
-   
-
-* Mac + IntelliJ 기준 :              
-  1. 소스코드에 커서를 위치시킨다.     
-  2. `command + shift + a`를 누른다.  
-  3. Actions 탭에서 `Show Bytecode`를 입력후 누른다.        
-
-![ByteCode.png](./images/JVM/ByteCode.png)
-   
-
 # 📗 JVM 동작 과정과 구성 요소
-
-![JVMProcess.png](./images/JVM/JVMProcess.png)
 
 **JVM 동작 과정**   
 1. JVM은 OS로부터 프로그램이 필요로 하는 메모리를 할당받는다.         
@@ -77,8 +25,7 @@ Java에서의 `ByteCode`는 JVM이 이해할 수 있는 언어로 변환된 `.cl
 4. Class Loader를 통해 class 파일들을 JVM으로 로딩한다.     
 5. 로딩된 class 파일들은 Execution engine을 통해 해석된다.        
 6. 해석된 바이트코드는 Runtime Data Areas에 배치되어 수행이 이루어진다.        
-7. 실행 과정 속에서 JVM은 필요에 따라     
-Thread Synchronization과 GC같은 관리작업을 수행한다.           
+7. 실행 과정 속에서 JVM은 필요에 따라 Thread Synchronization과 GC같은 관리작업을 수행한다.           
 
 **JVM 구성 요소**
 * Java source : 사용자가 정의한 자바 파일    
@@ -91,7 +38,6 @@ Thread Synchronization과 GC같은 관리작업을 수행한다.
 * JIT Compiler : 자바 바이트코드를 기계어로 변환시키는 역할     
 * Garbage Collect : 더 이상 사용되지 않는 메모리를 해제해주는 역할   
        
-     
 ## 📖 Class Loader(클래스 로더)         
 * JVM내로 클래스`(.class)`를 로드하고, 링크를 통해 배치 작업을 수행하는 모듈.            
 * Runtime 시에 동적으로 클래스를 로드한다. (지연 로딩)          
@@ -223,83 +169,3 @@ Heap에 저장된 인스턴스가 참조되지 않거나 더 이상 사용되지
   * Eden 영역에 있는 값들을 Survivor 1영역에 복사     
   * 이 영역을 제외한 나머지 영역의 객체를 삭제한다.      
         
-# 📘 JDK와 JRE    
-![JDKAndJRE.png](./images/JVM/JDKAndJRE.png)
-## 📖 JRE       
-> Java Runtime Environment       
-   
-Java 프로그래밍 언어로 작성된 애플리케이션 및 응용 프로그램 실행을 위한   
-`JVM`, `클래스 라이브러리`, `java 명령` 및 `기타 인프라` 구성 요소를 모은 패키지이다.    
-       
-단, 컴퓨터가 Java 프로그램을 실행시킬 수 있는 환경을 만드는 것이지    
-Java 언어를 통해 애플리케이션이나 응용 프로그램을 직접 만들지는 못한다.     
-개발 관련된 도구는 JDK에 존재하고 JRE에는 존재하지 않기 때문이다.        
-          
-* Java Virtual Machine의 실제 구현체       
-* Java 프로그램을 실행하는 데 필요한 플러그인      
-* JVM, 코어 라이브러리 및 Java로 작성된 응용 프로그램 실행을 위한 구성요소 포함     
-       
-## 📖 JDK  
-> Java Development Kit    
-   
-자바의 모든 기능을 갖춘 [SDK](https://ko.wikipedia.org/wiki/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4_%EA%B0%9C%EB%B0%9C_%ED%82%A4%ED%8A%B8)로     
-컴퓨터에서 Java를 실행시킬 수 있는 환경을 구성해주는 JRE는 물론,      
-애플리케이션 및 응용 프로그램 개발에 필요한 컴파일러 및 디버거와 같은 도구를 포함한다.   
-    
-* Java 기반 응용 프로그램을 개발하려면 JDK가 필요하다.      
-* Java 기반 응용 프로그램을 개발하는 데 사용할 수 있는 소프트웨어 번들     
-* JRE, API 클래스 세트, Java 컴파일러, 애플리케이션 제작에 필요한 파일 포함      
-
-   
-# 📌 JVM과 JDK   
-
-* 특정 프레임워크가 JDK 14버전 이상으로 만들었다 가정한다.
-* 하지만 컴퓨터가 사용하고 있는 JDK 버전은 8버전인데 호환이 가능하다? 🤔      
-
-
-## 🔖 동일한 버전
-```
-/Library/Java/JavaVirtualMachines/jdk-14.0.1.jdk/Contents/Home/bin/javac Hello.java
-
-/Library/Java/JavaVirtualMachines/jdk-14.0.1.jdk/Contents/Home/bin/java Hello
-```
-* JVM 14.0.1 버전으로 `Hello.java` 파일을 컴파일한다.     
-* JVM 14.0.1 버전으로 실행하면 잘 동작한다.     
-
-## 🔖 JVM 상위버전, JDK 하위버전  
-```cmd
-/Library/Java/JavaVirtualMachines/jdk-14.0.1.jdk/Contents/Home/bin/javac Hello.java
-
-/Library/Java/JavaVirtualMachines/corretto-1.8.0_625.jdk/Contents/Home/bin/java Hello
-
-UnsupportedClassVersionError: 클래스이름 has been compiled by a more recent version of the Java Runtime(class file version 58.0) this version of the Java Runtime only recognizes class file versions up to 52.0 
-```
-* JVM 14.0.1 버전으로 `Hello.java` 파일을 컴파일 했다.     
-* JVM 1.8.0_625 버전으로 실행을 시키니 에러가 발생했다.     
-
-상위 버전으로 컴파일된 바이트 코드는 하위 버전의 JVM에서 실행할 수 없다.   
-   
-하지만, 정확히 말하면 **특정 옵션을 주지 않으면 실행할 수 없다.**    
-즉, **특정 옵션을 주면 상위 버전으로 컴파일 된 바이트 코드를 실행시킬 수 있다.**    
-      
-```linux
-/Library/Java/JavaVirtualMachines/jdk-14.0.1.jdk/Contents/Home/bin/javac -source 1.8 -target 1.8 Hello.java
-/Library/Java/JavaVirtualMachines/corretto-1.8.0_625.jdk/Contents/Home/bin/java Hello
-> HELLO WORLD
-```   
-   
-**그렇다면 상위 버전의 최신 기능은 사용하지 못하는 걸까? 🤔**      
-* 아니다. 최신 기능도 사용할 수 있다.         
-* 옵션 컴파일로 8 버전에서 인식하는 바이트코드를 만드는 것일 뿐이다.       
-* 즉, 최신 기능을 포함한 바이트코드로 변환되었다 생각하면 된다.            
-* 단, 모든 하위 버전이 가능한 것은 아니고 각 상위 버전마다 호환이 가능한 최소 하위 버전이 지정되어 있다는 점만 알아두자.           
-          
-# ✔ 포함하지는 않았지만, 나중에 보면 좋을 내용들            
-[JIT 컴파일러 튜닝](https://velog.io/@youngerjesus/%EC%9E%90%EB%B0%94-JIT-%EC%BB%B4%ED%8C%8C%EC%9D%BC%EB%9F%AC)        
-[we-hate-jvm-GarbageCollection](https://github.com/Road-of-CODEr/we-hate-jvm/tree/master/GarbageCollection)    
-    
-# 😉 참고
-[백기선님, 스터디 할래](https://github.com/whiteship/live-study)     
-[자바 가상머신, JVM이란 무엇인가?](https://asfirstalways.tistory.com/158)         
-[JVM_스터디할래_jiny](https://jeongjin984.github.io/posts/JVM/)   
-[javac option-oracle doc](https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html)       
