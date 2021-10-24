@@ -279,7 +279,7 @@ JVM에 올리면 -> 분석해서 ->
 * JDK 9: 
     * 인터페이스 - private 선언 가능(default/static) 
     * try-with-resource : 괄호 밖, 실질적인 final 변수 가능 
-    * 컬렉션 프레임워크 팩토리 메서드 제공(불변 컬렉션)
+    * List.of()와 같은 컬렉션 프레임워크 팩토리 메서드 제공(불변 컬렉션)
     * Arrays - Arrays.compare(a,b), 배열의 논리적 순서반환(-1 a빠름, 0 ab같음, 1 b빠름)
     * Arrays - Arrays.missmatch(a,b), 배열비교시 다른 첫번째 인덱스 반환  
 * JDK 10:
