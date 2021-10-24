@@ -1,4 +1,72 @@
 # 동기 / 비동기 / 블락 / 논 블락
+  
+# 동기/비동기        
+**연관된 작업의 시작과 끝을 동일하게 가져가는지 여부이다.**    
+동기일 경우, 상대의 작업이 끝났을 경우 연관된 작업을 바로 시작하는 것이고   
+비동기일 경우, 상대의 작업이 끝났을 경우 연관된 작업을 시작하지 않고 나중에 시작한다.   
+          
+# 블록/논블락 
+**제어권을 다시 받는 것**을 블락/논블락 하는것     
+제어권이 블락되어있으면 상대가 작업을 마칠때까지 다른일을 하지 못하고         
+제어권이 논블락되어있으면 상대의 작업 여부와 상관없이 자신의 일을 하면된다.        
+
+# 동기/비동기/블록/논블록 조합
+
+||Block|Non-Block|
+|-|---|-----|
+|Sync|Block-Sync|Non-Block-Sync|
+|ASync|Block-ASync|Non-Block-ASync|
+    
+* 블락 동기 : 제어권을 넘겨주고 응답 받으면 연관된 작업 실행   
+* 블락 비동기: 제어권을 넘겨주고 응답 받아도 연관된 작업을 나중에 실행  
+* 논블락 동기: 제어권을 돌려받고 작업하다가 응답 받으면 연관된 작업 실행   
+* 논블락 비동기: 제어권을 돌려받고 작업하다가 응답 받으면 연관된 작업을 나중에 실행 
+
+# 동기/비동기
+## Synchronous 
+작업을 동시에 수행하거나, 동시에 끝나거나, **끝나는 동시에 작업을 시작함**      
+
+![image](https://user-images.githubusercontent.com/50267433/138605657-7f81fd5f-4d11-4b5c-8416-192999dac2f5.png)
+
+![image](https://user-images.githubusercontent.com/50267433/138605638-ca62b9ca-7d16-4c95-853e-aa4a7a913206.png)
+
+
+
+
+
+## UnSynchronous 
+시작 종료가 일치하지 않으며, **끝나는 동시에 작업을 시작하지 않음**   
+
+
+# 블락 논블락   
+
+제어권이 자신에게 있는가?   
+즉, 커널이 시키는대로 한다 -> 블락/논블락 
+
+
+
+## Blocking 
+Blocking : 자신의 작업을 진행하다가 다른 주체의 작업이 시작되면 다른 작업이 끝날때까지 기다렸다가 자신의 작업을 하는것 
+
+![image](https://user-images.githubusercontent.com/50267433/138605407-f04f8d8f-9f8c-4c40-aac8-f4a91be55147.png)
+![image](https://user-images.githubusercontent.com/50267433/138605451-46c104af-fa86-4f1f-bdfb-5dd32e663b15.png)
+
+다 읽어볼때까지 기다리세요  
+
+## Non-Blocking 
+NonBlocking : 다른 주체의 작업 여부와 상관없이 자신의 작업을 하는 것     
+  
+![image](https://user-images.githubusercontent.com/50267433/138605486-906b19f0-09cf-4386-8c07-673bba139822.png)
+![image](https://user-images.githubusercontent.com/50267433/138605506-ad610b75-1ab7-4768-8f36-e2ba55b3af11.png)
+
+읽어볼테니 기다려보세요  
+
+## 동기
+
+
+
+## 비동기 
+
 
 # 프로세스
 # 스레드
