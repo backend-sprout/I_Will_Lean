@@ -83,6 +83,13 @@ https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=ws6263&logNo
 
 # G1GC 종류  
 
+* Serial GC
+* Parallel GC
+* Parallel Old GC(Parallel Compacting GC)
+* Concurrent Mark & Sweep GC(이하 CMS)
+* G1GC (Garbage First GC)   
+* ZGC (추가 예정)     
+
 # 추상 클래스와 인터페이스 설명 
 
 * **추상 클래스 :**
@@ -232,4 +239,41 @@ JVM에 올리면 -> 분석해서 ->
 
 # 딥카피 방법 
 * System.arraycopy();
+
+# JDK 버전별 특징 
+
+* JDK 8: 
+    * 인터페이스 - default 메서드
+    * 인터페이스 - static 메서드
+    * try-with-resource : 괄호안에 변수 선언해야함 
+* JDK 9: 
+    * 인터페이스 - private 선언 가능(default/static) 
+    * try-with-resource : 괄호 밖, 실질적인 final 변수 가능 
+    * 컬렉션 프레임워크 팩토리 메서드 제공(불변 컬렉션)
+    * Arrays - Arrays.compare(a,b), 배열의 논리적 순서반환(-1 a빠름, 0 ab같음, 1 b빠름)
+    * Arrays - Arrays.missmatch(a,b), 배열비교시 다른 첫번째 인덱스 반환  
+* JDK 10:
+    * var 타입 추가 
+* JDK 11: 
+    * String인스턴스.isBlank() - 공백문자로만 이루어졌는지 판단   
+    * String인스턴스.lines() - 개행 제거해서 stream 돌림
+    * String인스턴스.repeat(10) - 해당문자열을 반복해서 더한 문자열 반환
+    * String인스턴스.strip() - 공백문자에 해당하는 앞뒤를 제거 
+    * Files.writeString() - 문자열을 파일로 저장 가능
+    * Files.readString() - 파일에서 문자열 읽기 가능 
+* JDK 12:
+    * indent(int n) - 숫자만큼 들여쓰기(양수 들여스기, 음수 내어쓰기)   
+    * "".transform(람다) - 문자열을 다른걸로 바꾸는 함수를 넣을 수 있음 
+* JDK 14:
+    * switch - 식으로 사용할 때, 화살표 함수 및 반환 기능 제공   
+* JDK 15: 
+    * text블록 : `""" 내용 """`를 이용하면 벡틱 처럼 텍스트 블록 가능 
+    * "".formatted() : String.format() 대타  
+    * NPE 메시지 (누가 널인지 알려줌)   
+* JDK 16: 
+    * stream - toList() -> Collectors.toList() 대신
+    * stream - mapMulti() -> 값을 하나를 받아서 여러개 생성 가능    
+    * instanceOf 패턴 매칭 
+    * record 클래스 - 코틀린의 value 클래스 같은 클래스(VO만들때 좋다.)   
+    
 
