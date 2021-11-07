@@ -16,6 +16,20 @@
 3. http -> 1일 잡음 
 4. 스프링 데이터 JPA -> 듣다 말았다 -> 1/2일 잡음 
 5. 그래프큐엘 -> 듣다 말았다 -> 1/2일 잡음 
+6. 테스트 -> 듣다 말았다 -> 2주 
+  
+이외에도   
+1. restdocs
+2. mapstructure
+3. jacoco
+4. guava
+
+그밖에 
+1. cache
+2. etag
+3. trheadLocal
+4. redis
+
 
 ## 취업
 **운영체제**  
